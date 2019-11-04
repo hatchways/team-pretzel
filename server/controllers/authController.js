@@ -1,4 +1,5 @@
 import jwt from "jsonwebtoken";
+import { promisify } from "util";
 import jwtSignToken from "../utils/jwtSignToken";
 import User from "../models/userModel";
 
@@ -48,4 +49,30 @@ export const login = async (req, res, next) => {
     status: "success",
     token
   });
+};
+
+export const checkAuth = async (req, res, next) => {
+  let token;
+  if (
+    req.headers.authorization &&
+    req.headers.authorization.startsWith("Bearer")
+  )
+    token = req.headers.authorization.split(" ")[1];
+
+  if (!token)
+    res.status(401).json({
+      status: "failure",
+      message: "Please log in to get access."
+    });
+
+  const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
+
+  const currentUser = await User.findById(decoded.id);
+  if (!currentUser)
+    res.status(400).json({
+      status: "failure",
+      message: "User no longer exists"
+    });
+
+  next();
 };
