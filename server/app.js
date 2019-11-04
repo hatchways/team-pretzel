@@ -6,6 +6,7 @@ import logger from "morgan";
 
 import indexRouter from "./routes/index";
 import pingRouter from "./routes/ping";
+import DATABASE from "./database.js";
 
 var app = express();
 
