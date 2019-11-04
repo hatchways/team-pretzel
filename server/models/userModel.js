@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import validator from "validator";
+import bcrypt from "bcryptjs";
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -16,7 +17,8 @@ const userSchema = new mongoose.Schema({
   password: {
     type: String,
     required: [true, "Please enter a password"],
-    minlength: [8, "Your password must have at least 8 characters"]
+    minlength: [8, "Your password must have at least 8 characters"],
+    select: false
   },
   passwordConfirm: {
     type: String,
@@ -29,6 +31,23 @@ const userSchema = new mongoose.Schema({
     }
   }
 });
+
+// hash password before saving to database
+userSchema.pre("save", async function(next) {
+  if (!this.isModified("password")) return next();
+
+  this.password = await bcrypt.hash(this.password, 12);
+  this.passwordConfirm = undefined;
+  next();
+});
+
+// compare non-hashed (original) and hashed passwords
+userSchema.methods.isPasswordCorrect = async function(
+  candidatePassword,
+  userPassword
+) {
+  return await bcrypt.compare(candidatePassword, userPassword);
+};
 
 const User = mongoose.model("User", userSchema);
 
