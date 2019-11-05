@@ -74,5 +74,6 @@ export const checkAuth = async (req, res, next) => {
       message: "User no longer exists"
     });
 
+  req.user = currentUser;
   next();
 };
