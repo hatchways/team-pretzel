@@ -6,6 +6,7 @@ import { theme } from './themes/theme'
 
 import './App.css'
 import SignUp from './pages/SignUp'
+import SignIn from './pages/SignIn'
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
       <BrowserRouter>
         <CssBaseline />
         <Route path="/signup" component={SignUp} />
+        <Route path="/signin" component={SignIn} />
       </BrowserRouter>
     </MuiThemeProvider>
   )
