@@ -25,6 +25,7 @@ const SignupForms = () => {
     <Formik
       initialValues={{ fullName: '', email: '', password: '' }}
       onSubmit={values => {
+        // send values to backend endpoints
         console.log(values)
       }}
     >
