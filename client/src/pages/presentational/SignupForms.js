@@ -1,5 +1,6 @@
 import React from "react";
 import { Formik } from "formik";
+import axios from "axios";
 import {
   FormControl,
   InputLabel,
@@ -31,16 +32,26 @@ const SignupForms = () => {
   return (
     <Formik
       initialValues={{
-        fullName: "",
+        name: "",
         email: "",
         password: "",
         confirmPassword: ""
       }}
       validationSchema={SignupSchema}
       validateOnChange={false}
-      onSubmit={(values, { setSubmitting }) => {
+      onSubmit={async (
+        { name, email, password, confirmPassword },
+        { setSubmitting }
+      ) => {
         // send values to backend endpoints
-        console.log(values);
+        const newUser = {
+          name,
+          email,
+          password,
+          passwordConfirm: confirmPassword
+        };
+        const res = await axios.post("/signup", newUser);
+        console.log(res);
         setSubmitting(false);
       }}
     >
@@ -51,14 +62,14 @@ const SignupForms = () => {
               <FormControl style={styles.formControl}>
                 <InputLabel shrink={true}>Your name</InputLabel>
                 <Input
-                  error={errors.fullName ? true : false}
+                  error={errors.name ? true : false}
                   type="text"
-                  name="fullName"
-                  value={values.fullName}
+                  name="name"
+                  value={values.name}
                   onChange={handleChange}
                 />
-                {errors.fullName ? (
-                  <FormHelperText error>{errors.fullName}</FormHelperText>
+                {errors.name ? (
+                  <FormHelperText error>{errors.name}</FormHelperText>
                 ) : null}
               </FormControl>
               <FormControl style={styles.formControl}>
