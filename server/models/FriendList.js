@@ -17,4 +17,5 @@ const friendListSchema = new mongoose.Schema({
   }
 });
 
-module.exports = FriendList = mongoose.model("FriendList", friendListSchema);
+const FriendList = mongoose.model("FriendList", friendListSchema);
+export default FriendList;

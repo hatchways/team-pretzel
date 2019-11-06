@@ -1,4 +1,4 @@
-import User from "../models/userModel";
+import User from "../models/User";
 import multerUpload from "../utils/multerUpload";
 
 export const uploadUserAvatar = multerUpload.single("avatar");
