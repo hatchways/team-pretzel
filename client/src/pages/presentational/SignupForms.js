@@ -1,32 +1,32 @@
-import React from 'react'
-import { Formik } from 'formik'
-import { FormControl, InputLabel, Input, Button } from '@material-ui/core'
+import React from "react";
+import { Formik } from "formik";
+import { FormControl, InputLabel, Input, Button } from "@material-ui/core";
 
 const styles = {
-  formContainer: { display: 'flex', flexDirection: 'column' },
-  formControl: { marginBottom: '1rem' },
+  formContainer: { display: "flex", flexDirection: "column" },
+  formControl: { marginBottom: "1rem" },
   button: {
-    borderRadius: '9999px',
-    display: 'inline-block',
-    textDecoration: 'none',
-    backgroundColor: '#111',
-    color: 'white',
-    paddingTop: '0.5rem',
-    paddingBottom: '0.5rem',
-    paddingLeft: '1rem',
-    paddingRight: '1rem',
-    marginBottom: '.5rem',
-    fontSize: '1rem'
+    borderRadius: "9999px",
+    display: "inline-block",
+    textDecoration: "none",
+    backgroundColor: "#111",
+    color: "white",
+    paddingTop: "0.5rem",
+    paddingBottom: "0.5rem",
+    paddingLeft: "1rem",
+    paddingRight: "1rem",
+    marginBottom: ".5rem",
+    fontSize: "1rem"
   }
-}
+};
 
 const SignupForms = () => {
   return (
     <Formik
-      initialValues={{ fullName: '', email: '', password: '' }}
+      initialValues={{ fullName: "", email: "", password: "" }}
       onSubmit={values => {
         // send values to backend endpoints
-        console.log(values)
+        console.log(values);
       }}
     >
       {props => {
@@ -65,10 +65,10 @@ const SignupForms = () => {
               Create
             </Button>
           </form>
-        )
+        );
       }}
     </Formik>
-  )
-}
+  );
+};
 
-export default SignupForms
+export default SignupForms;
