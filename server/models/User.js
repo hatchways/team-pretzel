@@ -2,26 +2,32 @@ import mongoose from "mongoose";
 import validator from "validator";
 import bcrypt from "bcryptjs";
 
-const userSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: [true, "Please tell us your name"]
+const userSchema = new mongoose.Schema(
+  {
+    name: {
+      type: String,
+      required: [true, "Please tell us your name"]
+    },
+    email: {
+      type: String,
+      required: [true, "Please provide your email"],
+      unique: true,
+      lowercase: true,
+      validate: [validator.isEmail, "Please enter a valid email address"]
+    },
+    password: {
+      type: String,
+      required: [true, "Please enter a password"],
+      minlength: [8, "Your password must have at least 8 characters"],
+      select: false
+    },
+    avatar: String
   },
-  email: {
-    type: String,
-    required: [true, "Please provide your email"],
-    unique: true,
-    lowercase: true,
-    validate: [validator.isEmail, "Please enter a valid email address"]
-  },
-  password: {
-    type: String,
-    required: [true, "Please enter a password"],
-    minlength: [8, "Your password must have at least 8 characters"],
-    select: false
-  },
-  avatar: String
-});
+  {
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true }
+  }
+);
 
 // hash password before saving to database
 userSchema.pre("save", async function(next) {
@@ -37,6 +43,12 @@ userSchema.methods.isPasswordCorrect = async function(
 ) {
   return await bcrypt.compare(candidatePassword, userPassword);
 };
+
+userSchema.virtual("polls", {
+  ref: "Poll",
+  foreignField: "user",
+  localField: "_id"
+});
 
 const User = mongoose.model("User", userSchema);
 export default User;
