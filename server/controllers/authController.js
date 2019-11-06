@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import { promisify } from "util";
 import jwtSignToken from "../utils/jwtSignToken";
-import User from "../models/userModel";
+import User from "../models/User";
 
 export const signup = async (req, res, next) => {
   // Check if passwords match
