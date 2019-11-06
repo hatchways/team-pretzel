@@ -1,6 +1,13 @@
 import React from "react";
 import { Formik } from "formik";
-import { FormControl, InputLabel, Input, Button } from "@material-ui/core";
+import {
+  FormControl,
+  InputLabel,
+  Input,
+  Button,
+  FormHelperText
+} from "@material-ui/core";
+import { SignupSchema } from "../../utils/validation";
 
 const styles = {
   formContainer: { display: "flex", flexDirection: "column" },
@@ -24,41 +31,56 @@ const SignupForms = () => {
   return (
     <Formik
       initialValues={{ fullName: "", email: "", password: "" }}
-      onSubmit={values => {
+      validationSchema={SignupSchema}
+      validateOnChange={false}
+      onSubmit={(values, { setSubmitting }) => {
         // send values to backend endpoints
         console.log(values);
+        // setSubmitting(false);
       }}
     >
-      {props => {
+      {({ errors, handleSubmit, handleChange, values }) => {
         return (
-          <form onSubmit={props.handleSubmit}>
+          <form onSubmit={handleSubmit}>
             <div style={styles.formContainer}>
               <FormControl style={styles.formControl}>
                 <InputLabel shrink={true}>Your name</InputLabel>
                 <Input
+                  error={errors.fullName ? true : false}
                   type="text"
                   name="fullName"
-                  value={props.values.fullName}
-                  onChange={props.handleChange}
+                  value={values.fullName}
+                  onChange={handleChange}
                 />
+                {errors.fullName ? (
+                  <FormHelperText error>{errors.fullName}</FormHelperText>
+                ) : null}
               </FormControl>
               <FormControl style={styles.formControl}>
                 <InputLabel shrink={true}>Email Address</InputLabel>
                 <Input
-                  type="email"
+                  error={errors.email ? true : false}
+                  type="text"
                   name="email"
-                  value={props.values.email}
-                  onChange={props.handleChange}
+                  value={values.email}
+                  onChange={handleChange}
                 />
+                {errors.email ? (
+                  <FormHelperText error>{errors.email}</FormHelperText>
+                ) : null}
               </FormControl>
               <FormControl style={styles.formControl}>
                 <InputLabel shrink={true}>Password</InputLabel>
                 <Input
+                  error={errors.password ? true : false}
                   type="password"
                   name="password"
-                  value={props.values.password}
-                  onChange={props.handleChange}
+                  value={values.password}
+                  onChange={handleChange}
                 />
+                {errors.password ? (
+                  <FormHelperText error>{errors.password}</FormHelperText>
+                ) : null}
               </FormControl>
             </div>
             <Button style={styles.button} type="submit">
