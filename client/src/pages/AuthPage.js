@@ -27,16 +27,16 @@ const AuthPage = ({ location }) => {
   return (
     <div style={{ display: "flex", height: "100vh" }}>
       {pathname === "/signup" ? (
-        <SignIn />
-      ) : pathname === "/signin" ? (
         <SignUp />
+      ) : pathname === "/signin" ? (
+        <SignIn />
       ) : null}
       <section
         style={{ backgroundColor: "black", height: "100%", width: "50%" }}
       >
         {pathname === "/signup" ? (
           <Link style={styles.link} to="/signin">
-            Sign up
+            Sign in
           </Link>
         ) : pathname === "/signin" ? (
           <Link style={styles.link} to="/signup">
