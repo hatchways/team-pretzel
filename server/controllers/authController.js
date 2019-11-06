@@ -4,6 +4,15 @@ import jwtSignToken from "../utils/jwtSignToken";
 import User from "../models/userModel";
 
 export const signup = async (req, res, next) => {
+  // Check if passwords match
+  const { password, passwordConfirm } = req.body;
+  if (password !== passwordConfirm) {
+    return res.status(400).json({
+      status: "failure",
+      message: "Passwords do not match"
+    });
+  }
+
   try {
     const newUser = await User.create({
       name: req.body.name,
