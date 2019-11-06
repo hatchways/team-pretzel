@@ -30,13 +30,18 @@ const styles = {
 const SignupForms = () => {
   return (
     <Formik
-      initialValues={{ fullName: "", email: "", password: "" }}
+      initialValues={{
+        fullName: "",
+        email: "",
+        password: "",
+        confirmPassword: ""
+      }}
       validationSchema={SignupSchema}
       validateOnChange={false}
       onSubmit={(values, { setSubmitting }) => {
         // send values to backend endpoints
         console.log(values);
-        // setSubmitting(false);
+        setSubmitting(false);
       }}
     >
       {({ errors, handleSubmit, handleChange, values }) => {
@@ -80,6 +85,21 @@ const SignupForms = () => {
                 />
                 {errors.password ? (
                   <FormHelperText error>{errors.password}</FormHelperText>
+                ) : null}
+              </FormControl>
+              <FormControl style={styles.formControl}>
+                <InputLabel shrink={true}>Confirm Password</InputLabel>
+                <Input
+                  error={errors.confirmPassword ? true : false}
+                  type="password"
+                  name="confirmPassword"
+                  value={values.confirmPassword}
+                  onChange={handleChange}
+                />
+                {errors.confirmPassword ? (
+                  <FormHelperText error>
+                    {errors.confirmPassword}
+                  </FormHelperText>
                 ) : null}
               </FormControl>
             </div>
