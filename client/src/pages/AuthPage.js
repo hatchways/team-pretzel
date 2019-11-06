@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import SignIn from "./SignIn";
 import SignUp from "./SignUp";
+import authBackgroundImage from "../assets/authBackgroundImage.png";
 
 const styles = {
   link: {
@@ -32,7 +33,14 @@ const AuthPage = ({ location }) => {
         <SignIn />
       ) : null}
       <section
-        style={{ backgroundColor: "black", height: "100%", width: "50%" }}
+        style={{
+          backgroundImage: `url(${authBackgroundImage})`,
+          backgroundPosition: "center",
+          backgroundSize: "cover",
+          backgroundPositionX: "right",
+          height: "100%",
+          width: "50%"
+        }}
       >
         {pathname === "/signup" ? (
           <Link style={styles.link} to="/signin">
