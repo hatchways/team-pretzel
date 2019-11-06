@@ -29,7 +29,8 @@ const userSchema = new mongoose.Schema({
       },
       message: `Passwords don't match`
     }
-  }
+  },
+  avatar: String
 });
 
 // hash password before saving to database
