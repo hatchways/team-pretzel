@@ -36,7 +36,7 @@ const SigninForms = () => {
       onSubmit={(values, { setSubmitting }) => {
         // send values to backend endpoints
         console.log(values);
-        // setSubmitting(false);
+        setSubmitting(false);
       }}
     >
       {({ handleSubmit, handleChange, errors, values }) => {
