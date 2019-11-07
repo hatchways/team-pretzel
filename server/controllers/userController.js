@@ -12,11 +12,6 @@ export const uploadUserAvatar = multerUpload.single("avatar");
 //     .toFile(`public/img/users/${req.file.filename}`);
 //   next();
 // };
-export const saveUserAvatar = (req, res, next) => {
-  if (!req.file) return next();
-  console.log(req.file.location);
-  next();
-};
 
 const filterObj = (obj, ...allowedFields) => {
   let newObj = {};
