@@ -1,32 +1,10 @@
 import React from "react";
 import { Formik } from "formik";
 import axios from "axios";
-import {
-  FormControl,
-  InputLabel,
-  Input,
-  Button,
-  FormHelperText
-} from "@material-ui/core";
+import { Button } from "@material-ui/core";
+import FormFields from "./FormFields";
 import { SignupSchema } from "../../utils/validation";
-
-const styles = {
-  formContainer: { display: "flex", flexDirection: "column" },
-  formControl: { marginBottom: "1rem" },
-  button: {
-    borderRadius: "9999px",
-    display: "inline-block",
-    textDecoration: "none",
-    backgroundColor: "#111",
-    color: "white",
-    paddingTop: "0.5rem",
-    paddingBottom: "0.5rem",
-    paddingLeft: "1rem",
-    paddingRight: "1rem",
-    marginBottom: ".5rem",
-    fontSize: "1rem"
-  }
-};
+import { styles } from "./inlineStyles";
 
 const SignupForms = () => {
   return (
@@ -50,8 +28,9 @@ const SignupForms = () => {
           password,
           passwordConfirm: confirmPassword
         };
-        const res = await axios.post("/signup", newUser);
-        console.log(res);
+        console.log(newUser);
+        // const res = await axios.post("/api/v1/users/signup", newUser);
+        // console.log(res);
         setSubmitting(false);
       }}
     >
@@ -59,60 +38,42 @@ const SignupForms = () => {
         return (
           <form onSubmit={handleSubmit}>
             <div style={styles.formContainer}>
-              <FormControl style={styles.formControl}>
-                <InputLabel shrink={true}>Your name</InputLabel>
-                <Input
-                  error={errors.name ? true : false}
-                  type="text"
-                  name="name"
-                  value={values.name}
-                  onChange={handleChange}
-                />
-                {errors.name ? (
-                  <FormHelperText error>{errors.name}</FormHelperText>
-                ) : null}
-              </FormControl>
-              <FormControl style={styles.formControl}>
-                <InputLabel shrink={true}>Email Address</InputLabel>
-                <Input
-                  error={errors.email ? true : false}
-                  type="text"
-                  name="email"
-                  value={values.email}
-                  onChange={handleChange}
-                />
-                {errors.email ? (
-                  <FormHelperText error>{errors.email}</FormHelperText>
-                ) : null}
-              </FormControl>
-              <FormControl style={styles.formControl}>
-                <InputLabel shrink={true}>Password</InputLabel>
-                <Input
-                  error={errors.password ? true : false}
-                  type="password"
-                  name="password"
-                  value={values.password}
-                  onChange={handleChange}
-                />
-                {errors.password ? (
-                  <FormHelperText error>{errors.password}</FormHelperText>
-                ) : null}
-              </FormControl>
-              <FormControl style={styles.formControl}>
-                <InputLabel shrink={true}>Confirm Password</InputLabel>
-                <Input
-                  error={errors.confirmPassword ? true : false}
-                  type="password"
-                  name="confirmPassword"
-                  value={values.confirmPassword}
-                  onChange={handleChange}
-                />
-                {errors.confirmPassword ? (
-                  <FormHelperText error>
-                    {errors.confirmPassword}
-                  </FormHelperText>
-                ) : null}
-              </FormControl>
+              <FormFields
+                name="name"
+                label="Your name"
+                error={errors.name ? true : false}
+                type="text"
+                value={values.name}
+                onChange={handleChange}
+                errors={errors.name}
+              />
+              <FormFields
+                name="email"
+                label="Email Address"
+                error={errors.email ? true : false}
+                type="text"
+                value={values.email}
+                onChange={handleChange}
+                errors={errors.email}
+              />
+              <FormFields
+                name="password"
+                label="Password"
+                error={errors.password ? true : false}
+                type="password"
+                value={values.password}
+                onChange={handleChange}
+                errors={errors.password}
+              />
+              <FormFields
+                name="confirmPassword"
+                label="Confirm Password"
+                error={errors.confirmPassword ? true : false}
+                type="password"
+                value={values.confirmPassword}
+                onChange={handleChange}
+                errors={errors.confirmPassword}
+              />
             </div>
             <Button style={styles.button} type="submit">
               Create
