@@ -4,6 +4,8 @@ import { Button } from "@material-ui/core";
 import { SigninSchema } from "../../utils/validation";
 import FormFields from "./FormFields";
 import { styles } from "./inlineStyles";
+import { JWTtoLocalStorage } from "../../utils/utils";
+import axios from "axios";
 
 const SigninForms = () => {
   return (
@@ -11,9 +13,14 @@ const SigninForms = () => {
       validationSchema={SigninSchema}
       validateOnChange={false}
       initialValues={{ email: "", password: "" }}
-      onSubmit={(values, { setSubmitting }) => {
+      onSubmit={async ({ email, password }, { setSubmitting }) => {
+        const user = { email, password };
         // send values to backend endpoints
-        console.log(values);
+        const res = await axios.post("/api/v1/users/login", user);
+        const { token } = res.data;
+
+        // set token to lstorage
+        JWTtoLocalStorage(token);
         setSubmitting(false);
       }}
     >
