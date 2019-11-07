@@ -1,15 +1,23 @@
 import jwt from "jsonwebtoken";
 import { promisify } from "util";
 import jwtSignToken from "../utils/jwtSignToken";
-import User from "../models/userModel";
+import User from "../models/User";
 
 export const signup = async (req, res, next) => {
+  // Check if passwords match
+  const { password, passwordConfirm } = req.body;
+  if (password !== passwordConfirm) {
+    return res.status(400).json({
+      status: "failure",
+      message: "Passwords do not match"
+    });
+  }
+
   try {
     const newUser = await User.create({
       name: req.body.name,
       email: req.body.email,
-      password: req.body.password,
-      passwordConfirm: req.body.passwordConfirm
+      password: req.body.password
     });
 
     const token = jwtSignToken(newUser._id);
@@ -74,5 +82,6 @@ export const checkAuth = async (req, res, next) => {
       message: "User no longer exists"
     });
 
+  req.user = currentUser;
   next();
 };
