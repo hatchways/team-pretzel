@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import SignIn from "./SignIn";
-import SignUp from "./SignUp";
+import SignIn from "./container/SignIn";
+import SignUp from "./container/SignUp";
 import authBackgroundImage from "../assets/authBackgroundImage.png";
 
 const styles = {
