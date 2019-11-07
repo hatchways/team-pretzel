@@ -5,6 +5,7 @@ import { Button } from "@material-ui/core";
 import FormFields from "./FormFields";
 import { SignupSchema } from "../../utils/validation";
 import { styles } from "./inlineStyles";
+import { JWTtoLocalStorage } from "../../utils/utils";
 
 const SignupForms = () => {
   return (
@@ -28,9 +29,11 @@ const SignupForms = () => {
           password,
           passwordConfirm: confirmPassword
         };
-        console.log(newUser);
-        // const res = await axios.post("/api/v1/users/signup", newUser);
-        // console.log(res);
+        const res = await axios.post("/api/v1/users/signup", newUser);
+
+        const { data, token } = res.data;
+        // set token to localStorage
+        JWTtoLocalStorage(token);
         setSubmitting(false);
       }}
     >
