@@ -1,22 +1,19 @@
 import mongoose from "mongoose";
 
 const pollSchema = new mongoose.Schema({
-  //question,image,image,friendlist,user
   question: {
     type: String,
     required: true
   },
-  image1: {
-    type: String,
-    required: true
-  },
-  image2: {
-    type: String,
-    required: true
-  },
+  images: [
+    {
+      type: String,
+      required: true
+    }
+  ],
   friendList: {
-    type: String,
-    required: true
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "FriendList"
   },
   user: {
     type: mongoose.Schema.Types.ObjectId,
