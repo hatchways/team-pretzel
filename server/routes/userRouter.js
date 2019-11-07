@@ -17,7 +17,6 @@ router.get("/profile", userController.getMe, userController.getUser);
 router.patch(
   "/profile/update",
   userController.uploadUserAvatar,
-  userController.saveUserAvatar,
   // userController.resizeUserAvatar,
   userController.updateMe
 );
