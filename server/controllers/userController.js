@@ -22,9 +22,16 @@ const filterObj = (obj, ...allowedFields) => {
   return newObj;
 };
 
+export const getAllUsers = async (req, res, next) => {
+  const users = await User.find();
+  res.status(200).json({
+    status: "success",
+    data: { users }
+  });
+};
+
 export const getUser = async (req, res, next) => {
   const user = await User.findById(req.params.id);
-
   user
     ? res.status(200).json({
         status: "success",
