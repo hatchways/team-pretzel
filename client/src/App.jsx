@@ -1,11 +1,10 @@
 import React from "react";
 import { MuiThemeProvider, CssBaseline } from "@material-ui/core";
 import { BrowserRouter, Route, Redirect } from "react-router-dom";
-import "./App.css";
 import { theme } from "./themes/theme";
 import AuthPage from "./pages/AuthPage";
 
-function App() {
+const App = () => {
   return (
     <MuiThemeProvider theme={theme}>
       <BrowserRouter>
@@ -17,6 +16,6 @@ function App() {
       </BrowserRouter>
     </MuiThemeProvider>
   );
-}
+};
 
 export default App;
