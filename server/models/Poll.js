@@ -2,7 +2,6 @@ import mongoose from "mongoose";
 
 const pollSchema = new mongoose.Schema(
   {
-    //question,image,image,friendlist,user
     question: {
       type: String,
       required: [true, "Question cannot be empty"]
@@ -14,7 +13,15 @@ const pollSchema = new mongoose.Schema(
     user: {
       type: mongoose.Schema.ObjectId,
       ref: "User",
-      require: [true, "A poll must belong to a user"]
+      required: [true, "A poll must belong to a user"]
+    },
+    createAt: {
+      type: Date,
+      default: Date.now()
+    },
+    __v: {
+      type: Number,
+      select: false
     }
   },
   {
@@ -23,10 +30,11 @@ const pollSchema = new mongoose.Schema(
   }
 );
 
+// populate "user" on each poll
 // pollSchema.pre(/^find/, function(next) {
 //   this.populate({
 //     path: "user",
-//     select: "name avatar"
+//     select: "name"
 //   });
 //   next();
 // });

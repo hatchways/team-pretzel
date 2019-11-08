@@ -4,7 +4,6 @@ const router = express.Router();
 
 import * as authController from "../controllers/authController";
 import * as userController from "../controllers/userController";
-import * as pollController from "../controllers/pollController";
 
 router.get("/", userController.getAllUsers);
 // router.get("/:id", userController.getUser);
@@ -24,6 +23,5 @@ router.patch(
   // userController.resizeUserAvatar,
   userController.updateMe
 );
-router.post("/new-poll", pollController.createPoll);
 
 export default router;

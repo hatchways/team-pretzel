@@ -11,6 +11,7 @@ export const createPoll = async (req, res, next) => {
     data: { poll: newPoll }
   });
 };
+
 export const getAllPolls = async (req, res, next) => {
   const polls = await Poll.find();
 

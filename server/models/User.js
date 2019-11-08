@@ -33,6 +33,13 @@ const userSchema = new mongoose.Schema(
   }
 );
 
+// virtual populate
+userSchema.virtual("polls", {
+  ref: "Poll",
+  foreignField: "user",
+  localField: "_id"
+});
+
 // hash password before saving to database
 userSchema.pre("save", async function(next) {
   if (!this.isModified("password")) return next();
@@ -47,12 +54,6 @@ userSchema.methods.isPasswordCorrect = async function(
 ) {
   return await bcrypt.compare(candidatePassword, userPassword);
 };
-
-userSchema.virtual("polls", {
-  ref: "Poll",
-  foreignField: "user",
-  localField: "_id"
-});
 
 const User = mongoose.model("User", userSchema);
 export default User;
