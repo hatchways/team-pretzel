@@ -36,7 +36,7 @@ const userSchema = new mongoose.Schema(
 // virtual populate
 userSchema.virtual("polls", {
   ref: "Poll",
-  foreignField: "user",
+  foreignField: "createdBy",
   localField: "_id"
 });
 

@@ -10,7 +10,7 @@ const pollSchema = new mongoose.Schema(
     friendList: {
       type: String
     },
-    user: {
+    createdBy: {
       type: mongoose.Schema.ObjectId,
       ref: "User",
       required: [true, "A poll must belong to a user"]
