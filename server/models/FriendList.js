@@ -7,8 +7,8 @@ const friendListSchema = new mongoose.Schema({
   },
   friends: [
     {
-      type: String,
-      required: true
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User"
     }
   ],
   user: {
