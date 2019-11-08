@@ -8,10 +8,11 @@ const pollSchema = new mongoose.Schema(
     },
     images: [String],
     friendList: {
-      type: String
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "FriendList"
     },
     createdBy: {
-      type: mongoose.Schema.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       required: [true, "A poll must belong to a user"]
     },
