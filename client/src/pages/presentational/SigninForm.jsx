@@ -4,7 +4,7 @@ import { Button } from "@material-ui/core";
 import { SigninSchema } from "../../utils/validation";
 import FormFields from "./FormFields";
 import { styles } from "./inlineStyles";
-import { JWTtoLocalStorage } from "../../utils/utils";
+import { JWTtoLocalStorage } from "../../utils/helpers";
 import axios from "axios";
 
 const SigninForms = () => {

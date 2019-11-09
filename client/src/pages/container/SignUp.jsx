@@ -1,6 +1,6 @@
 import React from "react";
 import { Typography } from "@material-ui/core";
-import SignupForms from "../presentational/SignupForms";
+import SignupForm from "../presentational/SignupForm";
 
 const SignUp = () => {
   return (
@@ -20,7 +20,7 @@ const SignUp = () => {
         >
           Create an account
         </Typography>
-        <SignupForms />
+        <SignupForm />
       </div>
     </section>
   );

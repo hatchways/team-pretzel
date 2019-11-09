@@ -5,7 +5,7 @@ import { Button } from "@material-ui/core";
 import FormFields from "./FormFields";
 import { SignupSchema } from "../../utils/validation";
 import { styles } from "./inlineStyles";
-import { JWTtoLocalStorage } from "../../utils/utils";
+import { JWTtoLocalStorage } from "../../utils/helpers";
 
 const SignupForms = () => {
   return (
