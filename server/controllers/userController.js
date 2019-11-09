@@ -1,7 +1,17 @@
+// import sharp from "sharp";
 import User from "../models/User";
 import multerUpload from "../utils/multerUpload";
 
 export const uploadUserAvatar = multerUpload.single("avatar");
+// export const resizeUserAvatar = (req, res, next) => {
+//   if (!req.file) return next();
+//   sharp(req.file.buffer)
+//     .resize(500, 500)
+//     .toFormat("jpeg")
+//     .jpeg({ quality: 90 })
+//     .toFile(`public/img/users/${req.file.filename}`);
+//   next();
+// };
 
 const filterObj = (obj, ...allowedFields) => {
   let newObj = {};
@@ -11,9 +21,16 @@ const filterObj = (obj, ...allowedFields) => {
   return newObj;
 };
 
-export const getUser = async (req, res, next) => {
-  const user = await User.findById(req.params.id);
+export const getAllUsers = async (req, res, next) => {
+  const users = await User.find();
+  res.status(200).json({
+    status: "success",
+    data: { users }
+  });
+};
 
+export const getUser = async (req, res, next) => {
+  const user = await User.findById(req.params.id).populate("polls");
   user
     ? res.status(200).json({
         status: "success",
@@ -38,7 +55,7 @@ export const updateMe = async (req, res, next) => {
     });
 
   const filteredBody = filterObj(req.body, "name");
-  if (req.file) filteredBody.avatar = req.file.filename;
+  if (req.file) filteredBody.avatar = req.file.location;
 
   const updatedUser = await User.findByIdAndUpdate(req.user.id, filteredBody, {
     new: true,

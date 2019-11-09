@@ -1,12 +1,9 @@
 import React from "react";
 import { MuiThemeProvider, CssBaseline } from "@material-ui/core";
-import { BrowserRouter, Route } from "react-router-dom";
-
-import { theme } from "./themes/theme";
-
+import { BrowserRouter, Route, Redirect } from "react-router-dom";
 import "./App.css";
-import SignUp from "./pages/SignUp";
-import SignIn from "./pages/SignIn";
+import { theme } from "./themes/theme";
+import AuthPage from "./pages/AuthPage";
 import Dashboard from "./pages/Dashboard";
 
 function App() {
@@ -14,8 +11,10 @@ function App() {
     <MuiThemeProvider theme={theme}>
       <BrowserRouter>
         <CssBaseline />
-        <Route path="/signup" component={SignUp} />
-        <Route path="/signin" component={SignIn} />
+        <Route exact path="/">
+          <Redirect to="/signin" />
+        </Route>
+        <Route exact path={["/signin", "/signup"]} component={AuthPage} />
         <Route exact path="/dashboard" component={Dashboard} />
       </BrowserRouter>
     </MuiThemeProvider>

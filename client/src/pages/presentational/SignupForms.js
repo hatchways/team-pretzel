@@ -1,74 +1,91 @@
-import React from 'react'
-import { Formik } from 'formik'
-import { FormControl, InputLabel, Input, Button } from '@material-ui/core'
-
-const styles = {
-  formContainer: { display: 'flex', flexDirection: 'column' },
-  formControl: { marginBottom: '1rem' },
-  button: {
-    borderRadius: '9999px',
-    display: 'inline-block',
-    textDecoration: 'none',
-    backgroundColor: '#111',
-    color: 'white',
-    paddingTop: '0.5rem',
-    paddingBottom: '0.5rem',
-    paddingLeft: '1rem',
-    paddingRight: '1rem',
-    marginBottom: '.5rem',
-    fontSize: '1rem'
-  }
-}
+import React from "react";
+import { Formik } from "formik";
+import axios from "axios";
+import { Button } from "@material-ui/core";
+import FormFields from "./FormFields";
+import { SignupSchema } from "../../utils/validation";
+import { styles } from "./inlineStyles";
+import { JWTtoLocalStorage } from "../../utils/utils";
 
 const SignupForms = () => {
   return (
     <Formik
-      initialValues={{ fullName: '', email: '', password: '' }}
-      onSubmit={values => {
+      initialValues={{
+        name: "",
+        email: "",
+        password: "",
+        confirmPassword: ""
+      }}
+      validationSchema={SignupSchema}
+      validateOnChange={false}
+      onSubmit={async (
+        { name, email, password, confirmPassword },
+        { setSubmitting }
+      ) => {
         // send values to backend endpoints
-        console.log(values)
+        const newUser = {
+          name,
+          email,
+          password,
+          passwordConfirm: confirmPassword
+        };
+        const res = await axios.post("/api/v1/users/signup", newUser);
+
+        const { data, token } = res.data;
+        // set token to localStorage
+        JWTtoLocalStorage(token);
+        setSubmitting(false);
       }}
     >
-      {props => {
+      {({ errors, handleSubmit, handleChange, values }) => {
         return (
-          <form onSubmit={props.handleSubmit}>
+          <form onSubmit={handleSubmit}>
             <div style={styles.formContainer}>
-              <FormControl style={styles.formControl}>
-                <InputLabel shrink={true}>Your name</InputLabel>
-                <Input
-                  type="text"
-                  name="fullName"
-                  value={props.values.fullName}
-                  onChange={props.handleChange}
-                />
-              </FormControl>
-              <FormControl style={styles.formControl}>
-                <InputLabel shrink={true}>Email Address</InputLabel>
-                <Input
-                  type="email"
-                  name="email"
-                  value={props.values.email}
-                  onChange={props.handleChange}
-                />
-              </FormControl>
-              <FormControl style={styles.formControl}>
-                <InputLabel shrink={true}>Password</InputLabel>
-                <Input
-                  type="password"
-                  name="password"
-                  value={props.values.password}
-                  onChange={props.handleChange}
-                />
-              </FormControl>
+              <FormFields
+                name="name"
+                label="Your name"
+                error={errors.name ? true : false}
+                type="text"
+                value={values.name}
+                onChange={handleChange}
+                errors={errors.name}
+              />
+              <FormFields
+                name="email"
+                label="Email Address"
+                error={errors.email ? true : false}
+                type="text"
+                value={values.email}
+                onChange={handleChange}
+                errors={errors.email}
+              />
+              <FormFields
+                name="password"
+                label="Password"
+                error={errors.password ? true : false}
+                type="password"
+                value={values.password}
+                onChange={handleChange}
+                errors={errors.password}
+              />
+              <FormFields
+                name="confirmPassword"
+                label="Confirm Password"
+                error={errors.confirmPassword ? true : false}
+                type="password"
+                value={values.confirmPassword}
+                onChange={handleChange}
+                errors={errors.confirmPassword}
+              />
             </div>
             <Button style={styles.button} type="submit">
               Create
             </Button>
           </form>
-        )
+        );
       }}
     </Formik>
-  )
-}
+  );
+};
 
-export default SignupForms
+export default SignupForms;
