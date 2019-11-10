@@ -9,6 +9,7 @@ import indexRouter from "./routes/index";
 import pingRouter from "./routes/ping";
 import userRouter from "./routes/userRouter";
 import pollRouter from "./routes/pollRouter";
+import friendListRouter from "./routes/friendListRouter";
 
 var app = express();
 
@@ -22,6 +23,7 @@ app.use("/", indexRouter);
 app.use("/ping", pingRouter);
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/polls", pollRouter);
+app.use("/api/v1/friendlist", friendListRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
