@@ -1,4 +1,5 @@
 import React from "react";
+import { makeStyles } from "@material-ui/core/styles";
 import {
   FormControl,
   InputLabel,
@@ -6,13 +7,16 @@ import {
   FormHelperText
 } from "@material-ui/core";
 
-const styles = {
-  formControl: { marginBottom: "1rem" }
-};
+const useStyles = makeStyles({
+  formControl: {
+    marginBottom: "2rem"
+  }
+});
 
 const FormFields = ({ label, error, type, name, value, onChange, errors }) => {
+  const classes = useStyles();
   return (
-    <FormControl style={styles.formControl}>
+    <FormControl className={classes.formControl}>
       <InputLabel shrink={true}>{label}</InputLabel>
       <Input
         error={error}
