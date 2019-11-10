@@ -8,8 +8,7 @@ import {
   DialogContentText,
   DialogTitle,
   Button,
-  TextField,
-  MenuItem
+  TextField
 } from "@material-ui/core";
 
 const useStyles = makeStyles({
