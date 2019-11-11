@@ -1,20 +1,15 @@
 import FriendList from "../models/FriendList";
 
 export const createFriendList = async (req, res) => {
-  // accept title + friends = array of ids + user (owner) id from jwt token
-  const { title, friendIds } = req.body;
-  const { id } = req.user;
-  try {
-    const newFriendList = await FriendList.create({
-      title,
-      friends: [...friendIds],
-      user: id
-    });
-
-    newFriendList.save();
-
-    return res.json(newFriendList);
-  } catch (error) {
-    return res.status(400).json(error);
+  const { friendIds } = req.body;
+  if (friendIds.length === 0) {
+    res
+      .status(400)
+      .json({ status: "failure", message: "No friends were selected" });
   }
+
+  const newFriendList = await FriendList.create(req.body);
+  res
+    .status(201)
+    .json({ status: "success", data: { friendList: newFriendList } });
 };
