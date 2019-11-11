@@ -30,7 +30,7 @@ export const getAllUsers = async (req, res, next) => {
 };
 
 export const getUser = async (req, res, next) => {
-  const user = await User.findById(req.params.id).populate("polls");
+  const user = await User.findById(req.params.id).populate("polls friendlists");
   user
     ? res.status(200).json({
         status: "success",
