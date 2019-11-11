@@ -5,6 +5,6 @@ import { createFriendList } from "../controllers/friendlistController";
 
 // create a friendlist
 router.use(authController.checkAuth);
-router.post("/create", createFriendList);
+router.post("/new-friendlist", createFriendList);
 
 export default router;
