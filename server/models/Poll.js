@@ -31,14 +31,5 @@ const pollSchema = new mongoose.Schema(
   }
 );
 
-// populate "user" on each poll
-// pollSchema.pre(/^find/, function(next) {
-//   this.populate({
-//     path: "user",
-//     select: "name"
-//   });
-//   next();
-// });
-
 const Poll = mongoose.model("Poll", pollSchema);
 export default Poll;

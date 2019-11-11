@@ -1,17 +1,9 @@
-// import sharp from "sharp";
 import User from "../models/User";
+import AppError from "../utils/AppError";
 import multerUpload from "../utils/multerUpload";
+import catchAsync from "../utils/catchAsync";
 
 export const uploadUserAvatar = multerUpload.single("avatar");
-// export const resizeUserAvatar = (req, res, next) => {
-//   if (!req.file) return next();
-//   sharp(req.file.buffer)
-//     .resize(500, 500)
-//     .toFormat("jpeg")
-//     .jpeg({ quality: 90 })
-//     .toFile(`public/img/users/${req.file.filename}`);
-//   next();
-// };
 
 const filterObj = (obj, ...allowedFields) => {
   let newObj = {};
@@ -21,38 +13,32 @@ const filterObj = (obj, ...allowedFields) => {
   return newObj;
 };
 
-export const getAllUsers = async (req, res, next) => {
+export const getAllUsers = catchAsync(async (req, res, next) => {
   const users = await User.find();
   res.status(200).json({
     status: "success",
     data: { users }
   });
-};
+});
 
-export const getUser = async (req, res, next) => {
-  const user = await User.findById(req.params.id).populate("polls friendlists");
-  user
-    ? res.status(200).json({
-        status: "success",
-        data: { user }
-      })
-    : res.status(404).json({
-        status: "failure",
-        message: "No user found with that ID"
-      });
-};
+export const getUser = catchAsync(async (req, res, next) => {
+  const user = await User.findById(req.params.id).populate("polls");
+  if (!user) return next(new AppError("No user found with that ID.", 404));
+
+  res.status(200).json({
+    status: "success",
+    data: { user }
+  });
+});
 
 export const getMe = (req, res, next) => {
   req.params.id = req.user.id;
   next();
 };
 
-export const updateMe = async (req, res, next) => {
+export const updateMe = catchAsync(async (req, res, next) => {
   if (req.body.password)
-    res.status(400).json({
-      status: "failure",
-      message: "This route is not for password updates"
-    });
+    return next(new AppError("This route is not for password updates.", 400));
 
   const filteredBody = filterObj(req.body, "name");
   if (req.file) filteredBody.avatar = req.file.location;
@@ -66,4 +52,4 @@ export const updateMe = async (req, res, next) => {
     status: "success",
     data: { user: updatedUser }
   });
-};
+});

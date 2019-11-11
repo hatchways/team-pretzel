@@ -1,57 +1,75 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { makeStyles } from "@material-ui/core/styles";
+import { Grid, Paper, Fab } from "@material-ui/core";
+
 import SignIn from "./container/SignIn";
 import SignUp from "./container/SignUp";
 import authBackgroundImage from "../assets/authBackgroundImage.png";
 
-const styles = {
-  link: {
-    borderRadius: "9999px",
-    display: "inline-block",
-    textDecoration: "none",
-    backgroundColor: "white",
-    color: "black",
-    paddingTop: "0.5rem",
-    paddingBottom: "0.5rem",
-    paddingLeft: "1rem",
-    paddingRight: "1rem",
-    marginBottom: ".5rem",
-    fontSize: "1rem",
+const useStyles = makeStyles({
+  root: {
+    flexGrow: 1
+  },
+  paper: {
+    background: "transparent",
+    textAlign: "center",
+    height: "100vh",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  gridBackground: {
+    backgroundImage: `url(${authBackgroundImage})`,
+    backgroundPosition: "right",
+    backgroundSize: "cover",
+    height: "100%"
+  },
+  fab: {
+    padding: "0 2.5rem",
+    color: "#fff",
+    background: "transparent",
     position: "absolute",
-    right: "3rem",
-    top: "3rem"
+    top: "3rem",
+    right: "3rem"
   }
-};
+});
 
 const AuthPage = ({ location }) => {
+  const classes = useStyles();
   const { pathname } = location;
+
   return (
-    <div style={{ display: "flex", height: "100vh" }}>
-      {pathname === "/signup" ? (
-        <SignUp />
-      ) : pathname === "/signin" ? (
-        <SignIn />
-      ) : null}
-      <section
-        style={{
-          backgroundImage: `url(${authBackgroundImage})`,
-          backgroundPosition: "center",
-          backgroundSize: "cover",
-          backgroundPositionX: "right",
-          height: "100%",
-          width: "50%"
-        }}
-      >
-        {pathname === "/signup" ? (
-          <Link style={styles.link} to="/signin">
-            Sign in
-          </Link>
-        ) : pathname === "/signin" ? (
-          <Link style={styles.link} to="/signup">
-            Sign up
-          </Link>
-        ) : null}
-      </section>
+    <div className={classes.root}>
+      <Grid container>
+        <Grid item xs>
+          <Paper className={classes.paper}>
+            {pathname === "/signup" ? (
+              <SignUp />
+            ) : pathname === "/signin" ? (
+              <SignIn />
+            ) : null}
+          </Paper>
+        </Grid>
+
+        <Grid item xs className={classes.gridBackground}>
+          <Paper className={classes.paper}>
+            {pathname === "/signup" ? (
+              <Link to="/signin">
+                <Fab variant="extended" className={classes.fab}>
+                  Sign in
+                </Fab>
+              </Link>
+            ) : pathname === "/signin" ? (
+              <Link to="/signup">
+                <Fab variant="extended" className={classes.fab}>
+                  Sign up
+                </Fab>
+              </Link>
+            ) : null}
+          </Paper>
+        </Grid>
+      </Grid>
     </div>
   );
 };
