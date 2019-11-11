@@ -57,7 +57,6 @@ const ProfileDialog = () => {
             validateOnChange={false}
             onSubmit={async ({ name, avatar }, { setSubmitting, values }) => {
               const updatedUser = { name, avatar };
-              console.log(name, avatar);
               await axios.patch("/api/v1/users/profile/update", updatedUser);
               setSubmitting(false);
             }}
@@ -73,7 +72,7 @@ const ProfileDialog = () => {
                     margin="dense"
                     id="name"
                     label="Display name"
-                    type="email"
+                    type="text"
                     fullWidth
                   />
                   <input
