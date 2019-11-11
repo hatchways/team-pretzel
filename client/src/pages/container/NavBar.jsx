@@ -9,8 +9,10 @@ import {
   MenuItem,
   Avatar
 } from "@material-ui/core";
+
 import userAvatar from "../../assets/userAvatar.png";
 import ProfileDialog from "../presentational/ProfileDialog";
+import { withAnchorState } from "../../utils/HOCs";
 
 const useStyles = makeStyles({
   avatar: {
@@ -18,17 +20,8 @@ const useStyles = makeStyles({
   }
 });
 
-const NavBar = () => {
+const NavBar = ({ anchorEl, handleClick, handleClose }) => {
   const classes = useStyles();
-
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const handleClick = event => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
   return (
     <Paper>
       <Tabs value={0} centered>
@@ -55,5 +48,4 @@ const NavBar = () => {
     </Paper>
   );
 };
-
-export default NavBar;
+export default withAnchorState(NavBar);
