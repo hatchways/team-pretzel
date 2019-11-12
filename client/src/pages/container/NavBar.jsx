@@ -20,7 +20,11 @@ const useStyles = makeStyles({
   }
 });
 
-const NavBar = ({ anchorEl, handleClick, handleClose }) => {
+const handleLogOut = () => {
+  localStorage.removeItem("jwtToken");
+};
+
+const NavBar = ({ anchorEl, handleClick, handleClose, history }) => {
   const classes = useStyles();
   return (
     <Paper>
@@ -42,7 +46,15 @@ const NavBar = ({ anchorEl, handleClick, handleClose }) => {
           <MenuItem onClick={handleClose}>
             <ProfileDialog />
           </MenuItem>
-          <MenuItem onClick={handleClose}>Log out</MenuItem>
+          <MenuItem
+            onClick={() => {
+              handleLogOut();
+              history.push("/signin");
+              handleClose();
+            }}
+          >
+            Log out
+          </MenuItem>
         </Menu>
       </Tabs>
     </Paper>
