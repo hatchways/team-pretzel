@@ -2,7 +2,7 @@ import React from "react";
 import { Typography } from "@material-ui/core";
 import SigninForm from "../presentational/SigninForm";
 
-const SignIn = () => {
+const SignIn = ({ history }) => {
   return (
     <section
       style={{
@@ -20,7 +20,7 @@ const SignIn = () => {
         >
           Sign in
         </Typography>
-        <SigninForm />
+        <SigninForm history={history} />
       </div>
     </section>
   );
