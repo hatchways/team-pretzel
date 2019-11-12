@@ -53,15 +53,23 @@ const ProfileDialog = () => {
             This is where you can update your name and avatar.
           </DialogContentText>
           <Formik
-            initialValues={{ name: "", avatar: "" }}
+            initialValues={{ name: "", avatar: null }}
             validateOnChange={false}
-            onSubmit={async ({ name, avatar }, { setSubmitting, values }) => {
+            onSubmit={async ({ name, avatar }, { setSubmitting }) => {
               const updatedUser = { name, avatar };
-              await axios.patch("/api/v1/users/profile/update", updatedUser);
-              setSubmitting(false);
+              let formData = new FormData();
+              formData.append("name", name);
+              formData.append("avatar", avatar);
+              await axios.patch("/api/v1/users/profile/update", formData);
             }}
           >
-            {({ errors, handleSubmit, handleChange, values }) => {
+            {({
+              errors,
+              handleSubmit,
+              handleChange,
+              values,
+              setFieldValue
+            }) => {
               return (
                 <form onSubmit={handleSubmit}>
                   <TextField
@@ -76,8 +84,9 @@ const ProfileDialog = () => {
                     fullWidth
                   />
                   <input
-                    value={values.avatar}
-                    onChange={loadImage}
+                    onChange={event => {
+                      setFieldValue("avatar", event.currentTarget.files[0]);
+                    }}
                     name="avatar"
                     accept="image/*"
                     className={classes.input}
@@ -86,6 +95,7 @@ const ProfileDialog = () => {
                     multiple
                     type="file"
                   />
+
                   <img id="output" />
                   <label htmlFor="file-upload-button">
                     <Button component="span">Upload avatar</Button>
