@@ -12,6 +12,7 @@ import {
 
 import userAvatar from "../../assets/userAvatar.png";
 import ProfileDialog from "../presentational/ProfileDialog";
+import PollDialog from "../presentational/PollDialog";
 import { withAnchorState } from "../../utils/HOCs";
 
 const useStyles = makeStyles({
@@ -32,7 +33,7 @@ const NavBar = ({ anchorEl, handleClick, handleClose, history }) => {
         <Tab label="Friends" />
         <Tab label="Friends polls" />
         <Tab label="Opinions" />
-        <Tab label="Create poll" />
+        <PollDialog />
         <Avatar alt="Test User" src={userAvatar} className={classes.avatar} />
         <Button onClick={handleClick}>My Profile</Button>
         <Menu
