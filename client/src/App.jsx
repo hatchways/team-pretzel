@@ -10,10 +10,10 @@ const App = () => {
     <MuiThemeProvider theme={theme}>
       <BrowserRouter>
         <CssBaseline />
-        <Route exact path="/">
+        {/* <Route exact path="/">
           <Redirect to="/signin" />
         </Route>
-        <Route exact path={["/signin", "/signup"]} component={AuthPage} />
+        <Route exact path={["/signin", "/signup"]} component={AuthPage} /> */}
         <Route exact path="/dashboard" component={Dashboard} />
       </BrowserRouter>
     </MuiThemeProvider>
