@@ -7,7 +7,7 @@ import { SignupSchema } from "../../utils/validation";
 import { styles } from "./inlineStyles";
 import { JWTtoLocalStorage } from "../../utils/helpers";
 
-const SignupForms = () => {
+const SignupForms = ({ history }) => {
   return (
     <Formik
       initialValues={{
@@ -34,6 +34,7 @@ const SignupForms = () => {
         const { data, token } = res.data;
         // set token to localStorage
         JWTtoLocalStorage(token);
+        history.push("/dashboard");
         setSubmitting(false);
       }}
     >
