@@ -86,6 +86,7 @@ const ProfileDialog = () => {
                   <input
                     onChange={event => {
                       setFieldValue("avatar", event.currentTarget.files[0]);
+                      loadImage(event);
                     }}
                     name="avatar"
                     accept="image/*"
