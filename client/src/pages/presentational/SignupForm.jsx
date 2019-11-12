@@ -34,8 +34,8 @@ const SignupForms = ({ history }) => {
         const { data, token } = res.data;
         // set token to localStorage
         JWTtoLocalStorage(token);
-        history.push("/dashboard");
         setSubmitting(false);
+        history.push("/dashboard");
       }}
     >
       {({ errors, handleSubmit, handleChange, values }) => {

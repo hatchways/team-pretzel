@@ -21,8 +21,8 @@ const SigninForms = ({ history }) => {
 
         // set token to lstorage
         JWTtoLocalStorage(token);
-        history.push("/dashboard");
         setSubmitting(false);
+        history.push("/dashboard");
       }}
     >
       {({ handleSubmit, handleChange, errors, values }) => {
