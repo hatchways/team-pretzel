@@ -35,7 +35,7 @@ const useStyles = makeStyles({
   }
 });
 
-const AuthPage = ({ location }) => {
+const AuthPage = ({ location, history }) => {
   const classes = useStyles();
   const { pathname } = location;
 
@@ -45,9 +45,9 @@ const AuthPage = ({ location }) => {
         <Grid item xs>
           <Paper className={classes.paper}>
             {pathname === "/signup" ? (
-              <SignUp />
+              <SignUp history={history} />
             ) : pathname === "/signin" ? (
-              <SignIn />
+              <SignIn history={history} />
             ) : null}
           </Paper>
         </Grid>

@@ -2,17 +2,17 @@ import React from "react";
 import { Typography } from "@material-ui/core";
 import SignupForm from "../presentational/SignupForm";
 
-const SignUp = () => {
+const SignUp = ({ history }) => {
   return (
     <section
       style={{
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        width: "50%"
+        width: "70%"
       }}
     >
-      <div style={{ width: "60%" }}>
+      <div>
         <Typography
           variant="h4"
           align="left"
@@ -20,7 +20,7 @@ const SignUp = () => {
         >
           Create an account
         </Typography>
-        <SignupForm />
+        <SignupForm history={history} />
       </div>
     </section>
   );

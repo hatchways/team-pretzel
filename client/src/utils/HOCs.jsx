@@ -15,6 +15,7 @@ export const withAnchorState = ComponentToEnrich =>
         anchorEl={this.state.anchorEl}
         handleClick={this.handleClick}
         handleClose={this.handleClose}
+        history={this.props.history}
       />
     );
   };
