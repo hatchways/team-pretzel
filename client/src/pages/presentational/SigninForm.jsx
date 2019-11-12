@@ -7,7 +7,7 @@ import { styles } from "./inlineStyles";
 import { JWTtoLocalStorage } from "../../utils/helpers";
 import axios from "axios";
 
-const SigninForms = () => {
+const SigninForms = ({ history }) => {
   return (
     <Formik
       validationSchema={SigninSchema}
@@ -22,6 +22,7 @@ const SigninForms = () => {
         // set token to lstorage
         JWTtoLocalStorage(token);
         setSubmitting(false);
+        history.push("/dashboard");
       }}
     >
       {({ handleSubmit, handleChange, errors, values }) => {

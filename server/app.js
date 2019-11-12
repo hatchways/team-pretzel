@@ -9,6 +9,7 @@ import indexRouter from "./routes/index";
 import pingRouter from "./routes/ping";
 import userRouter from "./routes/userRouter";
 import pollRouter from "./routes/pollRouter";
+import friendListRouter from "./routes/friendListRouter";
 
 var app = express();
 
@@ -22,6 +23,7 @@ app.use("/", indexRouter);
 app.use("/ping", pingRouter);
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/polls", pollRouter);
+app.use("/api/v1/friendlist", friendListRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -30,13 +32,20 @@ app.use(function(req, res, next) {
 
 // error handler
 app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get("env") === "development" ? err : {};
+  err.statusCode = err.statusCode || 500;
+  err.status = err.status || "error";
 
-  // render the error page
-  res.status(err.status || 500);
-  res.json({ error: err });
+  req.app.get("env") === "development"
+    ? res.status(err.statusCode).json({
+        status: err.status,
+        error: err,
+        message: err.message,
+        stack: err.stack
+      })
+    : res.status(err.statusCode).json({
+        status: err.status,
+        message: err.message
+      });
 });
 
 module.exports = app;
