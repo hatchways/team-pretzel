@@ -15,25 +15,17 @@ const setAuthToken = token => {
 };
 
 const App = () => {
-
   const [loggedIn, setLoggedIn] = useState(false);
 
   useEffect(() => {
     if (localStorage) {
-    const token = localStorage.getItem("jwtToken");
-      if(token) {
-    setAuthToken(token);
-              setLoggedIn(true);
+      const token = localStorage.getItem("jwtToken");
+      if (token) {
+        setAuthToken(token);
+        setLoggedIn(true);
       }
-  }
-
-
-
-
+    }
   }, []);
-
-  
-
 
   return (
     <MuiThemeProvider theme={theme}>
