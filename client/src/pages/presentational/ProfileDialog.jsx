@@ -55,8 +55,7 @@ const ProfileDialog = () => {
           <Formik
             initialValues={{ name: "", avatar: null }}
             validateOnChange={false}
-            onSubmit={async ({ name, avatar }, { setSubmitting }) => {
-              const updatedUser = { name, avatar };
+            onSubmit={async ({ name, avatar }) => {
               let formData = new FormData();
               formData.append("name", name);
               formData.append("avatar", avatar);
@@ -86,6 +85,7 @@ const ProfileDialog = () => {
                   <input
                     onChange={event => {
                       setFieldValue("avatar", event.currentTarget.files[0]);
+                      loadImage(event);
                     }}
                     name="avatar"
                     accept="image/*"
