@@ -9,10 +9,10 @@ const SignUp = ({ history }) => {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        width: "50%"
+        width: "70%"
       }}
     >
-      <div style={{ width: "60%" }}>
+      <div>
         <Typography
           variant="h4"
           align="left"

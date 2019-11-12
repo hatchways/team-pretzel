@@ -9,7 +9,7 @@ const SignIn = ({ history }) => {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        width: "50%"
+        width: "70%"
       }}
     >
       <div style={{ width: "60%" }}>
