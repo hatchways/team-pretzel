@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import NavBar from "./container/NavBar";
 import FriendlistDialog from "./presentational/FriendlistDialog";
 
-const Dashboard = () => {
+const Dashboard = ({ history }) => {
   const [open, setOpen] = useState(false);
   const handleDialog = () => {
     setOpen(!open);
@@ -10,7 +10,7 @@ const Dashboard = () => {
 
   return (
     <div>
-      <NavBar />
+      <NavBar history={history} />
       <button onClick={handleDialog}>create friend list</button>
       <FriendlistDialog open={open} handleDialog={handleDialog} />
     </div>

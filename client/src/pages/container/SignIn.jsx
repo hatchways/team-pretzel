@@ -2,14 +2,14 @@ import React from "react";
 import { Typography } from "@material-ui/core";
 import SigninForm from "../presentational/SigninForm";
 
-const SignIn = () => {
+const SignIn = ({ history }) => {
   return (
     <section
       style={{
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        width: "50%"
+        width: "70%"
       }}
     >
       <div style={{ width: "60%" }}>
@@ -20,7 +20,7 @@ const SignIn = () => {
         >
           Sign in
         </Typography>
-        <SigninForm />
+        <SigninForm history={history} />
       </div>
     </section>
   );
