@@ -31,6 +31,7 @@ class Dashboard extends React.Component {
       friends: [],
       authenticated: false
     });
+    this.props.history.push("/signin");
   };
 
   render() {
