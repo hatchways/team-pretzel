@@ -16,6 +16,7 @@ import {
   MenuList
 } from "@material-ui/core";
 import FriendList from "../FriendList";
+import ProfileDialog from "../../pages/presentational/ProfileDialog";
 
 const drawerWidth = 240;
 
@@ -84,6 +85,10 @@ const AppBarDrawer = ({ friends, user, handleLogOut }) => {
     prevOpen.current = open;
   }, [open]);
 
+  const handleDialog = () => {
+    setOpen(!open);
+  };
+
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -135,7 +140,12 @@ const AppBarDrawer = ({ friends, user, handleLogOut }) => {
                       onKeyDown={handleListKeyDown}
                     >
                       <MenuItem onClick={handleClose}>Profile</MenuItem>
-                      <MenuItem onClick={handleClose}>My account</MenuItem>
+                      <MenuItem onClick={handleClose}>
+                        <ProfileDialog
+                          open={open}
+                          handleDialog={handleDialog}
+                        />
+                      </MenuItem>
                       <MenuItem
                         onClick={() => {
                           handleLogOut();

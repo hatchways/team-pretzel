@@ -7,7 +7,7 @@ const Friends = ({ friends }) => {
       {friends.map(friend => (
         <ListItem>
           <ListItemAvatar>
-            <Avatar alt={friend.name} src={friend.avatar} />
+            <Avatar key={friend.id} alt={friend.name} src={friend.avatar} />
           </ListItemAvatar>
           {friend.name}
         </ListItem>
