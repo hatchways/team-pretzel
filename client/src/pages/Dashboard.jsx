@@ -4,6 +4,7 @@ import FriendlistDialog from "./presentational/FriendlistDialog";
 
 const Dashboard = ({ history }) => {
   const [open, setOpen] = useState(false);
+
   const handleDialog = () => {
     setOpen(!open);
   };

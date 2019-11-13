@@ -7,9 +7,9 @@ const Friends = ({ friends }) => {
       {friends.map(friend => (
         <ListItem>
           <ListItemAvatar>
-            <Avatar alt={friend.first_name} src={friend.avatar} />
+            <Avatar alt={friend.name} src={friend.avatar} />
           </ListItemAvatar>
-          {friend.first_name}
+          {friend.name}
         </ListItem>
       ))}
     </>

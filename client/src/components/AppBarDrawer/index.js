@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import {
@@ -7,7 +7,13 @@ import {
   AppBar,
   CssBaseline,
   Toolbar,
-  Avatar
+  Avatar,
+  Paper,
+  Popper,
+  ClickAwayListener,
+  Grow,
+  MenuItem,
+  MenuList
 } from "@material-ui/core";
 import FriendList from "../FriendList";
 
@@ -44,8 +50,39 @@ const useStyles = makeStyles(theme => ({
   toolbar: theme.mixins.toolbar
 }));
 
-export default function AppBarDrawer({ friends, user }) {
+const AppBarDrawer = ({ friends, user, handleLogOut }) => {
   const classes = useStyles();
+  const [open, setOpen] = useState(false);
+  const anchorRef = useRef(null);
+
+  const handleToggle = () => {
+    setOpen(prevOpen => !prevOpen);
+  };
+
+  const handleClose = event => {
+    if (anchorRef.current && anchorRef.current.contains(event.target)) {
+      return;
+    }
+
+    setOpen(false);
+  };
+
+  function handleListKeyDown(event) {
+    if (event.key === "Tab") {
+      event.preventDefault();
+      setOpen(false);
+    }
+  }
+
+  // return focus to the button when we transitioned from !open -> open
+  const prevOpen = useRef(open);
+  useEffect(() => {
+    if (prevOpen.current === true && open === false) {
+      anchorRef.current.focus();
+    }
+
+    prevOpen.current = open;
+  }, [open]);
 
   return (
     <div className={classes.root}>
@@ -67,13 +104,51 @@ export default function AppBarDrawer({ friends, user }) {
             </Button>
           </Link>
           <Button
-            aria-controls="simple-menu"
+            ref={anchorRef}
+            aria-controls={open ? "menu-list-grow" : undefined}
             aria-haspopup="true"
-            //onClick={handleClick}
+            onClick={handleToggle}
           >
-            <Avatar alt={user.first_name} src={user.avatar} />
-            {user.first_name}
+            <Avatar alt={user.name} src={user.avatar} />
+            {user.name}
           </Button>
+          <Popper
+            open={open}
+            anchorEl={anchorRef.current}
+            role={undefined}
+            transition
+            disablePortal
+          >
+            {({ TransitionProps, placement }) => (
+              <Grow
+                {...TransitionProps}
+                style={{
+                  transformOrigin:
+                    placement === "bottom" ? "center top" : "center bottom"
+                }}
+              >
+                <Paper>
+                  <ClickAwayListener onClickAway={handleClose}>
+                    <MenuList
+                      autoFocusItem={open}
+                      id="menu-list-grow"
+                      onKeyDown={handleListKeyDown}
+                    >
+                      <MenuItem onClick={handleClose}>Profile</MenuItem>
+                      <MenuItem onClick={handleClose}>My account</MenuItem>
+                      <MenuItem
+                        onClick={() => {
+                          handleLogOut();
+                        }}
+                      >
+                        Logout
+                      </MenuItem>
+                    </MenuList>
+                  </ClickAwayListener>
+                </Paper>
+              </Grow>
+            )}
+          </Popper>
         </Toolbar>
       </AppBar>
 
@@ -89,4 +164,6 @@ export default function AppBarDrawer({ friends, user }) {
       </Drawer>
     </div>
   );
-}
+};
+
+export default AppBarDrawer;
