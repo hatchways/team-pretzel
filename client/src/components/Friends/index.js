@@ -5,9 +5,9 @@ const Friends = ({ friends }) => {
   return (
     <>
       {friends.map(friend => (
-        <ListItem>
+        <ListItem key={friend.id}>
           <ListItemAvatar>
-            <Avatar key={friend.id} alt={friend.name} src={friend.avatar} />
+            <Avatar alt={friend.name} src={friend.avatar} />
           </ListItemAvatar>
           {friend.name}
         </ListItem>
