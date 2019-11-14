@@ -16,6 +16,7 @@ import {
 } from "@material-ui/core";
 import FriendList from "./FriendList";
 import ProfileDialog from "../presentational/ProfileDialog";
+import PollDialog from "../presentational/PollDialog";
 
 const drawerWidth = 240;
 
@@ -30,10 +31,6 @@ const useStyles = makeStyles(theme => ({
   menuButton: {
     marginRight: theme.spacing(2),
     textDecoration: "none"
-  },
-  button: {
-    margin: theme.spacing(1),
-    borderRadius: 100
   },
   drawer: {
     width: drawerWidth,
@@ -101,9 +98,7 @@ const AppBarDrawer = ({ handleLogOut }) => {
             <Button>Opinions</Button>
           </Link>
           <Link to="#" className={classes.menuButton}>
-            <Button variant="outlined" size="small" className={classes.button}>
-              Create Poll
-            </Button>
+            <PollDialog />
           </Link>
           <Button
             ref={anchorRef}
@@ -134,7 +129,7 @@ const AppBarDrawer = ({ handleLogOut }) => {
                 }}
               >
                 <Paper>
-                  <MenuList autoFocusItem={open} id="menu-list-grow">
+                  <MenuList id="menu-list-grow">
                     <MenuItem onClick={handleClose}>Profile</MenuItem>
                     <MenuItem>
                       <ProfileDialog

@@ -39,9 +39,7 @@ const ProfileDialog = ({ user }) => {
 
   return (
     <React.Fragment>
-      <Button color="primary" onClick={handleClickOpen}>
-        Update profile
-      </Button>
+      <p onClick={handleClickOpen}>Update profile</p>
       <Dialog
         open={open}
         onClose={handleClose}
