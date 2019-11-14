@@ -14,7 +14,7 @@ const FriendList = () => {
   const [friends, setFriends] = useState([]);
   useEffect(() => {
     getFriends();
-  });
+  }, []);
 
   const getFriends = async () => {
     const response = await axios.get("/api/v1/users");

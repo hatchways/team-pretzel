@@ -79,7 +79,7 @@ const AppBarDrawer = ({ handleLogOut }) => {
   const [user, setUser] = useState({});
   useEffect(() => {
     getUser();
-  });
+  }, []);
 
   const getUser = async () => {
     const response = await axios.get("/api/v1/users/profile");
