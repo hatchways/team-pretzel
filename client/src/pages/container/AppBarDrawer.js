@@ -42,7 +42,8 @@ const useStyles = makeStyles(theme => ({
   drawerPaper: {
     width: drawerWidth
   },
-  toolbar: theme.mixins.toolbar
+  toolbar: theme.mixins.toolbar,
+  avatar: { margin: 10 }
 }));
 
 const AppBarDrawer = ({ handleLogOut }) => {
@@ -76,15 +77,15 @@ const AppBarDrawer = ({ handleLogOut }) => {
     setOpen(!open);
   };
 
-  const [user, setUser] = useState({});
-  useEffect(() => {
-    getUser();
-  }, []);
-
   const getUser = async () => {
     const response = await axios.get("/api/v1/users/profile");
     setUser(response.data.data.user);
   };
+
+  const [user, setUser] = useState({});
+  useEffect(() => {
+    getUser();
+  }, []);
 
   return (
     <div className={classes.root}>
@@ -110,7 +111,11 @@ const AppBarDrawer = ({ handleLogOut }) => {
             aria-haspopup="true"
             onClick={handleToggle}
           >
-            <Avatar alt={user.name} src={user.avatar} />
+            <Avatar
+              alt={user.name}
+              src={user.avatar}
+              className={classes.avatar}
+            />
             {user.name}
           </Button>
           <Popper
@@ -136,6 +141,7 @@ const AppBarDrawer = ({ handleLogOut }) => {
                         open={open}
                         onClick={handleClose}
                         handleDialog={handleDialog}
+                        user={user}
                       />
                     </MenuItem>
                     <MenuItem

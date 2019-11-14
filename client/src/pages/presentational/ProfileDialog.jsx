@@ -22,7 +22,7 @@ const useStyles = makeStyles({
   }
 });
 
-const ProfileDialog = () => {
+const ProfileDialog = ({ user }) => {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const handleClickOpen = () => {
@@ -59,6 +59,7 @@ const ProfileDialog = () => {
               let formData = new FormData();
               formData.append("name", name);
               formData.append("avatar", avatar);
+              user.name = name;
               await axios.patch("/api/v1/users/profile/update", formData);
             }}
           >
