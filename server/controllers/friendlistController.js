@@ -13,7 +13,9 @@ export const createFriendList = catchAsync(async (req, res, next) => {
     friends: [...friendIds],
     user
   });
-  res
-    .status(201)
-    .json({ status: "success", data: { friendList: newFriendList } });
+
+  res.status(201).json({
+    status: "success",
+    data: { friendList: newFriendList }
+  });
 });

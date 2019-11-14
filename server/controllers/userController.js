@@ -1,4 +1,6 @@
 import User from "../models/User";
+import FriendList from "../models/FriendList";
+import Poll from "../models/Poll";
 import AppError from "../utils/AppError";
 import multerUpload from "../utils/multerUpload";
 import catchAsync from "../utils/catchAsync";
@@ -22,7 +24,9 @@ export const getAllUsers = catchAsync(async (req, res, next) => {
 });
 
 export const getUser = catchAsync(async (req, res, next) => {
-  const user = await User.findById(req.params.id).populate("polls");
+  const user = await User.findById(req.params.id)
+    .populate("polls")
+    .populate("friendLists");
   if (!user) return next(new AppError("No user found with that ID.", 404));
 
   res.status(200).json({
@@ -51,5 +55,22 @@ export const updateMe = catchAsync(async (req, res, next) => {
   res.status(200).json({
     status: "success",
     data: { user: updatedUser }
+  });
+});
+
+export const getTaggedPolls = catchAsync(async (req, res, next) => {
+  const taggedFriendLists = await FriendList.find(
+    { friends: req.user.id },
+    "_id"
+  );
+
+  const taggedPolls = await Poll.find(
+    { taggedFriendLists },
+    { taggedFriendLists: 0 }
+  );
+
+  res.status(200).json({
+    status: "success",
+    data: { taggedPolls }
   });
 });

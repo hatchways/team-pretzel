@@ -13,6 +13,11 @@ router.post("/login", authController.login);
 // Protected routes
 router.use(authController.checkAuth);
 router.get("/profile", userController.getMe, userController.getUser);
+router.get(
+  "/profile/getTaggedPolls",
+  userController.getMe,
+  userController.getTaggedPolls
+);
 router.patch(
   "/profile/update",
   userController.uploadUserAvatar,
