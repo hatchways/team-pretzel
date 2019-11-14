@@ -1,22 +1,21 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   Button,
   Drawer,
   AppBar,
-  CssBaseline,
   Toolbar,
   Avatar,
   Paper,
   Popper,
-  ClickAwayListener,
   Grow,
   MenuItem,
   MenuList
 } from "@material-ui/core";
-import FriendList from "../FriendList";
-import ProfileDialog from "../../pages/presentational/ProfileDialog";
+import FriendList from "./FriendList";
+import ProfileDialog from "../presentational/ProfileDialog";
 
 const drawerWidth = 240;
 
@@ -43,15 +42,10 @@ const useStyles = makeStyles(theme => ({
   drawerPaper: {
     width: drawerWidth
   },
-  // content: {
-  //   flexGrow: 1,
-  //   padding: theme.spacing(3)
-  // },
-  toobar: { position: "flex-end" },
   toolbar: theme.mixins.toolbar
 }));
 
-const AppBarDrawer = ({ friends, user, handleLogOut }) => {
+const AppBarDrawer = ({ handleLogOut }) => {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const anchorRef = useRef(null);
@@ -68,13 +62,6 @@ const AppBarDrawer = ({ friends, user, handleLogOut }) => {
     setOpen(false);
   };
 
-  function handleListKeyDown(event) {
-    if (event.key === "Tab") {
-      event.preventDefault();
-      setOpen(false);
-    }
-  }
-
   // return focus to the button when we transitioned from !open -> open
   const prevOpen = useRef(open);
   useEffect(() => {
@@ -89,9 +76,18 @@ const AppBarDrawer = ({ friends, user, handleLogOut }) => {
     setOpen(!open);
   };
 
+  const [user, setUser] = useState({});
+  useEffect(() => {
+    getUser();
+  });
+
+  const getUser = async () => {
+    const response = await axios.get("/api/v1/users/profile");
+    setUser(response.data.data.user);
+  };
+
   return (
     <div className={classes.root}>
-      <CssBaseline />
       <AppBar position="fixed" className={classes.appBar}>
         <Toolbar className="classes.toolbar">
           <Link to="#" className={classes.menuButton}>
@@ -133,35 +129,29 @@ const AppBarDrawer = ({ friends, user, handleLogOut }) => {
                 }}
               >
                 <Paper>
-                  <ClickAwayListener onClickAway={handleClose}>
-                    <MenuList
-                      autoFocusItem={open}
-                      id="menu-list-grow"
-                      onKeyDown={handleListKeyDown}
+                  <MenuList autoFocusItem={open} id="menu-list-grow">
+                    <MenuItem onClick={handleClose}>Profile</MenuItem>
+                    <MenuItem>
+                      <ProfileDialog
+                        open={open}
+                        onClick={handleClose}
+                        handleDialog={handleDialog}
+                      />
+                    </MenuItem>
+                    <MenuItem
+                      onClick={() => {
+                        handleLogOut();
+                      }}
                     >
-                      <MenuItem onClick={handleClose}>Profile</MenuItem>
-                      <MenuItem onClick={handleClose}>
-                        <ProfileDialog
-                          open={open}
-                          handleDialog={handleDialog}
-                        />
-                      </MenuItem>
-                      <MenuItem
-                        onClick={() => {
-                          handleLogOut();
-                        }}
-                      >
-                        Logout
-                      </MenuItem>
-                    </MenuList>
-                  </ClickAwayListener>
+                      Logout
+                    </MenuItem>
+                  </MenuList>
                 </Paper>
               </Grow>
             )}
           </Popper>
         </Toolbar>
       </AppBar>
-
       <Drawer
         className={classes.drawer}
         variant="permanent"
@@ -170,7 +160,7 @@ const AppBarDrawer = ({ friends, user, handleLogOut }) => {
         }}
       >
         <div className={classes.toolbar} />
-        <FriendList friends={friends} />
+        <FriendList />
       </Drawer>
     </div>
   );

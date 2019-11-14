@@ -1,7 +1,7 @@
 import React from "react";
 import { ListItem, ListItemAvatar, Avatar } from "@material-ui/core";
 
-const Friends = ({ friends }) => {
+const Friend = ({ friends }) => {
   return (
     <>
       {friends.map(friend => (
@@ -16,4 +16,4 @@ const Friends = ({ friends }) => {
   );
 };
 
-export default Friends;
+export default Friend;
