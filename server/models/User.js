@@ -40,7 +40,7 @@ userSchema.virtual("polls", {
   localField: "_id"
 });
 
-userSchema.virtual("friendlists", {
+userSchema.virtual("friendLists", {
   ref: "FriendList",
   foreignField: "user",
   localField: "_id"
