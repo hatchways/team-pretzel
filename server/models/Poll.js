@@ -7,10 +7,12 @@ const pollSchema = new mongoose.Schema(
       required: [true, "Question cannot be empty"]
     },
     images: [String],
-    friendList: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "FriendList"
-    },
+    taggedFriendLists: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "FriendList"
+      }
+    ],
     createdBy: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",

@@ -23,7 +23,7 @@ app.use("/", indexRouter);
 app.use("/ping", pingRouter);
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/polls", pollRouter);
-app.use("/api/v1/friendlist", friendListRouter);
+app.use("/api/v1/friend-lists", friendListRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
