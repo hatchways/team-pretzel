@@ -5,6 +5,7 @@ import { List, Typography } from "@material-ui/core";
 import Friend from "../presentational/Friend";
 
 const useStyles = makeStyles(theme => ({
+  root: { position: "absolute", top: "5rem" },
   title: { padding: "10%" }
 }));
 
@@ -22,14 +23,14 @@ const FriendList = () => {
   };
 
   return (
-    <>
+    <div className={classes.root}>
       <Typography variant="h4" className={classes.title}>
         Friends
       </Typography>
       <List>
         <Friend friends={friends} />
       </List>
-    </>
+    </div>
   );
 };
 
