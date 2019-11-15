@@ -1,20 +1,19 @@
-import React, { useState } from "react";
-import NavBar from "./container/NavBar";
-import FriendlistDialog from "./presentational/FriendlistDialog";
+import React from "react";
+import AppBarDrawer from "./container/AppBarDrawer";
 
-const Dashboard = ({ history }) => {
-  const [open, setOpen] = useState(false);
-  const handleDialog = () => {
-    setOpen(!open);
+class Dashboard extends React.Component {
+  handleLogOut = () => {
+    localStorage.removeItem("jwtToken");
+    this.props.history.push("/signin");
   };
 
-  return (
-    <div>
-      <NavBar history={history} />
-      <button onClick={handleDialog}>create friend list</button>
-      <FriendlistDialog open={open} handleDialog={handleDialog} />
-    </div>
-  );
-};
+  render() {
+    return (
+      <>
+        <AppBarDrawer handleLogOut={this.handleLogOut} />
+      </>
+    );
+  }
+}
 
 export default Dashboard;

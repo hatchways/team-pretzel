@@ -12,8 +12,17 @@ import {
   Button,
   TextField
 } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
+
+const useStyles = makeStyles(theme => ({
+  button: {
+    margin: theme.spacing(1),
+    borderRadius: 100
+  }
+}));
 
 const PollDialog = () => {
+  const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const handleClickOpen = () => {
     setOpen(true);
@@ -41,7 +50,12 @@ const PollDialog = () => {
 
   return (
     <React.Fragment>
-      <Button variant="outlined" color="primary" onClick={handleClickOpen}>
+      <Button
+        variant="outlined"
+        size="small"
+        className={classes.button}
+        onClick={handleClickOpen}
+      >
         Create Poll
       </Button>
       <Dialog
