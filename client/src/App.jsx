@@ -5,7 +5,7 @@ import { MuiThemeProvider, CssBaseline } from "@material-ui/core";
 import { BrowserRouter, Route, Redirect } from "react-router-dom";
 import { theme } from "./themes/theme";
 import AuthPage from "./pages/AuthPage";
-import Dashboard from "./pages/Dashboard.js";
+import Dashboard from "./pages/Dashboard";
 
 const setAuthToken = token => {
   if (token) {
