@@ -40,6 +40,7 @@ const useStyles = makeStyles(theme => ({
     width: drawerWidth
   },
   toolbar: theme.mixins.toolbar,
+  toolbar: { marginLeft: "auto", marginRight: "5rem" },
   avatar: { margin: 10 }
 }));
 
@@ -87,7 +88,7 @@ const AppBarDrawer = ({ handleLogOut }) => {
   return (
     <div className={classes.root}>
       <AppBar position="fixed" className={classes.appBar}>
-        <Toolbar className="classes.toolbar">
+        <Toolbar className={classes.toolbar}>
           <Link to="#" className={classes.menuButton}>
             <Button>Friends</Button>
           </Link>
