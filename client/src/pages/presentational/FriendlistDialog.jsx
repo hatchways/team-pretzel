@@ -1,71 +1,19 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { Formik } from "formik";
+import axios from "axios";
 import {
   Button,
   Dialog,
-  DialogActions,
   DialogTitle,
   DialogContent,
   TextField,
   List,
   ListItem,
   ListItemText,
-  ListItemIcon,
   Checkbox,
   ListItemSecondaryAction,
   makeStyles
 } from "@material-ui/core";
-
-const dummy = [
-  {
-    id: 1,
-    name: "john"
-  },
-  {
-    id: 2,
-    name: "jane"
-  },
-  {
-    id: 3,
-    name: "jim"
-  },
-  {
-    id: 4,
-    name: "john"
-  },
-  {
-    id: 5,
-    name: "jane"
-  },
-  {
-    id: 6,
-    name: "jim"
-  },
-  {
-    id: 7,
-    name: "john"
-  },
-  {
-    id: 8,
-    name: "jane"
-  },
-  {
-    id: 9,
-    name: "jim"
-  },
-  {
-    id: 10,
-    name: "john"
-  },
-  {
-    id: 11,
-    name: "jane"
-  },
-  {
-    id: 12,
-    name: "jim"
-  }
-];
 
 const initialValues = {
   title: "",
@@ -81,10 +29,24 @@ const useStyles = makeStyles(theme => ({
 
 const FriendlistDialog = props => {
   const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
+
+  const [open, setOpen] = useState(false);
+
   const handleClick = () => {
     setOpen(!open);
   };
+
+  const [friends, setFriends] = useState([]);
+
+  const getAllUsers = async () => {
+    const result = await axios.get("/api/v1/users");
+    const users = result.data.data.users;
+    setFriends(users);
+  };
+
+  useEffect(() => {
+    getAllUsers();
+  }, []);
 
   return (
     <Fragment>
@@ -122,15 +84,15 @@ const FriendlistDialog = props => {
                     placeholder="Enter name of list"
                   />
                   <List>
-                    {dummy.map(person => {
+                    {friends.map(friend => {
                       return (
-                        <ListItem key={person.id}>
-                          <ListItemText>{person.name}</ListItemText>
+                        <ListItem key={friend.id}>
+                          <ListItemText>{friend.name}</ListItemText>
                           <ListItemSecondaryAction>
                             <Checkbox
                               name="friendsToAdd"
                               onChange={handleChange}
-                              value={person.id}
+                              value={friend.id}
                             />
                           </ListItemSecondaryAction>
                         </ListItem>
