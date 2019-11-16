@@ -1,6 +1,7 @@
 import multerUpload from "../utils/multerUpload";
 import catchAsync from "../utils/catchAsync";
 import Poll from "../models/Poll";
+import Vote from "../models/Vote";
 
 export const uploadPollImages = multerUpload.array("images", 2);
 
