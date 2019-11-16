@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
+import { Link, useRouteMatch } from "react-router-dom";
 import axios from "axios";
 import { makeStyles } from "@material-ui/core/styles";
 import {
@@ -48,7 +48,7 @@ const useStyles = makeStyles(theme => ({
   avatar: { margin: 10 }
 }));
 
-const AppBarDrawer = ({ handleLogOut, children }) => {
+const AppBarDrawer = ({ handleLogOut }) => {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const anchorRef = useRef(null);
@@ -89,11 +89,13 @@ const AppBarDrawer = ({ handleLogOut, children }) => {
     getUser();
   }, []);
 
+  let match = useRouteMatch("/dashboard");
+
   return (
     <div className={classes.root}>
       <AppBar position="static" className={classes.appBar}>
         <Toolbar className={classes.toolbar}>
-          <Link to="#" className={classes.menuButton}>
+          <Link to={`${match.path}/friends`} className={classes.menuButton}>
             <Button>Friends</Button>
           </Link>
           <Link to="#" className={classes.menuButton}>
