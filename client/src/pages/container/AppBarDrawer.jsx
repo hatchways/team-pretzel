@@ -39,12 +39,16 @@ const useStyles = makeStyles(theme => ({
   drawerPaper: {
     width: drawerWidth
   },
+  content: {
+    flexGrow: 1,
+    padding: theme.spacing(3)
+  },
   toolbar: theme.mixins.toolbar,
   toolbar: { marginLeft: "auto", marginRight: "5rem" },
   avatar: { margin: 10 }
 }));
 
-const AppBarDrawer = ({ handleLogOut }) => {
+const AppBarDrawer = ({ handleLogOut, children }) => {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const anchorRef = useRef(null);
@@ -87,7 +91,7 @@ const AppBarDrawer = ({ handleLogOut }) => {
 
   return (
     <div className={classes.root}>
-      <AppBar position="fixed" className={classes.appBar}>
+      <AppBar position="static" className={classes.appBar}>
         <Toolbar className={classes.toolbar}>
           <Link to="#" className={classes.menuButton}>
             <Button>Friends</Button>
@@ -154,16 +158,16 @@ const AppBarDrawer = ({ handleLogOut }) => {
           </Popper>
         </Toolbar>
       </AppBar>
-      <Drawer
-        className={classes.drawer}
-        variant="permanent"
-        classes={{
-          paper: classes.drawerPaper
-        }}
-      >
-        <div className={classes.toolbar} />
-        <FriendList />
-      </Drawer>
+      {/*</div><Drawer
+      //   className={classes.drawer}
+      //   variant="permanent"
+      //   classes={{
+      //     paper: classes.drawerPaper
+      //   }}
+      // >
+      //   <div className={classes.toolbar} />
+      //   <FriendList />
+      </Drawer>*/}
     </div>
   );
 };
