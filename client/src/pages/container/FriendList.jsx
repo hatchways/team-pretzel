@@ -5,7 +5,7 @@ import { List, Typography } from "@material-ui/core";
 import Friend from "../presentational/Friend";
 
 const useStyles = makeStyles(theme => ({
-  root: { position: "absolute", top: "5rem" },
+  // root: { position: "absolute", top: "5rem" },
   title: { padding: "10%" }
 }));
 
