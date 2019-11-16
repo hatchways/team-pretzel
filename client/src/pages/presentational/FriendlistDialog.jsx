@@ -12,7 +12,8 @@ import {
   ListItemText,
   ListItemIcon,
   Checkbox,
-  ListItemSecondaryAction
+  ListItemSecondaryAction,
+  makeStyles
 } from "@material-ui/core";
 
 const dummy = [
@@ -71,16 +72,35 @@ const initialValues = {
   friendsToAdd: []
 };
 
-const FriendlistDialog = ({ open, handleDialog }) => {
+const useStyles = makeStyles(theme => ({
+  button: {
+    margin: theme.spacing(1),
+    borderRadius: 100
+  }
+}));
+
+const FriendlistDialog = props => {
+  const classes = useStyles();
+  const [open, setOpen] = React.useState(false);
+  const handleClick = () => {
+    setOpen(!open);
+  };
+
   return (
     <Fragment>
+      <Button
+        variant="outlined"
+        size="small"
+        className={classes.button}
+        onClick={handleClick}
+      >
+        Create List
+      </Button>
       <Dialog
         aria-labelledby="friendlist-dialog"
         maxWidth="md"
         open={open}
-        onClose={() => {
-          handleDialog();
-        }}
+        onClose={handleClick}
       >
         <DialogTitle id="friendlist-dialog-title">
           Create a friend list
