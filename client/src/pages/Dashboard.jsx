@@ -1,26 +1,24 @@
-import React from "react";
+import React, { useEffect } from "react";
 import AppBarDrawer from "./container/AppBarDrawer";
 import { setAuthToken } from "../utils/helpers";
 
-class Dashboard extends React.Component {
-  handleLogOut = () => {
+const Dashboard = ({ history }) => {
+  const handleLogOut = () => {
     localStorage.removeItem("jwtToken");
-    this.props.history.push("/signin");
+    history.push("/signin");
   };
 
-  componentDidMount() {
+  useEffect(() => {
     if (localStorage.jwtToken) {
       setAuthToken(localStorage.jwtToken);
     }
-  }
+  }, []);
 
-  render() {
-    return (
-      <>
-        <AppBarDrawer handleLogOut={this.handleLogOut} />
-      </>
-    );
-  }
-}
+  return (
+    <>
+      <AppBarDrawer handleLogOut={handleLogOut} />
+    </>
+  );
+};
 
 export default Dashboard;
