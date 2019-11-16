@@ -19,7 +19,7 @@ const ContentContainer = ({ children }) => {
           <FriendList />
         </Container>
       </div>
-      <div>{children}</div>
+      <div style={{ width: "100%" }}>{children}</div>
     </div>
   );
 };
