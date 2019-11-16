@@ -1,7 +1,9 @@
 import React, { useEffect } from "react";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 import AppBarDrawer from "./container/AppBarDrawer";
 import { setAuthToken } from "../utils/helpers";
 import ContentContainer from "./container/ContentContainer";
+import MainContent from "./container/MainContent";
 
 const Dashboard = ({ history }) => {
   const handleLogOut = () => {
@@ -16,12 +18,12 @@ const Dashboard = ({ history }) => {
   }, []);
 
   return (
-    <>
+    <Router>
       <AppBarDrawer handleLogOut={handleLogOut} />
       <ContentContainer>
-        <div>this is another component</div>
+        <Route exact path="/dashboard" component={MainContent} />
       </ContentContainer>
-    </>
+    </Router>
   );
 };
 
