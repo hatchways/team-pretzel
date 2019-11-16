@@ -3,9 +3,10 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 import AppBarDrawer from "./container/AppBarDrawer";
 import { setAuthToken } from "../utils/helpers";
 import ContentContainer from "./container/ContentContainer";
-import MainContent from "./container/MainContent";
+import DashboardDefault from "./container/DashboardDefault";
+import Friends from "./container/Friends";
 
-const Dashboard = ({ history }) => {
+const Dashboard = ({ history, match }) => {
   const handleLogOut = () => {
     localStorage.removeItem("jwtToken");
     history.push("/signin");
@@ -21,7 +22,8 @@ const Dashboard = ({ history }) => {
     <Router>
       <AppBarDrawer handleLogOut={handleLogOut} />
       <ContentContainer>
-        <Route exact path="/dashboard" component={MainContent} />
+        <Route exact path={match.path} component={DashboardDefault} />
+        <Route path={`${match.path}/friends`} component={Friends} />
       </ContentContainer>
     </Router>
   );
