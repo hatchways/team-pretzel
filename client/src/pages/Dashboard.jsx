@@ -1,10 +1,11 @@
 import React, { useEffect } from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import AppBarDrawer from "./container/AppBarDrawer";
-import { setAuthToken } from "../utils/helpers";
 import ContentContainer from "./container/ContentContainer";
 import DashboardDefault from "./container/DashboardDefault";
 import Friends from "./container/Friends";
+import { setAuthToken } from "../utils/helpers";
+import jwt_decode from "jwt-decode";
 
 const Dashboard = ({ history, match }) => {
   const handleLogOut = () => {
@@ -13,8 +14,19 @@ const Dashboard = ({ history, match }) => {
   };
 
   useEffect(() => {
+    // check if jwt in localstorage
     if (localStorage.jwtToken) {
-      setAuthToken(localStorage.jwtToken);
+      const decoded = jwt_decode(localStorage.jwtToken);
+      // current time
+      const currentTime = Date.now() / 1000;
+      // compare current time and token exp
+      // if exp time > current time - sign in
+      if (currentTime < decoded.exp) {
+        setAuthToken(localStorage.jwtToken);
+      } else {
+        // remove token from lstorage
+        handleLogOut();
+      }
     }
   }, []);
 
