@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
-import axios from "axios";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   Button,
@@ -14,6 +13,9 @@ import {
   MenuItem,
   MenuList
 } from "@material-ui/core";
+
+import useGet from "../../utils/hooks/useGet";
+
 import FriendList from "./FriendList";
 import ProfileDialog from "../presentational/ProfileDialog";
 import PollDialog from "../presentational/PollDialog";
@@ -44,6 +46,8 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const AppBarDrawer = ({ handleLogOut }) => {
+  const user = useGet("/api/v1/users/profile", "user");
+
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const anchorRef = useRef(null);
@@ -74,16 +78,6 @@ const AppBarDrawer = ({ handleLogOut }) => {
     setOpen(!open);
   };
 
-  const getUser = async () => {
-    const response = await axios.get("/api/v1/users/profile");
-    setUser(response.data.data.user);
-  };
-
-  const [user, setUser] = useState({});
-  useEffect(() => {
-    getUser();
-  }, []);
-
   return (
     <div className={classes.root}>
       <AppBar position="fixed" className={classes.appBar}>
@@ -106,12 +100,14 @@ const AppBarDrawer = ({ handleLogOut }) => {
             aria-haspopup="true"
             onClick={handleToggle}
           >
-            <Avatar
-              alt={user.name}
-              src={user.avatar}
-              className={classes.avatar}
-            />
-            {user.name}
+            {user ? (
+              <Avatar
+                alt={user.name}
+                src={user.avatar}
+                className={classes.avatar}
+              />
+            ) : null}
+            {user ? user.name : null}
           </Button>
           <Popper
             open={open}

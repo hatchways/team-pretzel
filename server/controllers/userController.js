@@ -19,7 +19,7 @@ export const getAllUsers = catchAsync(async (req, res, next) => {
   const users = await User.find();
   res.status(200).json({
     status: "success",
-    data: { users }
+    users
   });
 });
 
@@ -31,7 +31,7 @@ export const getUser = catchAsync(async (req, res, next) => {
 
   res.status(200).json({
     status: "success",
-    data: { user }
+    user
   });
 });
 
@@ -54,7 +54,7 @@ export const updateMe = catchAsync(async (req, res, next) => {
 
   res.status(200).json({
     status: "success",
-    data: { user: updatedUser }
+    user: { ...updatedUser }
   });
 });
 
@@ -71,6 +71,6 @@ export const getTaggedPolls = catchAsync(async (req, res, next) => {
 
   res.status(200).json({
     status: "success",
-    data: { taggedPolls }
+    taggedPolls
   });
 });

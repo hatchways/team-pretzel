@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { makeStyles } from "@material-ui/core/styles";
 import { List, Typography } from "@material-ui/core";
+
+import useGet from "../../utils/hooks/useGet";
 import Friend from "../presentational/Friend";
 
 const useStyles = makeStyles(theme => ({
@@ -9,27 +11,21 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const FriendList = () => {
+  const friends = useGet("/api/v1/users", "users");
+
   const classes = useStyles();
 
-  const [friends, setFriends] = useState([]);
-  useEffect(() => {
-    getFriends();
-  }, []);
-
-  const getFriends = async () => {
-    const response = await axios.get("/api/v1/users");
-    setFriends(response.data.data.users);
-  };
-
   return (
-    <>
+    <React.Fragment>
       <Typography variant="h4" className={classes.title}>
         Friends
       </Typography>
-      <List>
-        <Friend friends={friends} />
-      </List>
-    </>
+      {friends ? (
+        <List>
+          <Friend friends={friends} />{" "}
+        </List>
+      ) : null}
+    </React.Fragment>
   );
 };
 
