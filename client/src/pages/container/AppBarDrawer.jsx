@@ -15,7 +15,6 @@ import {
 
 import useGet from "../../utils/hooks/useGet";
 
-import FriendList from "./FriendList";
 import ProfileDialog from "../presentational/ProfileDialog";
 import PollDialog from "../presentational/PollDialog";
 

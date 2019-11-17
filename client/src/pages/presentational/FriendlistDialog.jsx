@@ -1,6 +1,5 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useState } from "react";
 import { Formik } from "formik";
-import axios from "axios";
 import {
   Button,
   Dialog,
@@ -15,6 +14,8 @@ import {
   makeStyles
 } from "@material-ui/core";
 
+import useGet from "../../utils/hooks/useGet";
+
 const initialValues = {
   title: "",
   friendsToAdd: []
@@ -27,7 +28,9 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const FriendlistDialog = props => {
+const FriendListDialog = props => {
+  const friends = useGet("/api/v1/users", "users");
+
   const classes = useStyles();
 
   const [open, setOpen] = useState(false);
@@ -35,18 +38,6 @@ const FriendlistDialog = props => {
   const handleClick = () => {
     setOpen(!open);
   };
-
-  const [friends, setFriends] = useState([]);
-
-  const getAllUsers = async () => {
-    const result = await axios.get("/api/v1/users");
-    const users = result.data.users;
-    setFriends(users);
-  };
-
-  useEffect(() => {
-    getAllUsers();
-  }, []);
 
   return (
     <Fragment>
@@ -111,4 +102,4 @@ const FriendlistDialog = props => {
   );
 };
 
-export default FriendlistDialog;
+export default FriendListDialog;

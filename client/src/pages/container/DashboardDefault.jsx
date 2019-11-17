@@ -1,7 +1,7 @@
 import React from "react";
 import { Container, Typography } from "@material-ui/core";
 import FriendListCard from "../presentational/FriendListCard";
-import FriendlistDialog from "../presentational/FriendlistDialog";
+import FriendListDialog from "../presentational/FriendListDialog";
 
 const DashboardDefault = props => {
   return (
@@ -15,7 +15,7 @@ const DashboardDefault = props => {
           }}
         >
           <Typography>Friend Lists</Typography>
-          <FriendlistDialog />
+          <FriendListDialog />
         </div>
         <FriendListCard />
       </Container>
