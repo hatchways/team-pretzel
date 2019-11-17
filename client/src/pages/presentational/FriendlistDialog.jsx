@@ -70,6 +70,7 @@ const FriendlistDialog = props => {
         <Formik
           initialValues={initialValues}
           onSubmit={(values, actions) => {
+            // values are the data to be sent to backend POST request
             console.log(values);
           }}
         >
