@@ -6,10 +6,10 @@ const pollSchema = new mongoose.Schema({
     required: [true, "Question cannot be empty"]
   },
   images: [
-    new mongoose.Schema({
-      url: String,
-      votes: { type: Number, default: 0 }
-    })
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Image"
+    }
   ],
   taggedFriendLists: [
     {
