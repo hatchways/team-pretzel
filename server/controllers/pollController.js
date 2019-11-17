@@ -1,18 +1,17 @@
 import multerUpload from "../utils/multerUpload";
 import catchAsync from "../utils/catchAsync";
 import Poll from "../models/Poll";
-import Vote from "../models/Vote";
+import Image from "../models/Image";
 
 export const uploadPollImages = multerUpload.array("images", 2);
 
 export const savePollImages = catchAsync(async (req, res, next) => {
   if (!req.files) return;
   let images = [];
-  req.files.map(file =>
-    images.push({
-      url: file.location
-    })
-  );
+  for (let file of req.files) {
+    const newImage = await Image.create({ url: file.location });
+    images.push(newImage);
+  }
   req.body.images = images;
   next();
 });
@@ -26,7 +25,7 @@ export const createPoll = catchAsync(async (req, res, next) => {
 });
 
 export const getPoll = catchAsync(async (req, res, next) => {
-  const poll = await Poll.findById(req.params.id);
+  const poll = await Poll.findById(req.params.id).populate("images");
   res.status(200).json({
     status: "success",
     data: { poll }
