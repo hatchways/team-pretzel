@@ -31,7 +31,7 @@ const SignupForms = ({ history }) => {
         };
         const res = await axios.post("/api/v1/users/signup", newUser);
 
-        const { data, token } = res.data;
+        const { token } = res.data;
         // set token to localStorage
         JWTtoLocalStorage(token);
         setSubmitting(false);

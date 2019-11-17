@@ -1,86 +1,68 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { Formik } from "formik";
+import axios from "axios";
 import {
   Button,
   Dialog,
-  DialogActions,
   DialogTitle,
   DialogContent,
   TextField,
   List,
   ListItem,
   ListItemText,
-  ListItemIcon,
   Checkbox,
-  ListItemSecondaryAction
+  ListItemSecondaryAction,
+  makeStyles
 } from "@material-ui/core";
-
-const dummy = [
-  {
-    id: 1,
-    name: "john"
-  },
-  {
-    id: 2,
-    name: "jane"
-  },
-  {
-    id: 3,
-    name: "jim"
-  },
-  {
-    id: 4,
-    name: "john"
-  },
-  {
-    id: 5,
-    name: "jane"
-  },
-  {
-    id: 6,
-    name: "jim"
-  },
-  {
-    id: 7,
-    name: "john"
-  },
-  {
-    id: 8,
-    name: "jane"
-  },
-  {
-    id: 9,
-    name: "jim"
-  },
-  {
-    id: 10,
-    name: "john"
-  },
-  {
-    id: 11,
-    name: "jane"
-  },
-  {
-    id: 12,
-    name: "jim"
-  }
-];
 
 const initialValues = {
   title: "",
   friendsToAdd: []
 };
 
-const FriendlistDialog = ({ open, handleDialog }) => {
+const useStyles = makeStyles(theme => ({
+  button: {
+    margin: theme.spacing(1),
+    borderRadius: 100
+  }
+}));
+
+const FriendlistDialog = props => {
+  const classes = useStyles();
+
+  const [open, setOpen] = useState(false);
+
+  const handleClick = () => {
+    setOpen(!open);
+  };
+
+  const [friends, setFriends] = useState([]);
+
+  const getAllUsers = async () => {
+    const result = await axios.get("/api/v1/users");
+    const users = result.data.users;
+    setFriends(users);
+  };
+
+  useEffect(() => {
+    getAllUsers();
+  }, []);
+
   return (
     <Fragment>
+      <Button
+        variant="outlined"
+        size="small"
+        className={classes.button}
+        onClick={handleClick}
+      >
+        Create List
+      </Button>
       <Dialog
         aria-labelledby="friendlist-dialog"
         maxWidth="md"
         open={open}
-        onClose={() => {
-          handleDialog();
-        }}
+        onClose={handleClick}
       >
         <DialogTitle id="friendlist-dialog-title">
           Create a friend list
@@ -88,6 +70,7 @@ const FriendlistDialog = ({ open, handleDialog }) => {
         <Formik
           initialValues={initialValues}
           onSubmit={(values, actions) => {
+            // values are the data to be sent to backend POST request
             console.log(values);
           }}
         >
@@ -102,15 +85,15 @@ const FriendlistDialog = ({ open, handleDialog }) => {
                     placeholder="Enter name of list"
                   />
                   <List>
-                    {dummy.map(person => {
+                    {friends.map(friend => {
                       return (
-                        <ListItem key={person.id}>
-                          <ListItemText>{person.name}</ListItemText>
+                        <ListItem key={friend.id}>
+                          <ListItemText>{friend.name}</ListItemText>
                           <ListItemSecondaryAction>
                             <Checkbox
                               name="friendsToAdd"
                               onChange={handleChange}
-                              value={person.id}
+                              value={friend.id}
                             />
                           </ListItemSecondaryAction>
                         </ListItem>

@@ -95,7 +95,7 @@ const ProfileDialog = ({ user }) => {
                     type="file"
                   />
 
-                  <img id="output" />
+                  <img id="output" alt="upload preview" />
                   <label htmlFor="file-upload-button">
                     <Button component="span">Upload avatar</Button>
                   </label>

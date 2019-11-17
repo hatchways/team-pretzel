@@ -7,6 +7,7 @@ import useGet from "../../utils/hooks/useGet";
 import Friend from "../presentational/Friend";
 
 const useStyles = makeStyles(theme => ({
+  // root: { position: "absolute", top: "5rem" },
   title: { padding: "10%" }
 }));
 

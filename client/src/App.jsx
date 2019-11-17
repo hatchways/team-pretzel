@@ -1,28 +1,29 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
-
 import { MuiThemeProvider, CssBaseline } from "@material-ui/core";
 import { BrowserRouter, Route, Redirect } from "react-router-dom";
 import { theme } from "./themes/theme";
 import AuthPage from "./pages/AuthPage";
 import Dashboard from "./pages/Dashboard";
-
-const setAuthToken = token => {
-  if (token) {
-    // apply to every req
-    axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-  }
-};
+import { setAuthToken } from "./utils/helpers";
+import jwt_decode from "jwt-decode";
 
 const App = () => {
   const [loggedIn, setLoggedIn] = useState(false);
 
   useEffect(() => {
-    if (localStorage) {
-      const token = localStorage.getItem("jwtToken");
-      if (token) {
-        setAuthToken(token);
+    // check if jwt in localstorage
+    if (localStorage.jwtToken) {
+      const decoded = jwt_decode(localStorage.jwtToken);
+      // current time
+      const currentTime = Date.now() / 1000;
+      // compare current time and token exp
+      // if exp time > current time - sign in
+      if (currentTime < decoded.exp) {
+        setAuthToken(localStorage.jwtToken);
         setLoggedIn(true);
+      } else {
+        // remove token from lstorage
+        localStorage.removeItem("jwtToken");
       }
     }
   }, []);

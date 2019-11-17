@@ -1,9 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
+import { Link, useRouteMatch } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   Button,
-  Drawer,
   AppBar,
   Toolbar,
   Avatar,
@@ -41,7 +40,15 @@ const useStyles = makeStyles(theme => ({
   drawerPaper: {
     width: drawerWidth
   },
-  toolbar: theme.mixins.toolbar,
+  content: {
+    flexGrow: 1,
+    padding: theme.spacing(3)
+  },
+  toolbar: {
+    marginLeft: "auto",
+    marginRight: "5rem",
+    ...theme.mixins.toolbar
+  },
   avatar: { margin: 10 }
 }));
 
@@ -78,11 +85,13 @@ const AppBarDrawer = ({ handleLogOut }) => {
     setOpen(!open);
   };
 
+  let match = useRouteMatch("/dashboard");
+
   return (
     <div className={classes.root}>
-      <AppBar position="fixed" className={classes.appBar}>
-        <Toolbar className="classes.toolbar">
-          <Link to="#" className={classes.menuButton}>
+      <AppBar position="static" className={classes.appBar}>
+        <Toolbar className={classes.toolbar}>
+          <Link to={`${match.path}/friends`} className={classes.menuButton}>
             <Button>Friends</Button>
           </Link>
           <Link to="#" className={classes.menuButton}>
@@ -149,16 +158,16 @@ const AppBarDrawer = ({ handleLogOut }) => {
           </Popper>
         </Toolbar>
       </AppBar>
-      <Drawer
-        className={classes.drawer}
-        variant="permanent"
-        classes={{
-          paper: classes.drawerPaper
-        }}
-      >
-        <div className={classes.toolbar} />
-        <FriendList />
-      </Drawer>
+      {/*</div><Drawer
+      //   className={classes.drawer}
+      //   variant="permanent"
+      //   classes={{
+      //     paper: classes.drawerPaper
+      //   }}
+      // >
+      //   <div className={classes.toolbar} />
+      //   <FriendList />
+      </Drawer>*/}
     </div>
   );
 };
