@@ -4,7 +4,6 @@ import axios from "axios";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   Button,
-  Drawer,
   AppBar,
   Toolbar,
   Avatar,
@@ -14,7 +13,6 @@ import {
   MenuItem,
   MenuList
 } from "@material-ui/core";
-import FriendList from "./FriendList";
 import ProfileDialog from "../presentational/ProfileDialog";
 import PollDialog from "../presentational/PollDialog";
 
@@ -43,8 +41,11 @@ const useStyles = makeStyles(theme => ({
     flexGrow: 1,
     padding: theme.spacing(3)
   },
-  toolbar: theme.mixins.toolbar,
-  toolbar: { marginLeft: "auto", marginRight: "5rem" },
+  toolbar: {
+    marginLeft: "auto",
+    marginRight: "5rem",
+    ...theme.mixins.toolbar
+  },
   avatar: { margin: 10 }
 }));
 
