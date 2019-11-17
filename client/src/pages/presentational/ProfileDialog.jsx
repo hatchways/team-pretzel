@@ -51,13 +51,13 @@ const ProfileDialog = ({ user }) => {
             This is where you can update your name and avatar.
           </DialogContentText>
           <Formik
+            enableReinitialize={true}
             initialValues={{ name: "", avatar: null }}
             validateOnChange={false}
             onSubmit={async ({ name, avatar }) => {
               let formData = new FormData();
-              formData.append("name", name);
-              formData.append("avatar", avatar);
-              user.name = name;
+              if (name) formData.append("name", name);
+              if (avatar) formData.append("avatar", avatar);
               await axios.patch("/api/v1/users/profile/update", formData);
             }}
           >
