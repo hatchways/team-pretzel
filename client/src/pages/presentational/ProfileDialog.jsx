@@ -22,7 +22,7 @@ const useStyles = makeStyles({
   }
 });
 
-const ProfileDialog = () => {
+const ProfileDialog = ({ user }) => {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const handleClickOpen = () => {
@@ -39,9 +39,7 @@ const ProfileDialog = () => {
 
   return (
     <React.Fragment>
-      <Button color="primary" onClick={handleClickOpen}>
-        Update profile
-      </Button>
+      <p onClick={handleClickOpen}>Update profile</p>
       <Dialog
         open={open}
         onClose={handleClose}
@@ -59,6 +57,7 @@ const ProfileDialog = () => {
               let formData = new FormData();
               formData.append("name", name);
               formData.append("avatar", avatar);
+              user.name = name;
               await axios.patch("/api/v1/users/profile/update", formData);
             }}
           >
@@ -96,7 +95,7 @@ const ProfileDialog = () => {
                     type="file"
                   />
 
-                  <img id="output" />
+                  <img id="output" alt="upload preview" />
                   <label htmlFor="file-upload-button">
                     <Button component="span">Upload avatar</Button>
                   </label>
