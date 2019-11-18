@@ -1,12 +1,14 @@
 import React from "react";
-import { Container, Typography } from "@material-ui/core";
+import { Container, Typography, Divider } from "@material-ui/core";
 import FriendListCard from "../presentational/FriendListCard";
 import FriendListDialog from "../presentational/FriendListDialog";
+import PollDialog from "../presentational/PollDialog";
+import PollCard from "../presentational/PollCard";
 
-const DashboardDefault = props => {
+const DashboardDefault = ({ user }) => {
   return (
     <>
-      <Container style={{ marginTop: "1rem" }}>
+      <Container style={{ marginTop: "1rem", marginBottom: "1rem" }}>
         <div
           style={{
             display: "flex",
@@ -19,7 +21,20 @@ const DashboardDefault = props => {
         </div>
         <FriendListCard />
       </Container>
-      <div>Polls</div>
+      <Divider />
+      <Container style={{ marginTop: "1rem" }}>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between"
+          }}
+        >
+          <Typography>Polls</Typography>
+          <PollDialog />
+        </div>
+        <PollCard user={user} />
+      </Container>
     </>
   );
 };

@@ -6,12 +6,15 @@ import DashboardDefault from "./container/DashboardDefault";
 import Friends from "./container/Friends";
 import { setAuthToken } from "../utils/helpers";
 import jwt_decode from "jwt-decode";
+import useGet from "../utils/hooks/useGet";
 
 const Dashboard = ({ history, match }) => {
   const handleLogOut = () => {
     localStorage.removeItem("jwtToken");
     history.push("/signin");
   };
+
+  const user = useGet("/api/v1/users/profile", "user");
 
   useEffect(() => {
     // check if jwt in localstorage
@@ -32,9 +35,14 @@ const Dashboard = ({ history, match }) => {
 
   return (
     <Router>
-      <AppBarDrawer handleLogOut={handleLogOut} />
+      <AppBarDrawer user={user} handleLogOut={handleLogOut} />
       <ContentContainer>
-        <Route exact path={match.path} component={DashboardDefault} />
+        <Route
+          exact
+          path={match.path}
+          //component={DashboardDefault}
+          render={props => <DashboardDefault {...props} user={user} />}
+        />
         <Route path={`${match.path}/friends`} component={Friends} />
       </ContentContainer>
     </Router>
