@@ -1,7 +1,6 @@
 import Friends from "../models/Friends";
 import User from "../models/User";
 import catchAsync from "../utils/catchAsync";
-import { SSL_OP_ALLOW_UNSAFE_LEGACY_RENEGOTIATION } from "constants";
 
 // Find all friends
 export const getAllFriends = catchAsync(async (req, res, next) => {
