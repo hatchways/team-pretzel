@@ -1,7 +1,7 @@
 import React from "react";
 import { Container, Typography } from "@material-ui/core";
 import FriendListCard from "../presentational/FriendListCard";
-import FriendListDialog from "../presentational/FriendlistDialog";
+import FriendListDialog from "../presentational/FriendListDialog";
 
 const DashboardDefault = props => {
   return (
