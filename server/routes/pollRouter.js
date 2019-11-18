@@ -6,6 +6,7 @@ import * as authController from "../controllers/authController";
 import * as pollController from "../controllers/pollController";
 
 router.get("/", pollController.getAllPolls);
+router.get("/:id", pollController.getPoll);
 router.post(
   "/new-poll",
   authController.checkAuth,

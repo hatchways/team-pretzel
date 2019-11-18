@@ -1,6 +1,7 @@
 import multer from "multer";
 import aws from "aws-sdk";
 import multerS3 from "multer-s3";
+import uuidv4 from "uuid/v4";
 
 aws.config.update({
   secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
@@ -16,7 +17,7 @@ const multerStorage = multerS3({
   acl: "public-read",
   key: (req, file, cb) => {
     const ext = file.mimetype.split("/")[1];
-    cb(null, `user-${req.user.id}-${Date.now()}.${ext}`);
+    cb(null, `user-${req.user.id}-${uuidv4()}.${ext}`);
   }
 });
 
