@@ -10,7 +10,11 @@ import pingRouter from "./routes/ping";
 import userRouter from "./routes/userRouter";
 import pollRouter from "./routes/pollRouter";
 import friendListRouter from "./routes/friendListRouter";
+<<<<<<< HEAD
 import friendsRouter from "./routes/friendsRouter";
+=======
+import imageRouter from "./routes/imageRouter";
+>>>>>>> 6b0e457f155239e881dc9d68b91d84a65f2f6c07
 
 var app = express();
 
@@ -26,6 +30,7 @@ app.use("/api/v1/users", userRouter);
 app.use("/api/v1/polls", pollRouter);
 app.use("/api/v1/friend-lists", friendListRouter);
 //app.use("/api/v1/friends", friendsRouter);
+app.use("/api/v1/images", imageRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
