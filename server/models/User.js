@@ -46,6 +46,12 @@ userSchema.virtual("friendLists", {
   localField: "_id"
 });
 
+userSchema.virtual("friends", {
+  ref: "Friends",
+  foreignField: "user",
+  localField: "_id"
+});
+
 // hash password before saving to database
 userSchema.pre("save", async function(next) {
   if (!this.isModified("password")) return next();
