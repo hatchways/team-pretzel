@@ -6,7 +6,12 @@ const useGet = (api, datum) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await axios.get(api);
+      const token = localStorage.getItem("jwtToken");
+      const res = await axios.get(api, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
       const fetchedData = await res.data[datum];
       setData(fetchedData);
     };
