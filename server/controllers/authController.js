@@ -13,18 +13,19 @@ export const signup = catchAsync(async (req, res, next) => {
   if (password !== passwordConfirm)
     return next(new AppError("Passwords do not match.", 400));
 
-  const newUser = await User.create({
+  const user = await User.create({
     name: req.body.name,
     email: req.body.email,
-    password: req.body.password
+    password: req.body.password,
+    avatar: process.env.DEFAULT_USER_AVATAR
   });
 
-  const token = jwtSignToken(newUser._id);
+  const token = jwtSignToken(user._id);
 
   res.status(201).json({
     status: "success",
     token,
-    data: { user: newUser }
+    user
   });
 });
 
