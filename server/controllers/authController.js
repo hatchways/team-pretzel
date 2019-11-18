@@ -9,6 +9,8 @@ export const signup = catchAsync(async (req, res, next) => {
   // Check if passwords match
 
   const { password, passwordConfirm } = req.body;
+  const defaultAvatar =
+    "https://s3.ca-central-1.amazonaws.com/pollab.team-pretzel/defaultAvatar.jpg";
 
   if (password !== passwordConfirm)
     return next(new AppError("Passwords do not match.", 400));
@@ -17,7 +19,7 @@ export const signup = catchAsync(async (req, res, next) => {
     name: req.body.name,
     email: req.body.email,
     password: req.body.password,
-    avatar: process.env.DEFAULT_USER_AVATAR
+    avatar: defaultAvatar
   });
 
   const token = jwtSignToken(user._id);
