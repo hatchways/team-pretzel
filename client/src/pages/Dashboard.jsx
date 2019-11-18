@@ -30,6 +30,8 @@ const Dashboard = ({ history, match }) => {
         // remove token from lstorage
         handleLogOut();
       }
+    } else {
+      handleLogOut();
     }
   }, []);
 

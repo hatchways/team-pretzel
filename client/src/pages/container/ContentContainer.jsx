@@ -5,7 +5,7 @@ import { Container, makeStyles } from "@material-ui/core";
 const useStyles = makeStyles({
   flexContainer: {
     display: "flex",
-    height: "100vh"
+    minHeight: "100vh"
   },
   friendsBar: { width: "25%", borderRight: "0.5px solid lightgrey" }
 });
@@ -19,7 +19,7 @@ const ContentContainer = ({ children }) => {
           <FriendList />
         </Container>
       </div>
-      <div style={{ width: "100%" }}>{children}</div>
+      <div style={{ width: "75%" }}>{children}</div>
     </div>
   );
 };
