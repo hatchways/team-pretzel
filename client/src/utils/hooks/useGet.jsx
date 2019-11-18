@@ -8,7 +8,7 @@ const useGet = (api, datum) => {
     const fetchData = async () => {
       const res = await axios.get(api);
       const fetchedData = await res.data[datum];
-      await setData(fetchedData);
+      setData(fetchedData);
     };
     fetchData();
   }, [api, datum]);
