@@ -26,7 +26,7 @@ app.use("/ping", pingRouter);
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/polls", pollRouter);
 app.use("/api/v1/friend-lists", friendListRouter);
-//app.use("/api/v1/friends", friendsRouter);
+app.use("/api/v1/friends", friendsRouter);
 app.use("/api/v1/images", imageRouter);
 
 // catch 404 and forward to error handler
