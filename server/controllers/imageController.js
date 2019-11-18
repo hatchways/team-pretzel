@@ -6,7 +6,7 @@ export const castVote = catchAsync(async (req, res, next) => {
   image.vote(req.body.userId);
   await image.save();
 
-  res.status(200).json({
+  res.status(201).json({
     status: "success",
     image
   });
