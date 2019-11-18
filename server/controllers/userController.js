@@ -47,14 +47,14 @@ export const updateMe = catchAsync(async (req, res, next) => {
   const filteredBody = filterObj(req.body, "name");
   if (req.file) filteredBody.avatar = req.file.location;
 
-  const updatedUser = await User.findByIdAndUpdate(req.user.id, filteredBody, {
+  const user = await User.findByIdAndUpdate(req.user.id, filteredBody, {
     new: true,
     runValidators: true
   });
 
   res.status(200).json({
     status: "success",
-    user: { ...updatedUser }
+    user
   });
 });
 
