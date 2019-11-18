@@ -119,7 +119,10 @@ const PollDialog = () => {
                     multiple
                     type="file"
                   />
-                  <img id="output1" alt="upload #1 " />
+                  {values.images[0] ? (
+                    <img id="output1" alt="upload #1 " />
+                  ) : null}
+
                   <input
                     onChange={event => {
                       setFieldValue("images", [
@@ -135,7 +138,9 @@ const PollDialog = () => {
                     multiple
                     type="file"
                   />
-                  <img id="output2" alt="upload #2" />
+                  {values.images[1] ? (
+                    <img id="output2" alt="upload #2 " />
+                  ) : null}
                   <label htmlFor="upload-button-1">
                     <Button component="span">Upload image 1</Button>
                   </label>
