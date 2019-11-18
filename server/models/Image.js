@@ -15,10 +15,9 @@ const imageSchema = new mongoose.Schema({
 });
 
 imageSchema.methods.vote = function(userId) {
-  let voters = this.castBy;
-  voters = voters.includes(userId)
-    ? voters.filter(id => id !== userId)
-    : voters.push(userId);
+  this.castBy.includes(userId)
+    ? (this.castBy = this.castBy.filter(id => id != userId))
+    : this.castBy.push(userId);
 };
 
 const Image = mongoose.model("Image", imageSchema);
