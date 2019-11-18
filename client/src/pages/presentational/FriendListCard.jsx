@@ -11,20 +11,10 @@ import Friend from "./Friend";
 const useStyles = makeStyles({
   card: {
     minWidth: 275,
-    maxWidth: 300
+    maxWidth: 275,
+    marginRight: "1.5rem"
   },
-  cardHeader: { borderBottom: "0.5px solid lightgrey" },
-  bullet: {
-    display: "inline-block",
-    margin: "0 2px",
-    transform: "scale(0.8)"
-  },
-  title: {
-    fontSize: 14
-  },
-  pos: {
-    marginBottom: 12
-  }
+  cardHeader: { borderBottom: "0.5px solid lightgrey" }
 });
 
 const friends = [
