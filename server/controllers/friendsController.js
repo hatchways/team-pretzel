@@ -65,20 +65,23 @@ export const removeFriend = catchAsync(async (req, res, next) => {
 // Get suggested list of friends
 export const suggestedFriends = catchAsync(async (req, res, next) => {
   const currentFriends = await Friends.findOne({ user: req.params.id });
-  currentFriends.friends.push(req.params.id);
-
   const users = await User.find({});
+  let potentialFriends = [];
 
-  const potentialFriends = [];
-
-  users.filter(user => {
-    if (!currentFriends.friends.includes(user._id)) {
-      potentialFriends.push(user);
-    }
-  });
-
-  res.status(200).json({
-    status: "success",
-    potentialFriends
-  });
+  if (!currentFriends) {
+    potentialFriends = users.filter(user => {
+      return user.id !== req.params.id;
+    });
+    res.status(200).json({ status: "success", potentialFriends });
+  } else {
+    users.filter(user => {
+      if (!currentFriends.friends.includes(user._id)) {
+        potentialFriends.push(user);
+      }
+    });
+    res.status(200).json({
+      status: "success",
+      potentialFriends
+    });
+  }
 });
