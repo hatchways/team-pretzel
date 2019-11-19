@@ -28,7 +28,6 @@ const DashboardDefault = props => {
     "/api/v1/users/profile/getTaggedPolls",
     "taggedPolls"
   );
-  console.log(taggedPolls);
 
   return (
     <>
