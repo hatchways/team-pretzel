@@ -28,6 +28,7 @@ export const getUser = catchAsync(async (req, res, next) => {
     .populate("polls")
     .populate("friendLists")
     .populate("friends");
+
   if (!user) return next(new AppError("No user found with that ID.", 404));
 
   res.status(200).json({

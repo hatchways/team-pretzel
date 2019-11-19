@@ -45,7 +45,6 @@ const Dashboard = ({ history, match }) => {
         <Route
           exact
           path={match.path}
-          //component={DashboardDefault}
           render={props => <DashboardDefault {...props} user={user} />}
         />
         <Route path={`${match.path}/friends`} component={Friends} />

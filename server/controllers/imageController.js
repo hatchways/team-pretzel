@@ -11,3 +11,12 @@ export const castVote = catchAsync(async (req, res, next) => {
     image
   });
 });
+
+export const getImage = catchAsync(async (req, res) => {
+  const image = await Image.findById(req.params.id);
+
+  res.status(200).json({
+    status: "success",
+    image
+  });
+});

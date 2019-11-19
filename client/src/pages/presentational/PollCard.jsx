@@ -1,6 +1,6 @@
 import React from "react";
 import { makeStyles, Card, CardContent, CardHeader } from "@material-ui/core";
-//import pollImgPlaceholder from "../../assets/userAvatar.png";
+import useGet from "../../utils/hooks/useGet";
 
 const useStyles = makeStyles({
   card: {
@@ -19,18 +19,19 @@ const useStyles = makeStyles({
   images: { width: "75px", height: "75px" }
 });
 
-const PollCard = ({ user }) => {
-  if (!user) {
-    console.log("none");
-  } else {
-    console.log(user);
-  }
+const PollCard = ({ question, imageIds }) => {
   const classes = useStyles();
+
+  const images = [];
+
+  const res = useGet(`/api/v1/images/${imageIds[0]}`, "image");
+
+  // console.log(res);
   return (
     <Card className={classes.card}>
       <CardHeader
         className={classes.cardHeader}
-        title="Which one is better?"
+        title={question}
         subheader="20 answers"
       />
       <CardContent className={classes.cardContent}>

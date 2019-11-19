@@ -7,7 +7,7 @@ import PollCard from "../presentational/PollCard";
 
 const useStyles = makeStyles({
   container: {
-    margin: "1rem 0"
+    margin: "1rem "
   },
   header: {
     display: "flex",
@@ -18,10 +18,14 @@ const useStyles = makeStyles({
     display: "flex",
     overflowX: "scroll",
     padding: "0.5rem 0.5rem"
+  },
+  divider: {
+    margin: "1rem"
   }
 });
 
-const DashboardDefault = props => {
+const DashboardDefault = ({ user }) => {
+  console.log(user);
   const classes = useStyles();
   return (
     <>
@@ -37,13 +41,23 @@ const DashboardDefault = props => {
           <FriendListCard />
           <FriendListCard />
         </div>
-
+        <Divider className={classes.divider} />
         <div className={classes.header}>
           <Typography>Polls</Typography>
           <PollDialog />
         </div>
         <div className={classes.cardContainer}>
-          <PollCard user={props.user} />
+          {!user.polls ? (
+            <h1>none</h1>
+          ) : (
+            user.polls.map(poll => (
+              <PollCard
+                key={poll._id}
+                question={poll.question}
+                imageIds={poll.images}
+              />
+            ))
+          )}
         </div>
       </Container>
       {/*<Divider />
