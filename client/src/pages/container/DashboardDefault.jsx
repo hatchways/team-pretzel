@@ -24,8 +24,12 @@ const useStyles = makeStyles({
 
 const DashboardDefault = props => {
   const classes = useStyles();
-  const polls = useGet("/api/v1/polls", "polls");
-  console.log("polls", polls);
+  const taggedPolls = useGet(
+    "/api/v1/users/profile/getTaggedPolls",
+    "taggedPolls"
+  );
+  console.log(taggedPolls);
+
   return (
     <>
       <Container className={classes.container}>
@@ -46,10 +50,10 @@ const DashboardDefault = props => {
           <PollDialog />
         </div>
         <div className={classes.cardContainer}>
-          {polls === null ? (
+          {taggedPolls === null ? (
             <div>...Loading...</div>
           ) : (
-            polls.map(poll => {
+            taggedPolls.map(poll => {
               return <PollCard key={poll._id} poll={poll} />;
             })
           )}
