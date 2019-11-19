@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles, Card, CardContent, CardHeader } from "@material-ui/core";
 import useGet from "../../utils/hooks/useGet";
+import axios from "axios";
 
 const useStyles = makeStyles({
   card: {
@@ -22,12 +23,16 @@ const useStyles = makeStyles({
 const PollCard = ({ question, imageIds }) => {
   const classes = useStyles();
 
-  const images = [];
+  // const [images, setImages] = useState([]);
 
-  const res = useGet(`/api/v1/images/${imageIds[0]}`, "image");
+  // useEffect(() => {
+  //   imageIds.forEach(async imageId => {
+  //     const image = await axios.get(`/api/v1/images/${imageId}`);
+  //     setImages(image);
+  //   }, []);
+  // });
 
-  console.log(res);
-  return !res ? (
+  return !images ? (
     <></>
   ) : (
     <Card className={classes.card}>
@@ -38,7 +43,11 @@ const PollCard = ({ question, imageIds }) => {
       />
       <CardContent className={classes.cardContent}>
         <div style={{ marginRight: "0.5rem" }}>
-          <img className={classes.images} src={res.url} alt="random" />
+          <img
+            className={classes.images}
+            //src={res.url}
+            alt="random"
+          />
         </div>
         <div style={{ marginLeft: "0.5rem" }}>
           <img

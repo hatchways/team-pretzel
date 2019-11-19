@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
+import { CircularProgress } from "@material-ui/core";
 import AppBarDrawer from "./container/AppBarDrawer";
 import ContentContainer from "./container/ContentContainer";
 import DashboardDefault from "./container/DashboardDefault";
@@ -7,7 +8,6 @@ import Friends from "./container/Friends";
 import { setAuthToken } from "../utils/helpers";
 import jwt_decode from "jwt-decode";
 import useGet from "../utils/hooks/useGet";
-import Loader from "../utils/Loader";
 
 const Dashboard = ({ history, match }) => {
   const handleLogOut = () => {
@@ -37,7 +37,7 @@ const Dashboard = ({ history, match }) => {
   }, []);
 
   return !user ? (
-    <Loader />
+    <CircularProgress />
   ) : (
     <Router>
       <AppBarDrawer user={user} handleLogOut={handleLogOut} />
