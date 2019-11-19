@@ -21,14 +21,19 @@ const useStyles = makeStyles({
   }
 });
 
-const SuggestedTabPanel = ({ value, index, data }) => {
+const SuggestedTabPanel = ({
+  value,
+  index,
+  potentialFriends,
+  handleAddFriend
+}) => {
   const classes = useStyles();
   return (
     <List className={classes.root} hidden={value !== index}>
-      {data === null ? (
+      {potentialFriends === null ? (
         <div>...loading...</div>
       ) : (
-        data.map(potential => {
+        potentialFriends.map(potential => {
           return (
             <ListItem className={classes.listItem} key={potential.id}>
               <ListItemAvatar>
@@ -38,7 +43,13 @@ const SuggestedTabPanel = ({ value, index, data }) => {
                 <Typography>{potential.name}</Typography>
               </ListItemText>
               <ListItemSecondaryAction>
-                <Button>Follow</Button>
+                <Button
+                  onClick={() => {
+                    handleAddFriend(potential.id);
+                  }}
+                >
+                  Follow
+                </Button>
               </ListItemSecondaryAction>
             </ListItem>
           );
