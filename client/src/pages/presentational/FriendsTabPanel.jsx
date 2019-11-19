@@ -39,25 +39,29 @@ const useStyles = makeStyles({
   }
 });
 
-const FriendsTabPanel = ({ value, index }) => {
+const FriendsTabPanel = ({ value, index, friends }) => {
   const classes = useStyles();
   return (
     <List className={classes.root} hidden={value !== index}>
-      {dummyFriends.map(friend => {
-        return (
-          <ListItem className={classes.listItem} key={friend.id}>
-            <ListItemAvatar>
-              <Avatar alt={friend.name} src={friend.avatar} />
-            </ListItemAvatar>
-            <ListItemText>
-              <Typography>{friend.name}</Typography>
-            </ListItemText>
-            <ListItemSecondaryAction>
-              <Button>Follow</Button>
-            </ListItemSecondaryAction>
-          </ListItem>
-        );
-      })}
+      {friends === null ? (
+        <div>...loading...</div>
+      ) : (
+        friends.map(friend => {
+          return (
+            <ListItem className={classes.listItem} key={friend.id}>
+              <ListItemAvatar>
+                <Avatar alt={friend.name} src={friend.avatar} />
+              </ListItemAvatar>
+              <ListItemText>
+                <Typography>{friend.name}</Typography>
+              </ListItemText>
+              <ListItemSecondaryAction>
+                <Button>Follow</Button>
+              </ListItemSecondaryAction>
+            </ListItem>
+          );
+        })
+      )}
     </List>
   );
 };
