@@ -1,5 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { makeStyles, Card, CardContent, CardHeader } from "@material-ui/core";
+import {
+  makeStyles,
+  Card,
+  CardContent,
+  CardHeader,
+  CircularProgress
+} from "@material-ui/core";
 import useGet from "../../utils/hooks/useGet";
 import axios from "axios";
 
@@ -32,8 +38,8 @@ const PollCard = ({ question, imageIds }) => {
   //   }, []);
   // });
 
-  return !images ? (
-    <></>
+  return !imageIds ? (
+    <CircularProgress />
   ) : (
     <Card className={classes.card}>
       <CardHeader
