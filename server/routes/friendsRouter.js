@@ -8,18 +8,18 @@ import * as authController from "../controllers/authController";
 // Get all friends
 router.get("/:id", authController.checkAuth, friendsController.getAllFriends);
 
-// Add new friend
-router.put(
-  "/:id/add-friend/:friendId",
-  authController.checkAuth,
-  friendsController.addFriend
-);
+// // Add new friend
+// router.put(
+//   "/:id/add-friend/:friendId",
+//   authController.checkAuth,
+//   friendsController.addFriend
+// );
 
-// Remove a friend
+// Update friends
 router.put(
-  "/:id/remove-friend/:friendId",
+  "/:id/:friendId",
   authController.checkAuth,
-  friendsController.removeFriend
+  friendsController.updateFriend
 );
 
 // Get suggested list of friends

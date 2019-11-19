@@ -1,6 +1,6 @@
 import React from "react";
 import { makeStyles, Card, CardContent, CardHeader } from "@material-ui/core";
-import pollImgPlaceholder from "../../assets/userAvatar.png";
+//import pollImgPlaceholder from "../../assets/userAvatar.png";
 
 const useStyles = makeStyles({
   card: {
@@ -32,14 +32,14 @@ const PollCard = props => {
         <div style={{ marginRight: "0.5rem" }}>
           <img
             className={classes.images}
-            src={pollImgPlaceholder}
+            // src={pollImgPlaceholder}
             alt="random"
           />
         </div>
         <div style={{ marginLeft: "0.5rem" }}>
           <img
             className={classes.images}
-            src={pollImgPlaceholder}
+            // src={pollImgPlaceholder}
             alt="random 2"
           />
         </div>
