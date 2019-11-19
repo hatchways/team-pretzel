@@ -10,9 +10,9 @@ router.get("/:id", authController.checkAuth, friendsController.getAllFriends);
 
 // Update friends
 router.put(
-  "/:id/:friendId",
+  "/:friendsId/:userId",
   authController.checkAuth,
-  friendsController.updateFriend
+  friendsController.updateFriends
 );
 
 // Get suggested list of friends
