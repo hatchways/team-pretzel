@@ -4,6 +4,7 @@ import FriendListCard from "../presentational/FriendListCard";
 import FriendListDialog from "../presentational/FriendListDialog";
 import PollDialog from "../presentational/PollDialog";
 import PollCard from "../presentational/PollCard";
+import useGet from "../../utils/hooks/useGet";
 
 const useStyles = makeStyles({
   container: {
@@ -23,6 +24,8 @@ const useStyles = makeStyles({
 
 const DashboardDefault = props => {
   const classes = useStyles();
+  const polls = useGet("/api/v1/polls", "polls");
+  console.log("polls", polls);
   return (
     <>
       <Container className={classes.container}>
@@ -43,13 +46,13 @@ const DashboardDefault = props => {
           <PollDialog />
         </div>
         <div className={classes.cardContainer}>
-          <PollCard />
-          <PollCard />
-          <PollCard />
-          <PollCard />
-          <PollCard />
-          <PollCard />
-          <PollCard />
+          {polls === null ? (
+            <div>...Loading...</div>
+          ) : (
+            polls.map(poll => {
+              return <PollCard key={poll._id} poll={poll} />;
+            })
+          )}
         </div>
       </Container>
     </>
