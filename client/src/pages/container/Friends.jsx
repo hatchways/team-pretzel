@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles, Paper, Tabs, Tab, Typography } from "@material-ui/core";
 import FriendsTabPanel from "../presentational/FriendsTabPanel";
 import SuggestedTabPanel from "../presentational/SuggestedTabPanel";
 import useGet from "../../utils/hooks/useGet";
+import axios from "axios";
 
 const useStyles = makeStyles({
   root: {
@@ -13,7 +14,7 @@ const useStyles = makeStyles({
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
-    margin: "auto"
+    margin: "1rem auto"
   }
 });
 
@@ -23,6 +24,7 @@ const Friends = ({ location }) => {
 
   // get friends
   const friends = useGet(`/api/v1/friends/${user.id}`, "friends");
+
   // get suggested friends
   const potentialFriends = useGet(
     `/api/v1/friends/suggested-friends/${user.id}`,
@@ -32,6 +34,12 @@ const Friends = ({ location }) => {
   const [value, setValue] = useState(0);
   const handleChangeTab = (event, newValue) => {
     setValue(newValue);
+  };
+
+  const handleAddFriend = async friendId => {
+    const result = await axios.put(
+      `/api/v1/friends/${user.id}/add-friend/${friendId}`
+    );
   };
 
   return (
@@ -49,8 +57,13 @@ const Friends = ({ location }) => {
             <Tab label="Suggested" />
           </Tabs>
         </div>
-        <FriendsTabPanel data={friends} value={value} index={0} />
-        <SuggestedTabPanel data={potentialFriends} value={value} index={1} />
+        <FriendsTabPanel friends={friends} value={value} index={0} />
+        <SuggestedTabPanel
+          handleAddFriend={handleAddFriend}
+          potentialFriends={potentialFriends}
+          value={value}
+          index={1}
+        />
       </Paper>
     </div>
   );
