@@ -7,21 +7,39 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
-  FormControlLabel,
-  Checkbox,
   Button,
-  TextField
+  TextField,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+
+import ImageDropzone from "./ImageDropzone";
 
 const useStyles = makeStyles(theme => ({
   button: {
     margin: theme.spacing(1),
     borderRadius: 100
+  },
+  dialog: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center"
+  },
+  form: {
+    display: "flex",
+    flexDirection: "row"
+  },
+  input: {
+    display: "flex",
+    flexDirection: "column",
+    flexGrow: 1.5
   }
 }));
 
-const PollDialog = () => {
+const PollDialog = ({ user }) => {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const handleClickOpen = () => {
@@ -31,20 +49,17 @@ const PollDialog = () => {
     setOpen(false);
   };
 
-  const [state, setState] = React.useState({
-    checkedA: false,
-    checkedB: false,
-    checkedF: false,
-    checkedG: false
-  });
+  // demo data for now
+  const friendLists = [
+    { id: 0, title: "Music" },
+    { id: 1, title: "Fashion" },
+    { id: 2, title: "Bookworms" }
+  ];
 
-  const handleCheckboxChange = name => event => {
-    setState({ ...state, [name]: event.target.checked });
-  };
-
-  const loadImage = (event, id) => {
+  const loadImage = (files, id) => {
+    console.log(files);
     const output = document.getElementById(`${id}`);
-    output.src = URL.createObjectURL(event.target.files[0]);
+    output.src = URL.createObjectURL(files[0]);
     URL.revokeObjectURL(output);
   };
 
@@ -63,121 +78,114 @@ const PollDialog = () => {
         onClose={handleClose}
         aria-labelledby="form-dialog-title"
       >
-        <DialogTitle id="form-dialog-title">Edit profile</DialogTitle>
+        <DialogTitle id="form-dialog-title">Create a poll</DialogTitle>
         <DialogContent>
-          <DialogContentText>
+          {/*  <DialogContentText>
             This is where you can create a new poll.
-          </DialogContentText>
+          </DialogContentText> */}
+          {user ? (
+            <Formik
+              initialValues={{
+                question: "",
+                images: [],
+                createdBy: user.id,
+                friendList: ""
+              }}
+              validateOnChange={false}
+              onSubmit={async ({ question, images, friendList, createdBy }) => {
+                let formData = new FormData();
+                formData.append("question", question);
+                images.map(image => formData.append("images", image));
+                formData.append("createdBy", createdBy);
+                await axios.post("/api/v1/polls/new-poll", formData);
+              }}
+            >
+              {({
+                errors,
+                handleSubmit,
+                handleChange,
+                values,
+                setFieldValue
+              }) => {
+                return (
+                  <form onSubmit={handleSubmit} className={classes.dialog}>
+                    <div className={classes.form}>
+                      <div className={classes.input}>
+                        <h3>Question</h3>
+                        <TextField
+                          variant="outlined"
+                          value={values.question}
+                          onChange={handleChange}
+                          name="question"
+                          autoFocus
+                          margin="dense"
+                          label="Poll question"
+                          type="text"
+                          fullWidth
+                        />
 
-          <Formik
-            initialValues={{
-              question: "",
-              images: [],
-              createdBy: "5dc977146ba44931d80e537f",
-              friendList: "5dc97a566ba44931d80e5383"
-            }}
-            validateOnChange={false}
-            onSubmit={async ({ question, images, friendList, createdBy }) => {
-              let formData = new FormData();
-              formData.append("question", question);
-              images.map(image => formData.append("images", image));
-              formData.append("createdBy", createdBy);
-              await axios.post("/api/v1/polls/new-poll", formData);
-            }}
-          >
-            {({
-              errors,
-              handleSubmit,
-              handleChange,
-              values,
-              setFieldValue
-            }) => {
-              return (
-                <form onSubmit={handleSubmit}>
-                  <TextField
-                    value={values.question}
-                    onChange={handleChange}
-                    name="question"
-                    autoFocus
-                    margin="dense"
-                    label="Poll question"
-                    type="text"
-                    fullWidth
-                  />
-                  <input
-                    onChange={event => {
-                      setFieldValue("images", [
-                        ...values.images,
-                        event.currentTarget.files[0]
-                      ]);
-                      loadImage(event, "output1");
-                    }}
-                    name="`images`"
-                    accept="image/*"
-                    style={{ display: "none" }}
-                    id="upload-button-1"
-                    multiple
-                    type="file"
-                  />
-                  <img id="output1" alt="upload #1 " />
-                  <input
-                    onChange={event => {
-                      setFieldValue("images", [
-                        ...values.images,
-                        event.currentTarget.files[0]
-                      ]);
-                      loadImage(event, "output2");
-                    }}
-                    name="images"
-                    accept="image/*"
-                    style={{ display: "none" }}
-                    id="upload-button-2"
-                    multiple
-                    type="file"
-                  />
-                  <img id="output2" alt="upload #2 " />
-                  <label htmlFor="upload-button-1">
-                    <Button component="span">Upload image 1</Button>
-                  </label>
-                  <label htmlFor="upload-button-2">
-                    <Button component="span">Upload image 2</Button>
-                  </label>
+                        <h3>Friend list</h3>
+                        <FormControl variant="outlined">
+                          <InputLabel htmlFor="friend-list">
+                            Friend list
+                          </InputLabel>
+                          <Select
+                            id="friend-list"
+                            onChange={handleChange}
+                            value={values.friendList}
+                          >
+                            <MenuItem>
+                              <em>None</em>
+                            </MenuItem>
+                            {friendLists.map(friendList => (
+                              <MenuItem
+                                value={values.friendList}
+                                key={friendList.id}
+                              >
+                                {friendList.title}
+                              </MenuItem>
+                            ))}
+                          </Select>
+                        </FormControl>
+                      </div>
 
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        checked={state.checkedA}
-                        onChange={handleCheckboxChange("checkedA")}
-                        value="checkedA"
-                        color="primary"
+                      <ImageDropzone
+                        onDrop={files => {
+                          console.log(files[0]);
+                          setFieldValue("images", [...values.images, files[0]]);
+                          loadImage(files, "output1");
+                        }}
                       />
-                    }
-                    label="Hatchways"
-                  />
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        checked={state.checkedB}
-                        onChange={handleCheckboxChange("checkedB")}
-                        value="checkedB"
-                        color="primary"
-                      />
-                    }
-                    label="Devs"
-                  />
 
-                  <DialogActions>
-                    <Button onClick={handleClose} color="secondary">
-                      Cancel
-                    </Button>
-                    <Button type="submit" onClick={handleClose} color="primary">
-                      Create
-                    </Button>
-                  </DialogActions>
-                </form>
-              );
-            }}
-          </Formik>
+                      <img id="output1" />
+
+                      <ImageDropzone
+                        onDrop={files => {
+                          console.log(files[0]);
+                          setFieldValue("images", [...values.images, files[0]]);
+                          loadImage(files, "output2");
+                        }}
+                      />
+                      <img id="output2" />
+                    </div>
+
+                    <DialogActions>
+                      <Button onClick={handleClose} color="secondary">
+                        Cancel
+                      </Button>
+                      <Button
+                        type="submit"
+                        onClick={handleClose}
+                        color="primary"
+                      >
+                        Create poll
+                      </Button>
+                    </DialogActions>
+                  </form>
+                );
+              }}
+            </Formik>
+          ) : null}
         </DialogContent>
       </Dialog>
     </React.Fragment>

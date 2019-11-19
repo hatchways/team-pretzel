@@ -88,75 +88,77 @@ const AppBarDrawer = ({ handleLogOut }) => {
 
   return (
     <div className={classes.root}>
-      <AppBar position="static" className={classes.appBar}>
-        <Toolbar className={classes.toolbar}>
-          <Link to={`${match.path}/friends`} className={classes.menuButton}>
-            <Button>Friends</Button>
-          </Link>
-          <Link to="#" className={classes.menuButton}>
-            <Button>Friends poll</Button>
-          </Link>
-          <Link to="#" className={classes.menuButton}>
-            <Button>Opinions</Button>
-          </Link>
-          <Link to="#" className={classes.menuButton}>
-            <PollDialog />
-          </Link>
-          <Button
-            ref={anchorRef}
-            aria-controls={open ? "menu-list-grow" : undefined}
-            aria-haspopup="true"
-            onClick={handleToggle}
-          >
-            {user ? (
+      {user ? (
+        <AppBar position="static" className={classes.appBar}>
+          <Toolbar className={classes.toolbar}>
+            <Link to={`${match.path}/friends`} className={classes.menuButton}>
+              <Button>Friends</Button>
+            </Link>
+            <Link to="#" className={classes.menuButton}>
+              <Button>Friends poll</Button>
+            </Link>
+            <Link to="#" className={classes.menuButton}>
+              <Button>Opinions</Button>
+            </Link>
+            <Link to="#" className={classes.menuButton}>
+              <PollDialog user={user} />
+            </Link>
+            <Button
+              ref={anchorRef}
+              aria-controls={open ? "menu-list-grow" : undefined}
+              aria-haspopup="true"
+              onClick={handleToggle}
+            >
               <Avatar
                 alt={user.name}
                 src={user.avatar}
                 className={classes.avatar}
               />
-            ) : null}
-            {user ? user.name : null}
-          </Button>
-          <Popper
-            open={open}
-            anchorEl={anchorRef.current}
-            role={undefined}
-            transition
-            disablePortal
-          >
-            {({ TransitionProps, placement }) => (
-              <Grow
-                {...TransitionProps}
-                style={{
-                  transformOrigin:
-                    placement === "bottom" ? "center top" : "center bottom"
-                }}
-              >
-                <Paper>
-                  <MenuList id="menu-list-grow">
-                    <MenuItem onClick={handleClose}>Profile</MenuItem>
-                    <MenuItem>
-                      <ProfileDialog
-                        open={open}
-                        onClick={handleClose}
-                        handleDialog={handleDialog}
-                        user={user}
-                      />
-                    </MenuItem>
-                    <MenuItem
-                      onClick={() => {
-                        handleLogOut();
-                      }}
-                    >
-                      Logout
-                    </MenuItem>
-                  </MenuList>
-                </Paper>
-              </Grow>
-            )}
-          </Popper>
-        </Toolbar>
-      </AppBar>
+
+              {user.name}
+            </Button>
+            <Popper
+              open={open}
+              anchorEl={anchorRef.current}
+              role={undefined}
+              transition
+              disablePortal
+            >
+              {({ TransitionProps, placement }) => (
+                <Grow
+                  {...TransitionProps}
+                  style={{
+                    transformOrigin:
+                      placement === "bottom" ? "center top" : "center bottom"
+                  }}
+                >
+                  <Paper>
+                    <MenuList id="menu-list-grow">
+                      <MenuItem onClick={handleClose}>Profile</MenuItem>
+                      <MenuItem>
+                        <ProfileDialog
+                          open={open}
+                          onClick={handleClose}
+                          handleDialog={handleDialog}
+                          user={user}
+                        />
+                      </MenuItem>
+                      <MenuItem
+                        onClick={() => {
+                          handleLogOut();
+                        }}
+                      >
+                        Logout
+                      </MenuItem>
+                    </MenuList>
+                  </Paper>
+                </Grow>
+              )}
+            </Popper>
+          </Toolbar>
+        </AppBar>
+      ) : null}
+
       {/*</div><Drawer
       //   className={classes.drawer}
       //   variant="permanent"
