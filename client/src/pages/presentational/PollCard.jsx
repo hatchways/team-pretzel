@@ -18,29 +18,21 @@ const useStyles = makeStyles({
   images: { width: "75px", height: "75px" }
 });
 
-const PollCard = props => {
+const PollCard = ({ poll }) => {
   const classes = useStyles();
   return (
     <Card className={classes.card}>
       <CardHeader
         className={classes.cardHeader}
-        title="Which one is better?"
+        title={poll.question}
         subheader="20 answers"
       />
       <CardContent className={classes.cardContent}>
         <div style={{ marginRight: "0.5rem" }}>
-          <img
-            className={classes.images}
-            src="https://picsum.photos/75"
-            alt="random"
-          />
+          <img className={classes.images} src={poll.images[0]} alt="vote 1" />
         </div>
         <div style={{ marginLeft: "0.5rem" }}>
-          <img
-            className={classes.images}
-            src="https://picsum.photos/75"
-            alt="random 2"
-          />
+          <img className={classes.images} src={poll.images[1]} alt="vote 2" />
         </div>
       </CardContent>
     </Card>
