@@ -99,9 +99,9 @@ const AppBarDrawer = ({ handleLogOut }) => {
           <Link to="#" className={classes.menuButton}>
             <Button>Opinions</Button>
           </Link>
-          <Link to="#" className={classes.menuButton}>
-            <PollDialog />
-          </Link>
+
+          <PollDialog />
+
           <Button
             ref={anchorRef}
             aria-controls={open ? "menu-list-grow" : undefined}
