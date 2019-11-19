@@ -21,7 +21,8 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const PollDialog = () => {
+const PollDialog = ({ user }) => {
+  console.log(user);
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const handleClickOpen = () => {
@@ -48,7 +49,9 @@ const PollDialog = () => {
     URL.revokeObjectURL(output);
   };
 
-  return (
+  return !user ? (
+    <></>
+  ) : (
     <React.Fragment>
       <Button
         variant="outlined"
@@ -73,8 +76,8 @@ const PollDialog = () => {
             initialValues={{
               question: "",
               images: [],
-              createdBy: "5dc977146ba44931d80e537f",
-              friendList: "5dc97a566ba44931d80e5383"
+              createdBy: user._id,
+              friendList: ""
             }}
             validateOnChange={false}
             onSubmit={async ({ question, images, friendList, createdBy }) => {

@@ -19,8 +19,8 @@ const pollSchema = new mongoose.Schema({
   ],
   createdBy: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
-    required: [true, "A poll must belong to a user"]
+    ref: "User"
+    //required: [true, "A poll must belong to a user"]
   },
   createAt: {
     type: Date,

@@ -25,7 +25,6 @@ const useStyles = makeStyles({
 });
 
 const DashboardDefault = ({ user }) => {
-  console.log(user);
   const classes = useStyles();
   return (
     <>
@@ -44,7 +43,7 @@ const DashboardDefault = ({ user }) => {
         <Divider className={classes.divider} />
         <div className={classes.header}>
           <Typography>Polls</Typography>
-          <PollDialog />
+          <PollDialog user={user} />
         </div>
         <div className={classes.cardContainer}>
           {!user.polls ? (

@@ -26,8 +26,10 @@ const PollCard = ({ question, imageIds }) => {
 
   const res = useGet(`/api/v1/images/${imageIds[0]}`, "image");
 
-  // console.log(res);
-  return (
+  console.log(res);
+  return !res ? (
+    <></>
+  ) : (
     <Card className={classes.card}>
       <CardHeader
         className={classes.cardHeader}
@@ -36,11 +38,7 @@ const PollCard = ({ question, imageIds }) => {
       />
       <CardContent className={classes.cardContent}>
         <div style={{ marginRight: "0.5rem" }}>
-          <img
-            className={classes.images}
-            //src={pollImgPlaceholder}
-            alt="random"
-          />
+          <img className={classes.images} src={res.url} alt="random" />
         </div>
         <div style={{ marginLeft: "0.5rem" }}>
           <img
