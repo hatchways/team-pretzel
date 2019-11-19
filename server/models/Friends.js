@@ -13,5 +13,11 @@ const friendsSchema = new mongoose.Schema({
   }
 });
 
+friendsSchema.methods.befriend = function(userId) {
+  this.friends.includes(userId)
+    ? (this.friends = this.friends.filter(id => id != userId))
+    : this.friends.push(userId);
+};
+
 const Friends = mongoose.model("Friends", friendsSchema);
 export default Friends;
