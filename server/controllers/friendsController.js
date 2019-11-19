@@ -12,8 +12,8 @@ export const getAllFriends = catchAsync(async (req, res, next) => {
   });
 });
 
-// Add a friend
-export const addFriend = catchAsync(async (req, res, next) => {
+// Add or remove a friend
+export const updateFriend = catchAsync(async (req, res, next) => {
   const { id, friendId } = req.params;
 
   const isFriend = await Friends.findOne({
@@ -21,6 +21,7 @@ export const addFriend = catchAsync(async (req, res, next) => {
     friends: friendId
   });
 
+  // Add friend
   if (!isFriend) {
     const friend = await Friends.findOneAndUpdate(
       { user: id },
@@ -28,24 +29,13 @@ export const addFriend = catchAsync(async (req, res, next) => {
       { new: true, upsert: true }
     );
 
-    res.status(201).json({
+    return res.status(201).json({
       status: "success",
       friend
     });
-  } else {
-    res.status(304).json({ status: "no change" });
   }
-});
 
-// Remove a friend
-export const removeFriend = catchAsync(async (req, res, next) => {
-  const { id, friendId } = req.params;
-
-  const isFriend = await Friends.findOne({
-    user: id,
-    friends: friendId
-  });
-
+  // Remove friend
   if (isFriend) {
     const friend = await Friends.findOneAndUpdate(
       { user: id },
@@ -53,32 +43,35 @@ export const removeFriend = catchAsync(async (req, res, next) => {
       { new: true }
     );
 
-    res.status(201).json({
+    return res.status(201).json({
       status: "success",
       friend
     });
-  } else {
-    res.status(304).json({ status: "no change" });
   }
+
+  return res.status(304).json({ status: "no change" });
 });
 
 // Get suggested list of friends
 export const suggestedFriends = catchAsync(async (req, res, next) => {
   const currentFriends = await Friends.findOne({ user: req.params.id });
-  currentFriends.friends.push(req.params.id);
-
   const users = await User.find({});
+  let potentialFriends = [];
 
-  const potentialFriends = [];
-
-  users.filter(user => {
-    if (!currentFriends.friends.includes(user._id)) {
-      potentialFriends.push(user);
-    }
-  });
-
-  res.status(200).json({
-    status: "success",
-    potentialFriends
-  });
+  if (!currentFriends) {
+    potentialFriends = users.filter(user => {
+      return user.id !== req.params.id;
+    });
+    res.status(200).json({ status: "success", potentialFriends });
+  } else {
+    users.filter(user => {
+      if (!currentFriends.friends.includes(user._id)) {
+        potentialFriends.push(user);
+      }
+    });
+    res.status(200).json({
+      status: "success",
+      potentialFriends
+    });
+  }
 });
