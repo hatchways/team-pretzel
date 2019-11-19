@@ -43,17 +43,11 @@ const DashboardDefault = props => {
           <PollDialog />
         </div>
         <div className={classes.cardContainer}>
-          <PollCard />
-          <PollCard />
-          <PollCard />
-          <PollCard />
-          <PollCard />
-          <PollCard />
-          <PollCard />
+          <PollCard user={props.user} />
         </div>
       </Container>
-      <Divider />
-      <Container style={{ marginTop: "1rem" }}>
+      {/*<Divider />
+       <Container style={{ marginTop: "1rem" }}>
         <div
           style={{
             display: "flex",
@@ -64,8 +58,8 @@ const DashboardDefault = props => {
           <Typography>Polls</Typography>
           <PollDialog />
         </div>
-        <PollCard user={user} />
-      </Container>
+        <PollCard user={props.user} />
+      </Container> */}
     </>
   );
 };

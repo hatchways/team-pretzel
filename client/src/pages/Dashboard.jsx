@@ -7,6 +7,7 @@ import Friends from "./container/Friends";
 import { setAuthToken } from "../utils/helpers";
 import jwt_decode from "jwt-decode";
 import useGet from "../utils/hooks/useGet";
+import Loader from "../utils/Loader";
 
 const Dashboard = ({ history, match }) => {
   const handleLogOut = () => {
@@ -35,7 +36,9 @@ const Dashboard = ({ history, match }) => {
     }
   }, []);
 
-  return (
+  return !user ? (
+    <Loader />
+  ) : (
     <Router>
       <AppBarDrawer user={user} handleLogOut={handleLogOut} />
       <ContentContainer>
