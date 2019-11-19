@@ -4,11 +4,13 @@ import catchAsync from "../utils/catchAsync";
 
 // Find all friends
 export const getAllFriends = catchAsync(async (req, res, next) => {
-  const friends = await Friends.findOne({ user: req.params.id });
+  const friends = await Friends.findOne({ user: req.params.id }).populate(
+    "friends"
+  );
 
   res.status(200).json({
     status: "success",
-    friends
+    friends: friends.friends
   });
 });
 
