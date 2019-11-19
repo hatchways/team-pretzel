@@ -11,24 +11,6 @@ import {
   ListItemSecondaryAction
 } from "@material-ui/core";
 
-const dummyFriends = [
-  {
-    id: 1,
-    name: "leon",
-    avatar: "#"
-  },
-  {
-    id: 2,
-    name: "key",
-    avatar: "#"
-  },
-  {
-    id: 3,
-    name: "sunny",
-    avatar: "#"
-  }
-];
-
 const useStyles = makeStyles({
   root: {
     padding: "0"
