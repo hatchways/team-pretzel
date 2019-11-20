@@ -1,5 +1,6 @@
 import React from "react";
 import { makeStyles, Card, CardContent, CardHeader } from "@material-ui/core";
+import { Favorite } from "@material-ui/icons";
 
 const useStyles = makeStyles({
   card: {
@@ -37,6 +38,7 @@ const PollCard = ({ question, images }) => {
         {images.map(image => (
           <div key={image._id} style={{ marginRight: "0.5rem" }}>
             <img className={classes.images} src={image.url} alt="random" />
+            <Favorite color="secondary" />
             {image.castBy.length}
           </div>
         ))}

@@ -17,7 +17,7 @@ const ContentContainer = ({ children, user }) => {
     <div className={classes.flexContainer}>
       <div className={classes.friendsBar}>
         <Container>
-          <FriendList id={user._id} />
+          <FriendList friends={user.friends[0].friends} />
         </Container>
       </div>
       <div style={{ width: "75%" }}>{children}</div>

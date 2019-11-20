@@ -4,6 +4,7 @@ import { BrowserRouter, Route, Redirect } from "react-router-dom";
 import { theme } from "./themes/theme";
 import AuthPage from "./pages/AuthPage";
 import Dashboard from "./pages/Dashboard";
+import VotePage from "./pages/container/VotePage";
 import { setAuthToken } from "./utils/helpers";
 import jwt_decode from "jwt-decode";
 
@@ -37,6 +38,7 @@ const App = () => {
         </Route>
         <Route exact path={["/signin", "/signup"]} component={AuthPage} />
         <Route exact path="/dashboard" component={Dashboard} />
+        <Route path="/votepage" component={VotePage} />
       </BrowserRouter>
     </MuiThemeProvider>
   );
