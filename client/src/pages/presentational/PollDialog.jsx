@@ -64,7 +64,6 @@ const PollDialog = ({ user }) => {
   ];
 
   const loadImage = (files, id) => {
-    console.log(files);
     const output = document.getElementById(`${id}`);
     output.src = URL.createObjectURL(files[0]);
     URL.revokeObjectURL(output);
@@ -94,10 +93,13 @@ const PollDialog = ({ user }) => {
               validateOnChange={false}
               onSubmit={async ({ question, images, friendList, createdBy }) => {
                 let formData = new FormData();
+                console.log({ question, images, friendList, createdBy });
                 formData.append("question", question);
                 images.map(image => formData.append("images", image));
                 formData.append("createdBy", createdBy);
-                await axios.post("/api/v1/polls/new-poll", formData);
+                formData.append("friendList", friendList);
+                console.log(formData);
+                await axios.post("/api/v1/polls", formData);
               }}
             >
               {({
@@ -140,11 +142,11 @@ const PollDialog = ({ user }) => {
                           value={values.friendList}
                           name="friendList"
                         >
-                          <MenuItem>
-                            <em>None</em>
-                          </MenuItem>
                           {friendLists.map(friendList => (
-                            <MenuItem value={friendList} key={friendList.id}>
+                            <MenuItem
+                              value={friendList.title}
+                              key={friendList.id}
+                            >
                               {friendList.title}
                             </MenuItem>
                           ))}
@@ -158,7 +160,6 @@ const PollDialog = ({ user }) => {
                       ) : (
                         <ImageDropzone
                           onDrop={files => {
-                            console.log(files[0]);
                             setFieldValue("images", [
                               ...values.images,
                               files[0]
@@ -173,7 +174,6 @@ const PollDialog = ({ user }) => {
                       ) : (
                         <ImageDropzone
                           onDrop={files => {
-                            console.log(files[0]);
                             setFieldValue("images", [
                               ...values.images,
                               files[0]
