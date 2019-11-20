@@ -5,7 +5,6 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
-  DialogTitle,
   Button,
   TextField,
   FormControl,
@@ -56,13 +55,6 @@ const PollDialog = ({ user }) => {
     setOpen(false);
   };
 
-  // demo data for now
-  const friendLists = [
-    { id: 0, title: "Music" },
-    { id: 1, title: "Fashion" },
-    { id: 2, title: "Bookworms" }
-  ];
-
   const loadImage = (files, id) => {
     const output = document.getElementById(`${id}`);
     output.src = URL.createObjectURL(files[0]);
@@ -80,9 +72,8 @@ const PollDialog = ({ user }) => {
         Create Poll
       </Button>
       <Dialog open={open} onClose={handleClose} maxWidth={false}>
-        <DialogTitle>Create a poll</DialogTitle>
         <DialogContent>
-          {user ? (
+          {user && user.friendLists ? (
             <Formik
               initialValues={{
                 question: "",
@@ -93,12 +84,10 @@ const PollDialog = ({ user }) => {
               validateOnChange={false}
               onSubmit={async ({ question, images, friendList, createdBy }) => {
                 let formData = new FormData();
-                console.log({ question, images, friendList, createdBy });
                 formData.append("question", question);
                 images.map(image => formData.append("images", image));
                 formData.append("createdBy", createdBy);
                 formData.append("friendList", friendList);
-                console.log(formData);
                 await axios.post("/api/v1/polls", formData);
               }}
             >
@@ -127,7 +116,6 @@ const PollDialog = ({ user }) => {
                         type="text"
                         fullWidth
                       />
-
                       <FormControl
                         variant="outlined"
                         className={classes.inputField}
@@ -135,6 +123,7 @@ const PollDialog = ({ user }) => {
                         <InputLabel htmlFor="friend-list">
                           Friend list
                         </InputLabel>
+
                         <Select
                           variant="outlined"
                           id="friend-list"
@@ -142,7 +131,7 @@ const PollDialog = ({ user }) => {
                           value={values.friendList}
                           name="friendList"
                         >
-                          {friendLists.map(friendList => (
+                          {user.friendLists.map(friendList => (
                             <MenuItem
                               value={friendList.title}
                               key={friendList.id}
@@ -200,7 +189,12 @@ const PollDialog = ({ user }) => {
                 );
               }}
             </Formik>
-          ) : null}
+          ) : (
+            <h3>
+              You currently have no friend lists. Please make a friend list
+              before creating a new poll.
+            </h3>
+          )}
         </DialogContent>
       </Dialog>
     </React.Fragment>
