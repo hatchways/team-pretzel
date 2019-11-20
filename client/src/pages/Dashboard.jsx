@@ -41,7 +41,7 @@ const Dashboard = ({ history, match }) => {
   ) : (
     <Router>
       <AppBarDrawer user={user} handleLogOut={handleLogOut} />
-      <ContentContainer>
+      <ContentContainer user={user}>
         <Route
           exact
           path={match.path}

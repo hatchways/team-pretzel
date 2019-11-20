@@ -1,13 +1,5 @@
-import React, { useState, useEffect } from "react";
-import {
-  makeStyles,
-  Card,
-  CardContent,
-  CardHeader,
-  CircularProgress
-} from "@material-ui/core";
-import useGet from "../../utils/hooks/useGet";
-import axios from "axios";
+import React from "react";
+import { makeStyles, Card, CardContent, CardHeader } from "@material-ui/core";
 
 const useStyles = makeStyles({
   card: {
@@ -26,61 +18,28 @@ const useStyles = makeStyles({
   images: { width: "75px", height: "75px" }
 });
 
-const PollCard = ({ question, imageIds }) => {
+const PollCard = ({ question, images }) => {
   const classes = useStyles();
 
-  const [images, setImages] = useState([]);
-  // const pollImages = [
-  //   imageIds.map(async imageId => {
-  //     const result = await axios.get(`/api/v1/images/${imageId}`);
-  //     console.log(result);
-  //     if (result.data.image.length > 0) {
-  //       pollImages.push(result.data.image);
-  //     }
-  //   })
-  // ];
+  let numberOfVotes = 0;
 
-  useEffect(() => {
-    const pollImages = [];
-    imageIds.forEach(async imageId => {
-      const result = await axios.get(`/api/v1/images/${imageId}`);
-      console.log(result.data.image.url);
+  // Add up the total number of votes
+  images.forEach(image => (numberOfVotes += image.castBy.length));
 
-      pollImages.push(result.data.image);
-    });
-    setImages(pollImages);
-  }, []);
-
-  console.log(images);
-
-  return !images.length === 0 ? (
-    <CircularProgress />
-  ) : (
+  return (
     <Card className={classes.card}>
       <CardHeader
         className={classes.cardHeader}
         title={question}
-        subheader="20 answers"
+        subheader={numberOfVotes}
       />
       <CardContent className={classes.cardContent}>
         {images.map(image => (
-          <div style={{ marginRight: "0.5rem" }}>
-            <p>{image.url}</p>
-            <img
-              key={image._id}
-              className={classes.images}
-              src={image.url}
-              alt="random"
-            />
+          <div key={image._id} style={{ marginRight: "0.5rem" }}>
+            <img className={classes.images} src={image.url} alt="random" />
+            {image.castBy.length}
           </div>
         ))}
-        {/* <div style={{ marginLeft: "0.5rem" }}>
-          <img
-            className={classes.images}
-            //src={pollImgPlaceholder}
-            alt="random 2"
-          />
-        </div> */}
       </CardContent>
     </Card>
   );

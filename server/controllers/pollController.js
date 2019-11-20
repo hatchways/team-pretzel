@@ -18,8 +18,6 @@ export const savePollImages = catchAsync(async (req, res, next) => {
 
 export const createPoll = catchAsync(async (req, res, next) => {
   const poll = await Poll.create(req.body);
-  console.log(req.body);
-  //console.log(poll);
   res.status(201).json({
     status: "success",
     poll

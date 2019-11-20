@@ -30,7 +30,7 @@ const DashboardDefault = ({ user }) => {
     <>
       <Container className={classes.container}>
         <div className={classes.header}>
-          <Typography>Friend Lists</Typography>
+          <Typography variant="h5">Friend Lists</Typography>
           <FriendListDialog />
         </div>
         <div className={classes.cardContainer}>
@@ -42,18 +42,18 @@ const DashboardDefault = ({ user }) => {
         </div>
         <Divider className={classes.divider} />
         <div className={classes.header}>
-          <Typography>Polls</Typography>
+          <Typography variant="h5">Polls ({user.polls.length})</Typography>
           <PollDialog user={user} />
         </div>
         <div className={classes.cardContainer}>
           {!user.polls ? (
-            <h1>none</h1>
+            <h1>No polls...</h1>
           ) : (
             user.polls.map(poll => (
               <PollCard
                 key={poll._id}
                 question={poll.question}
-                imageIds={poll.images}
+                images={poll.images}
               />
             ))
           )}

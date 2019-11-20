@@ -10,9 +10,9 @@ const useStyles = makeStyles(theme => ({
   title: { padding: "10%" }
 }));
 
-const FriendList = () => {
-  const friends = useGet("/api/v1/users", "users");
-
+const FriendList = ({ id }) => {
+  const friends = useGet(`/api/v1/friends/${id}`, "users");
+  console.log(friends);
   const classes = useStyles();
 
   return (
