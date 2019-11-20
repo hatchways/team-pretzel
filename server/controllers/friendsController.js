@@ -29,7 +29,9 @@ export const suggestFriends = catchAsync(async (req, res, next) => {
   const currentFriends = await Friends.findOne({ user: req.user.id });
   const allUsers = await User.find();
 
-  const potentialFriends = currentFriends.suggestFriends(allUsers);
+  const potentialFriends = currentFriends
+    ? currentFriends.suggestFriends(allUsers)
+    : allUsers;
 
   res.status(200).json({
     status: "success",
