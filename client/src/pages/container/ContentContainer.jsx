@@ -10,13 +10,18 @@ const useStyles = makeStyles({
   friendsBar: { width: "25%", borderRight: "0.5px solid lightgrey" }
 });
 
-const ContentContainer = ({ children }) => {
+const ContentContainer = ({ children, user }) => {
   const classes = useStyles();
+  console.log(user);
   return (
     <div className={classes.flexContainer}>
       <div className={classes.friendsBar}>
         <Container>
-          <FriendList />
+          {user.friends.length < 1 ? (
+            <h6>get some friends</h6>
+          ) : (
+            <FriendList friends={user.friends[0].friends} />
+          )}
         </Container>
       </div>
       <div style={{ width: "75%" }}>{children}</div>

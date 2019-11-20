@@ -4,9 +4,9 @@ import catchAsync from "../utils/catchAsync";
 
 // Find all friends
 export const getAllFriends = catchAsync(async (req, res, next) => {
-  const friends = await Friends.findOne({ user: req.params.id }).populate(
-    "friends"
-  );
+
+  const friends = await Friends.findOne({ user: req.user.id });
+
 
   res.status(200).json({
     status: "success",
@@ -14,76 +14,38 @@ export const getAllFriends = catchAsync(async (req, res, next) => {
   });
 });
 
-// Add a friend
-export const addFriend = catchAsync(async (req, res, next) => {
-  const { id, friendId } = req.params;
+// Add or remove a friend
+export const updateFriends = catchAsync(async (req, res, next) => {
+  const self = await User.findById(req.user.id);
+  let friends = await Friends.findOne({ user: req.user.id });
 
-  const isFriend = await Friends.findOne({
-    user: id,
-    friends: friendId
-  });
-
-  if (!isFriend) {
-    const friend = await Friends.findOneAndUpdate(
-      { user: id },
-      { $push: { friends: friendId } },
-      { new: true, upsert: true }
-    );
-
-    res.status(201).json({
-      status: "success",
-      friend
-    });
-  } else {
-    res.status(304).json({ status: "no change" });
+  if (!friends) {
+    friends = await Friends.create({ user: req.user.id });
   }
-});
 
-// Remove a friend
-export const removeFriend = catchAsync(async (req, res, next) => {
-  const { id, friendId } = req.params;
+  friends.befriend(req.params.userId);
+  await friends.save();
 
-  const isFriend = await Friends.findOne({
-    user: id,
-    friends: friendId
+  res.status(201).json({
+    status: "success",
+    friends
   });
-
-  if (isFriend) {
-    const friend = await Friends.findOneAndUpdate(
-      { user: id },
-      { $pull: { friends: friendId } },
-      { new: true }
-    );
-
-    res.status(201).json({
-      status: "success",
-      friend
-    });
-  } else {
-    res.status(304).json({ status: "no change" });
-  }
 });
 
 // Get suggested list of friends
-export const suggestedFriends = catchAsync(async (req, res, next) => {
-  const currentFriends = await Friends.findOne({ user: req.params.id });
-  const users = await User.find({});
-  let potentialFriends = [];
 
-  if (!currentFriends) {
-    potentialFriends = users.filter(user => {
-      return user.id !== req.params.id;
-    });
-    res.status(200).json({ status: "success", potentialFriends });
-  } else {
-    users.filter(user => {
-      if (!currentFriends.friends.includes(user._id)) {
-        potentialFriends.push(user);
-      }
-    });
-    res.status(200).json({
-      status: "success",
-      potentialFriends
-    });
-  }
+export const suggestFriends = catchAsync(async (req, res, next) => {
+  const currentFriends = await Friends.findOne({ user: req.user.id });
+  let allUsers = await User.find();
+  allUsers = allUsers.filter(user => user.id != req.user.id);
+
+  const potentialFriends = currentFriends
+    ? currentFriends.suggestFriends(allUsers)
+    : allUsers;
+
+  res.status(200).json({
+    status: "success",
+    potentialFriends
+  });
+
 });

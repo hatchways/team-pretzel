@@ -13,8 +13,6 @@ import {
   MenuList
 } from "@material-ui/core";
 
-import useGet from "../../utils/hooks/useGet";
-
 import ProfileDialog from "../presentational/ProfileDialog";
 import PollDialog from "../presentational/PollDialog";
 
@@ -51,9 +49,7 @@ const useStyles = makeStyles(theme => ({
   avatar: { margin: 10 }
 }));
 
-const AppBarDrawer = ({ handleLogOut }) => {
-  const user = useGet("/api/v1/users/profile", "user");
-
+const AppBarDrawer = ({ user, handleLogOut }) => {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const anchorRef = useRef(null);
