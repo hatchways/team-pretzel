@@ -17,10 +17,11 @@ export const updateFriends = catchAsync(async (req, res, next) => {
   const self = await User.findById(req.user.id);
   let friends = await Friends.findOne({ user: req.user.id });
 
-  friends
-    ? friends.befriend(req.params.userId)
-    : (friends = await Friends.create({ user: req.user.id }));
+  if (!friends) {
+    friends = await Friends.create({ user: req.user.id });
+  }
 
+  friends.befriend(req.params.userId);
   await friends.save();
 
   res.status(201).json({
