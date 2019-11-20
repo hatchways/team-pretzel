@@ -28,7 +28,7 @@ const FriendsTabPanel = ({ value, index, friends }) => {
       {friends === null ? (
         <div>...loading...</div>
       ) : (
-        friends.map(friend => {
+        friends[0].friends.map(friend => {
           return (
             <ListItem className={classes.listItem} key={friend.id}>
               <ListItemAvatar>
