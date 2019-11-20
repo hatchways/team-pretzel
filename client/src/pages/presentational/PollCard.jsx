@@ -29,16 +29,31 @@ const useStyles = makeStyles({
 const PollCard = ({ question, imageIds }) => {
   const classes = useStyles();
 
-  // const [images, setImages] = useState([]);
+  const [images, setImages] = useState([]);
+  // const pollImages = [
+  //   imageIds.map(async imageId => {
+  //     const result = await axios.get(`/api/v1/images/${imageId}`);
+  //     console.log(result);
+  //     if (result.data.image.length > 0) {
+  //       pollImages.push(result.data.image);
+  //     }
+  //   })
+  // ];
 
-  // useEffect(() => {
-  //   imageIds.forEach(async imageId => {
-  //     const image = await axios.get(`/api/v1/images/${imageId}`);
-  //     setImages(image);
-  //   }, []);
-  // });
+  useEffect(() => {
+    imageIds.map(async imageId => {
+      const result = await axios.get(`/api/v1/images/${imageId}`);
+      console.log(result.data.image.url);
 
-  return !imageIds ? (
+      setImages(result.data.imageId);
+    });
+  }, []);
+
+  if (images) {
+    console.log(images);
+  }
+
+  return !setImages ? (
     <CircularProgress />
   ) : (
     <Card className={classes.card}>
@@ -48,20 +63,29 @@ const PollCard = ({ question, imageIds }) => {
         subheader="20 answers"
       />
       <CardContent className={classes.cardContent}>
-        <div style={{ marginRight: "0.5rem" }}>
-          <img
-            className={classes.images}
-            //src={res.url}
-            alt="random"
-          />
-        </div>
-        <div style={{ marginLeft: "0.5rem" }}>
+        {
+          (images = undefined ? (
+            <CircularProgress />
+          ) : (
+            images.map(image => (
+              <div style={{ marginRight: "0.5rem" }}>
+                <img
+                  key={image._id}
+                  className={classes.images}
+                  src={image.url}
+                  alt="random"
+                />
+              </div>
+            ))
+          ))
+        }
+        {/* <div style={{ marginLeft: "0.5rem" }}>
           <img
             className={classes.images}
             //src={pollImgPlaceholder}
             alt="random 2"
           />
-        </div>
+        </div> */}
       </CardContent>
     </Card>
   );

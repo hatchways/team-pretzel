@@ -22,7 +22,6 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const PollDialog = ({ user }) => {
-  console.log(user);
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const handleClickOpen = () => {
