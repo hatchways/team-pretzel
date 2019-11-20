@@ -29,7 +29,7 @@ const SignupForms = ({ history }) => {
           password,
           passwordConfirm: confirmPassword
         };
-        const res = await axios.post("/api/v1/users/signup", newUser);
+        const res = await axios.post("/api/v1/users/", newUser);
 
         const { token } = res.data;
         // set token to localStorage

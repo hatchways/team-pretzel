@@ -73,7 +73,7 @@ const PollDialog = ({ user }) => {
       </Button>
       <Dialog open={open} onClose={handleClose} maxWidth={false}>
         <DialogContent>
-          {user && user.friendLists ? (
+          {user.friendLists.length ? (
             <Formik
               initialValues={{
                 question: "",
