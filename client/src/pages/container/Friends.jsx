@@ -11,7 +11,6 @@ const useStyles = makeStyles({
     minWidth: "80%",
     maxWidth: "80%",
     textAlign: "center",
-
     margin: "1rem auto"
   }
 });
