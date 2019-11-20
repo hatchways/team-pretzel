@@ -4,7 +4,7 @@ import catchAsync from "../utils/catchAsync";
 
 // Find all friends
 export const getAllFriends = catchAsync(async (req, res, next) => {
-  const friends = await Friends.findOne({ user: req.params.id });
+  const friends = await Friends.findOne({ user: req.user.id });
 
   res.status(200).json({
     status: "success",
@@ -14,7 +14,7 @@ export const getAllFriends = catchAsync(async (req, res, next) => {
 
 // Add or remove a friend
 export const updateFriends = catchAsync(async (req, res, next) => {
-  const friends = await Friends.findById(req.params.id);
+  const friends = await Friends.findOne({ user: req.user.id });
   friends.befriend(req.params.userId);
   await friends.save();
 
@@ -26,10 +26,10 @@ export const updateFriends = catchAsync(async (req, res, next) => {
 
 // Get suggested list of friends
 export const suggestFriends = catchAsync(async (req, res, next) => {
-  const currentFriends = await Friends.findById(req.params.id);
-  const users = await User.find();
+  const currentFriends = await Friends.findOne({ user: req.user.id });
+  const allUsers = await User.find();
 
-  const potentialFriends = currentFriends.suggestFriends(users);
+  const potentialFriends = currentFriends.suggestFriends(allUsers);
 
   res.status(200).json({
     status: "success",

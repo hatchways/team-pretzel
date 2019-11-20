@@ -4,22 +4,17 @@ const router = express.Router();
 
 import * as friendsController from "../controllers/friendsController";
 import * as authController from "../controllers/authController";
+import * as userController from "../controllers/userController";
+
+router.use(authController.checkAuth);
 
 // Get all friends
-router.get("/:id", authController.checkAuth, friendsController.getAllFriends);
+router.get("/", userController.getMe, friendsController.getAllFriends);
 
 // Update friends
-router.put(
-  "/:id/:userId",
-  authController.checkAuth,
-  friendsController.updateFriends
-);
+router.put("/:userId", userController.getMe, friendsController.updateFriends);
 
 // Get suggested list of friends
-router.get(
-  "/:id/suggest",
-  authController.checkAuth,
-  friendsController.suggestFriends
-);
+router.get("/suggest", userController.getMe, friendsController.suggestFriends);
 
 export default router;
