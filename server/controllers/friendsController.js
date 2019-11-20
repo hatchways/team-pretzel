@@ -14,8 +14,13 @@ export const getAllFriends = catchAsync(async (req, res, next) => {
 
 // Add or remove a friend
 export const updateFriends = catchAsync(async (req, res, next) => {
+  const self = await User.findById(req.user.id);
   const friends = await Friends.findOne({ user: req.user.id });
-  friends.befriend(req.params.userId);
+
+  friends
+    ? friends.befriend(req.params.userId)
+    : (friends = await Friends.create({ user: req.user.id }));
+
   await friends.save();
 
   res.status(201).json({
