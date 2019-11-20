@@ -1,11 +1,15 @@
-import React, { useCallback } from "react";
+import React from "react";
 import Dropzone from "react-dropzone";
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles({
   dropzone: {
-    height: "auto",
-    border: "1px solid"
+    backgroundColor: "#eee",
+    display: "flex",
+    height: "15rem",
+    width: "22.5rem",
+    margin: "0.5rem",
+    cursor: "pointer"
   }
 });
 
@@ -14,12 +18,10 @@ const ImageDropzone = ({ onDrop }) => {
   return (
     <Dropzone onDrop={onDrop}>
       {({ getRootProps, getInputProps }) => (
-        <section className={classes.dropzone}>
-          <div {...getRootProps()}>
-            <input accept="image/*" {...getInputProps()} />
-            <p>Drag 'n' an image</p>
-          </div>
-        </section>
+        <div {...getRootProps()} className={classes.dropzone}>
+          <input accept="image/*" {...getInputProps()} />
+          <p>Drag 'n' an image</p>
+        </div>
       )}
     </Dropzone>
   );

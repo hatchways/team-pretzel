@@ -5,7 +5,6 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
-  DialogContentText,
   DialogTitle,
   Button,
   TextField,
@@ -18,26 +17,34 @@ import { makeStyles } from "@material-ui/core/styles";
 
 import ImageDropzone from "./ImageDropzone";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles({
   button: {
-    margin: theme.spacing(1),
     borderRadius: 100
   },
-  dialog: {
+  formContainer: {
     display: "flex",
     flexDirection: "column",
-    alignItems: "center"
+    alignItems: "center",
+    justifyContent: "space-around",
+    margin: "2rem 0"
   },
-  form: {
+  textInput: {
+    width: "100%",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "space-around"
+  },
+  inputField: {
+    marginBottom: "2rem",
+    width: "100%"
+  },
+  imagesInput: {
+    marginTop: "1rem",
     display: "flex",
     flexDirection: "row"
-  },
-  input: {
-    display: "flex",
-    flexDirection: "column",
-    flexGrow: 1.5
   }
-}));
+});
 
 const PollDialog = ({ user }) => {
   const classes = useStyles();
@@ -73,22 +80,15 @@ const PollDialog = ({ user }) => {
       >
         Create Poll
       </Button>
-      <Dialog
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="form-dialog-title"
-      >
-        <DialogTitle id="form-dialog-title">Create a poll</DialogTitle>
+      <Dialog open={open} onClose={handleClose} maxWidth={false}>
+        <DialogTitle>Create a poll</DialogTitle>
         <DialogContent>
-          {/*  <DialogContentText>
-            This is where you can create a new poll.
-          </DialogContentText> */}
           {user ? (
             <Formik
               initialValues={{
                 question: "",
                 images: [],
-                createdBy: user.id,
+                createdBy: user.id || "",
                 friendList: ""
               }}
               validateOnChange={false}
@@ -108,65 +108,80 @@ const PollDialog = ({ user }) => {
                 setFieldValue
               }) => {
                 return (
-                  <form onSubmit={handleSubmit} className={classes.dialog}>
-                    <div className={classes.form}>
-                      <div className={classes.input}>
-                        <h3>Question</h3>
-                        <TextField
+                  <form
+                    onSubmit={handleSubmit}
+                    className={classes.formContainer}
+                  >
+                    <div className={classes.textInput}>
+                      <TextField
+                        className={classes.inputField}
+                        variant="outlined"
+                        value={values.question}
+                        onChange={handleChange}
+                        name="question"
+                        autoFocus
+                        margin="dense"
+                        label="Poll question"
+                        type="text"
+                        fullWidth
+                      />
+
+                      <FormControl
+                        variant="outlined"
+                        className={classes.inputField}
+                      >
+                        <InputLabel htmlFor="friend-list">
+                          Friend list
+                        </InputLabel>
+                        <Select
                           variant="outlined"
-                          value={values.question}
+                          id="friend-list"
                           onChange={handleChange}
-                          name="question"
-                          autoFocus
-                          margin="dense"
-                          label="Poll question"
-                          type="text"
-                          fullWidth
-                        />
-
-                        <h3>Friend list</h3>
-                        <FormControl variant="outlined">
-                          <InputLabel htmlFor="friend-list">
-                            Friend list
-                          </InputLabel>
-                          <Select
-                            id="friend-list"
-                            onChange={handleChange}
-                            value={values.friendList}
-                          >
-                            <MenuItem>
-                              <em>None</em>
+                          value={values.friendList}
+                          name="friendList"
+                        >
+                          <MenuItem>
+                            <em>None</em>
+                          </MenuItem>
+                          {friendLists.map(friendList => (
+                            <MenuItem value={friendList} key={friendList.id}>
+                              {friendList.title}
                             </MenuItem>
-                            {friendLists.map(friendList => (
-                              <MenuItem
-                                value={values.friendList}
-                                key={friendList.id}
-                              >
-                                {friendList.title}
-                              </MenuItem>
-                            ))}
-                          </Select>
-                        </FormControl>
-                      </div>
+                          ))}
+                        </Select>
+                      </FormControl>
+                    </div>
 
-                      <ImageDropzone
-                        onDrop={files => {
-                          console.log(files[0]);
-                          setFieldValue("images", [...values.images, files[0]]);
-                          loadImage(files, "output1");
-                        }}
-                      />
+                    <div className={classes.imagesInput}>
+                      {values.images[0] ? (
+                        <img id="output1" alt="First option" />
+                      ) : (
+                        <ImageDropzone
+                          onDrop={files => {
+                            console.log(files[0]);
+                            setFieldValue("images", [
+                              ...values.images,
+                              files[0]
+                            ]);
+                            loadImage(files, "output1");
+                          }}
+                        />
+                      )}
 
-                      <img id="output1" />
-
-                      <ImageDropzone
-                        onDrop={files => {
-                          console.log(files[0]);
-                          setFieldValue("images", [...values.images, files[0]]);
-                          loadImage(files, "output2");
-                        }}
-                      />
-                      <img id="output2" />
+                      {values.images[1] ? (
+                        <img id="output2" alt="Second option" />
+                      ) : (
+                        <ImageDropzone
+                          onDrop={files => {
+                            console.log(files[0]);
+                            setFieldValue("images", [
+                              ...values.images,
+                              files[0]
+                            ]);
+                            loadImage(files, "output2");
+                          }}
+                        />
+                      )}
                     </div>
 
                     <DialogActions>
