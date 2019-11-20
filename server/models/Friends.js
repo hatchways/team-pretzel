@@ -19,5 +19,14 @@ friendsSchema.methods.befriend = function(userId) {
     : this.friends.push(userId);
 };
 
+friendsSchema.methods.suggestFriends = function(allUsers) {
+  let potentialFriends = [];
+
+  allUsers.filter(user => {
+    if (!this.friends.includes(user.id)) potentialFriends.push(user);
+  });
+  return potentialFriends;
+};
+
 const Friends = mongoose.model("Friends", friendsSchema);
 export default Friends;
