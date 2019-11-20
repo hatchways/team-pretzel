@@ -12,54 +12,16 @@ export const getAllFriends = catchAsync(async (req, res, next) => {
   });
 });
 
-// Add a friend
-export const addFriend = catchAsync(async (req, res, next) => {
-  const { id, friendId } = req.params;
+// Add or remove a friend
+export const updateFriends = catchAsync(async (req, res, next) => {
+  const friends = await Friends.findById(req.params.friendsId);
+  friends.befriend(req.params.userId);
+  await friends.save();
 
-  const isFriend = await Friends.findOne({
-    user: id,
-    friends: friendId
+  res.status(201).json({
+    status: "success",
+    friends
   });
-
-  if (!isFriend) {
-    const friend = await Friends.findOneAndUpdate(
-      { user: id },
-      { $push: { friends: friendId } },
-      { new: true, upsert: true }
-    );
-
-    res.status(201).json({
-      status: "success",
-      friend
-    });
-  } else {
-    res.status(304).json({ status: "no change" });
-  }
-});
-
-// Remove a friend
-export const removeFriend = catchAsync(async (req, res, next) => {
-  const { id, friendId } = req.params;
-
-  const isFriend = await Friends.findOne({
-    user: id,
-    friends: friendId
-  });
-
-  if (isFriend) {
-    const friend = await Friends.findOneAndUpdate(
-      { user: id },
-      { $pull: { friends: friendId } },
-      { new: true }
-    );
-
-    res.status(201).json({
-      status: "success",
-      friend
-    });
-  } else {
-    res.status(304).json({ status: "no change" });
-  }
 });
 
 // Get suggested list of friends
