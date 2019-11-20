@@ -41,19 +41,19 @@ const PollCard = ({ question, imageIds }) => {
   // ];
 
   useEffect(() => {
-    imageIds.map(async imageId => {
+    const pollImages = [];
+    imageIds.forEach(async imageId => {
       const result = await axios.get(`/api/v1/images/${imageId}`);
       console.log(result.data.image.url);
 
-      setImages(result.data.imageId);
+      pollImages.push(result.data.image);
     });
+    setImages(pollImages);
   }, []);
 
-  if (images) {
-    console.log(images);
-  }
+  console.log(images);
 
-  return !setImages ? (
+  return !images.length === 0 ? (
     <CircularProgress />
   ) : (
     <Card className={classes.card}>
@@ -63,22 +63,17 @@ const PollCard = ({ question, imageIds }) => {
         subheader="20 answers"
       />
       <CardContent className={classes.cardContent}>
-        {
-          (images = undefined ? (
-            <CircularProgress />
-          ) : (
-            images.map(image => (
-              <div style={{ marginRight: "0.5rem" }}>
-                <img
-                  key={image._id}
-                  className={classes.images}
-                  src={image.url}
-                  alt="random"
-                />
-              </div>
-            ))
-          ))
-        }
+        {images.map(image => (
+          <div style={{ marginRight: "0.5rem" }}>
+            <p>{image.url}</p>
+            <img
+              key={image._id}
+              className={classes.images}
+              src={image.url}
+              alt="random"
+            />
+          </div>
+        ))}
         {/* <div style={{ marginLeft: "0.5rem" }}>
           <img
             className={classes.images}
