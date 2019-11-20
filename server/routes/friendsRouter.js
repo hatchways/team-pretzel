@@ -10,16 +10,16 @@ router.get("/:id", authController.checkAuth, friendsController.getAllFriends);
 
 // Update friends
 router.put(
-  "/:friendsId/:userId",
+  "/:id/:userId",
   authController.checkAuth,
   friendsController.updateFriends
 );
 
 // Get suggested list of friends
 router.get(
-  "/suggested-friends/:id",
+  "/:id/suggest",
   authController.checkAuth,
-  friendsController.suggestedFriends
+  friendsController.suggestFriends
 );
 
 export default router;
