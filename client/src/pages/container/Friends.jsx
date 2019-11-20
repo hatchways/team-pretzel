@@ -11,9 +11,9 @@ const useStyles = makeStyles({
     minWidth: "80%",
     maxWidth: "80%",
     textAlign: "center",
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
+    // display: "flex",
+    // flexDirection: "column",
+    // justifyContent: "center",
     margin: "1rem auto"
   }
 });
