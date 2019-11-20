@@ -1,28 +1,27 @@
 import express from "express";
-
 const router = express.Router();
 
 import * as authController from "../controllers/authController";
 import * as userController from "../controllers/userController";
 
 router.get("/", userController.getAllUsers);
-
-router.post("/signup", authController.signup);
+router.post("/", authController.signup);
 router.post("/login", authController.login);
 
-// Protected routes
+/* PROTECTED ROUTES */
 router.use(authController.checkAuth);
+// profile
 router.get("/profile", userController.getMe, userController.getUser);
+router.patch(
+  "/profile",
+  userController.uploadUserAvatar,
+  userController.updateMe
+);
+// tagged polls
 router.get(
-  "/profile/getTaggedPolls",
+  "/profile/polls",
   userController.getMe,
   userController.getTaggedPolls
-);
-router.patch(
-  "/profile/update",
-  userController.uploadUserAvatar,
-
-  userController.updateMe
 );
 
 export default router;
