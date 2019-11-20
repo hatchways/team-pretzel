@@ -19,9 +19,6 @@ const Friends = ({ location }) => {
   const { user } = location.state;
   const classes = useStyles();
 
-  // get friends
-  const friends = useGet(`/api/v1/friends`, "friends");
-
   // get suggested friends
   const potentialFriends = useGet(
     `/api/v1/friends/suggest`,
@@ -34,9 +31,7 @@ const Friends = ({ location }) => {
   };
 
   const handleAddFriend = async friendId => {
-    const result = await axios.put(
-      `/api/v1/friends/${user.id}/add-friend/${friendId}`
-    );
+    const result = await axios.put(`/api/v1/friends/${friendId}`);
   };
 
   return (
@@ -54,7 +49,7 @@ const Friends = ({ location }) => {
             <Tab label="Suggested" />
           </Tabs>
         </div>
-        <FriendsTabPanel friends={friends} value={value} index={0} />
+        <FriendsTabPanel friends={user.friends} value={value} index={0} />
         <SuggestedTabPanel
           handleAddFriend={handleAddFriend}
           potentialFriends={potentialFriends}
