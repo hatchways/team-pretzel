@@ -1,6 +1,7 @@
 import React from "react";
 import { makeStyles, Card, CardContent, CardHeader } from "@material-ui/core";
 import { Favorite } from "@material-ui/icons";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles({
   card: {
@@ -19,7 +20,7 @@ const useStyles = makeStyles({
   images: { width: "75px", height: "75px" }
 });
 
-const PollCard = ({ question, images }) => {
+const PollCard = ({ question, images, id }) => {
   const classes = useStyles();
 
   let numberOfVotes = 0;
@@ -29,10 +30,11 @@ const PollCard = ({ question, images }) => {
 
   return (
     <Card className={classes.card}>
+      {/* <Link to={"/votepage"} pollId={id} /> */}
       <CardHeader
         className={classes.cardHeader}
         title={question}
-        subheader={numberOfVotes}
+        subheader={`${numberOfVotes} answers`}
       />
       <CardContent className={classes.cardContent}>
         {images.map(image => (

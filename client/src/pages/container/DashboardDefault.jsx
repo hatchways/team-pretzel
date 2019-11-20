@@ -54,25 +54,12 @@ const DashboardDefault = ({ user }) => {
                 key={poll._id}
                 question={poll.question}
                 images={poll.images}
+                pollId={poll._id}
               />
             ))
           )}
         </div>
       </Container>
-      {/*<Divider />
-       <Container style={{ marginTop: "1rem" }}>
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between"
-          }}
-        >
-          <Typography>Polls</Typography>
-          <PollDialog />
-        </div>
-        <PollCard user={props.user} />
-      </Container> */}
     </>
   );
 };

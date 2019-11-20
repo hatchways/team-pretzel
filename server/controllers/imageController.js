@@ -4,6 +4,7 @@ import Image from "../models/Image";
 export const castVote = catchAsync(async (req, res, next) => {
   const image = await Image.findById(req.params.id);
   image.vote(req.body.userId);
+  console.log(req.params.id, req.body.userId);
   await image.save();
 
   res.status(201).json({

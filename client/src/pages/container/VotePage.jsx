@@ -35,6 +35,8 @@ const VotePage = ({ pollId }) => {
   //replace tempId with pollId when done
   const poll = useGet(`/api/v1/polls/${tempId}`, "poll");
 
+  console.log(pollId);
+
   let numberOfVotes = 0;
   if (poll) {
     console.log(poll.images);
@@ -53,7 +55,7 @@ const VotePage = ({ pollId }) => {
         </Link>
       </Typography>
       <Typography variant="h1">{poll.question}</Typography>
-      <h4>{numberOfVotes} answers</h4>
+      <Typography variant="h4">{numberOfVotes} answers</Typography>
       <div className={classes.imageContainer}>
         {poll.images.map(image => (
           <div key={image._id} style={{ marginRight: "0.5rem" }}>
