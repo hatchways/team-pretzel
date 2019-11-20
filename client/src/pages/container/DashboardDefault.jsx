@@ -4,7 +4,6 @@ import FriendListCard from "../presentational/FriendListCard";
 import FriendListDialog from "../presentational/FriendListDialog";
 import PollDialog from "../presentational/PollDialog";
 import PollCard from "../presentational/PollCard";
-import useGet from "../../utils/hooks/useGet";
 
 const useStyles = makeStyles({
   container: {
@@ -27,10 +26,6 @@ const useStyles = makeStyles({
 
 const DashboardDefault = ({ user }) => {
   const classes = useStyles();
-  const taggedPolls = useGet(
-    "/api/v1/users/profile/getTaggedPolls",
-    "taggedPolls"
-  );
 
   return (
     <>
@@ -52,7 +47,6 @@ const DashboardDefault = ({ user }) => {
           <PollDialog user={user} />
         </div>
         <div className={classes.cardContainer}>
-
           {!user.polls ? (
             <h1>No polls...</h1>
           ) : (
@@ -64,7 +58,6 @@ const DashboardDefault = ({ user }) => {
                 pollId={poll._id}
               />
             ))
-
           )}
         </div>
       </Container>

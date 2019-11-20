@@ -4,13 +4,11 @@ import catchAsync from "../utils/catchAsync";
 
 // Find all friends
 export const getAllFriends = catchAsync(async (req, res, next) => {
-
   const friends = await Friends.findOne({ user: req.user.id });
-
 
   res.status(200).json({
     status: "success",
-    friends: friends.friends
+    friends
   });
 });
 
@@ -47,5 +45,4 @@ export const suggestFriends = catchAsync(async (req, res, next) => {
     status: "success",
     potentialFriends
   });
-
 });

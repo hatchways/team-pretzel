@@ -20,11 +20,11 @@ const Friends = ({ location }) => {
   const classes = useStyles();
 
   // get friends
-  const friends = useGet(`/api/v1/friends/${user.id}`, "friends");
+  const friends = useGet(`/api/v1/friends`, "friends");
 
   // get suggested friends
   const potentialFriends = useGet(
-    `/api/v1/friends/suggested-friends/${user.id}`,
+    `/api/v1/friends/suggest`,
     "potentialFriends"
   );
 
