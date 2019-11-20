@@ -21,7 +21,7 @@ friendsSchema.methods.befriend = function(userId) {
 
 friendsSchema.methods.suggestFriends = function(allUsers) {
   let potentialFriends = [];
-  allUsers = allUsers.filter(id => id != this.user.id);
+
   allUsers.filter(user => {
     if (!this.friends.includes(user.id)) potentialFriends.push(user);
   });
