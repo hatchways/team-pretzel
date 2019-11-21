@@ -5,21 +5,45 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
-  DialogContentText,
-  DialogTitle,
-  FormControlLabel,
-  Checkbox,
   Button,
-  TextField
+  TextField,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
-const useStyles = makeStyles(theme => ({
+import ImageDropzone from "./ImageDropzone";
+
+const useStyles = makeStyles({
   button: {
-    margin: theme.spacing(1),
     borderRadius: 100
+  },
+  formContainer: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "space-around",
+    margin: "2rem 0"
+  },
+  textInput: {
+    width: "100%",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "space-around"
+  },
+  inputField: {
+    marginBottom: "2rem",
+    width: "100%"
+  },
+  imagesInput: {
+    marginTop: "1rem",
+    display: "flex",
+    flexDirection: "row"
   }
-}));
+});
 
 const PollDialog = ({ user }) => {
   const classes = useStyles();
@@ -31,26 +55,13 @@ const PollDialog = ({ user }) => {
     setOpen(false);
   };
 
-  const [state, setState] = React.useState({
-    checkedA: false,
-    checkedB: false,
-    checkedF: false,
-    checkedG: false
-  });
-
-  const handleCheckboxChange = name => event => {
-    setState({ ...state, [name]: event.target.checked });
-  };
-
-  const loadImage = (event, id) => {
+  const loadImage = (files, id) => {
     const output = document.getElementById(`${id}`);
-    output.src = URL.createObjectURL(event.target.files[0]);
+    output.src = URL.createObjectURL(files[0]);
     URL.revokeObjectURL(output);
   };
 
-  return !user ? (
-    <></>
-  ) : (
+  return (
     <React.Fragment>
       <Button
         variant="outlined"
@@ -60,126 +71,130 @@ const PollDialog = ({ user }) => {
       >
         Create Poll
       </Button>
-      <Dialog
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="form-dialog-title"
-      >
-        <DialogTitle id="form-dialog-title">Edit profile</DialogTitle>
+      <Dialog open={open} onClose={handleClose} maxWidth={false}>
         <DialogContent>
-          <DialogContentText>
-            This is where you can create a new poll.
-          </DialogContentText>
-
-          <Formik
-            initialValues={{
-              question: "",
-              images: [],
-              createdBy: user._id,
-              friendList: ""
-            }}
-            validateOnChange={false}
-            onSubmit={async ({ question, images, friendList, createdBy }) => {
-              let formData = new FormData();
-              formData.append("question", question);
-              images.map(image => formData.append("images", image));
-              formData.append("createdBy", createdBy);
-              await axios.post("/api/v1/polls/new-poll", formData);
-            }}
-          >
-            {({
-              errors,
-              handleSubmit,
-              handleChange,
-              values,
-              setFieldValue
-            }) => {
-              return (
-                <form onSubmit={handleSubmit}>
-                  <TextField
-                    value={values.question}
-                    onChange={handleChange}
-                    name="question"
-                    autoFocus
-                    margin="dense"
-                    label="Poll question"
-                    type="text"
-                    fullWidth
-                  />
-                  <input
-                    onChange={event => {
-                      setFieldValue("images", [
-                        ...values.images,
-                        event.currentTarget.files[0]
-                      ]);
-                      loadImage(event, "output1");
-                    }}
-                    name="`images`"
-                    accept="image/*"
-                    style={{ display: "none" }}
-                    id="upload-button-1"
-                    multiple
-                    type="file"
-                  />
-                  <img id="output1" alt="upload #1 " />
-                  <input
-                    onChange={event => {
-                      setFieldValue("images", [
-                        ...values.images,
-                        event.currentTarget.files[0]
-                      ]);
-                      loadImage(event, "output2");
-                    }}
-                    name="images"
-                    accept="image/*"
-                    style={{ display: "none" }}
-                    id="upload-button-2"
-                    multiple
-                    type="file"
-                  />
-                  <img id="output2" alt="upload #2 " />
-                  <label htmlFor="upload-button-1">
-                    <Button component="span">Upload image 1</Button>
-                  </label>
-                  <label htmlFor="upload-button-2">
-                    <Button component="span">Upload image 2</Button>
-                  </label>
-
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        checked={state.checkedA}
-                        onChange={handleCheckboxChange("checkedA")}
-                        value="checkedA"
-                        color="primary"
+          {user.friendLists.length ? (
+            <Formik
+              initialValues={{
+                question: "",
+                images: [],
+                createdBy: user.id || "",
+                friendList: ""
+              }}
+              validateOnChange={false}
+              onSubmit={async ({ question, images, friendList, createdBy }) => {
+                let formData = new FormData();
+                formData.append("question", question);
+                images.map(image => formData.append("images", image));
+                formData.append("createdBy", createdBy);
+                formData.append("friendList", friendList);
+                await axios.post("/api/v1/polls", formData);
+              }}
+            >
+              {({
+                errors,
+                handleSubmit,
+                handleChange,
+                values,
+                setFieldValue
+              }) => {
+                return (
+                  <form
+                    onSubmit={handleSubmit}
+                    className={classes.formContainer}
+                  >
+                    <div className={classes.textInput}>
+                      <TextField
+                        className={classes.inputField}
+                        variant="outlined"
+                        value={values.question}
+                        onChange={handleChange}
+                        name="question"
+                        autoFocus
+                        margin="dense"
+                        label="Poll question"
+                        type="text"
+                        fullWidth
                       />
-                    }
-                    label="Hatchways"
-                  />
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        checked={state.checkedB}
-                        onChange={handleCheckboxChange("checkedB")}
-                        value="checkedB"
-                        color="primary"
-                      />
-                    }
-                    label="Devs"
-                  />
+                      <FormControl
+                        variant="outlined"
+                        className={classes.inputField}
+                      >
+                        <InputLabel htmlFor="friend-list">
+                          Friend list
+                        </InputLabel>
 
-                  <DialogActions>
-                    <Button onClick={handleClose} color="secondary">
-                      Cancel
-                    </Button>
-                    <Button type="submit" onClick={handleClose} color="primary">
-                      Create
-                    </Button>
-                  </DialogActions>
-                </form>
-              );
-            }}
-          </Formik>
+                        <Select
+                          variant="outlined"
+                          id="friend-list"
+                          onChange={handleChange}
+                          value={values.friendList}
+                          name="friendList"
+                        >
+                          {user.friendLists.map(friendList => (
+                            <MenuItem
+                              value={friendList.title}
+                              key={friendList.id}
+                            >
+                              {friendList.title}
+                            </MenuItem>
+                          ))}
+                        </Select>
+                      </FormControl>
+                    </div>
+
+                    <div className={classes.imagesInput}>
+                      {values.images[0] ? (
+                        <img id="output1" alt="First option" />
+                      ) : (
+                        <ImageDropzone
+                          onDrop={files => {
+                            setFieldValue("images", [
+                              ...values.images,
+                              files[0]
+                            ]);
+                            loadImage(files, "output1");
+                          }}
+                        />
+                      )}
+
+                      {values.images[1] ? (
+                        <img id="output2" alt="Second option" />
+                      ) : (
+                        <ImageDropzone
+                          onDrop={files => {
+                            setFieldValue("images", [
+                              ...values.images,
+                              files[0]
+                            ]);
+                            loadImage(files, "output2");
+                          }}
+                        />
+                      )}
+                    </div>
+
+                    <DialogActions>
+                      <Button onClick={handleClose} color="secondary">
+                        Cancel
+                      </Button>
+                      <Button
+                        type="submit"
+                        onClick={handleClose}
+                        color="primary"
+                      >
+                        Create poll
+                      </Button>
+                    </DialogActions>
+                  </form>
+                );
+              }}
+            </Formik>
+          ) : (
+            <h3>
+              You currently have no friend lists. Please make a friend list
+              before creating a new poll.
+            </h3>
+          )}
         </DialogContent>
       </Dialog>
     </React.Fragment>

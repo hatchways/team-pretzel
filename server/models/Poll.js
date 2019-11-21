@@ -11,12 +11,10 @@ const pollSchema = new mongoose.Schema({
       ref: "Image"
     }
   ],
-  taggedFriendLists: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "FriendList"
-    }
-  ],
+  taggedFriendLists: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "FriendList"
+  },
   createdBy: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
