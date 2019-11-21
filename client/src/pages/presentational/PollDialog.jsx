@@ -45,7 +45,7 @@ const useStyles = makeStyles({
   }
 });
 
-const PollDialog = ({ user, updatePolls }) => {
+const PollDialog = ({ user }) => {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const handleClickOpen = () => {
@@ -89,7 +89,6 @@ const PollDialog = ({ user, updatePolls }) => {
                 formData.append("createdBy", createdBy);
                 formData.append("friendList", friendList);
                 await axios.post("/api/v1/polls", formData);
-                updatePolls();
               }}
             >
               {({
