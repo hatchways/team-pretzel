@@ -8,6 +8,7 @@ import Friends from "./container/Friends";
 import { setAuthToken } from "../utils/helpers";
 import jwt_decode from "jwt-decode";
 import useGet from "../utils/hooks/useGet";
+import socket from "../utils/socket";
 
 const Dashboard = ({ history, match }) => {
   const handleLogOut = () => {
@@ -16,6 +17,7 @@ const Dashboard = ({ history, match }) => {
   };
 
   const user = useGet("/api/v1/users/profile", "user");
+  if (user) socket.emit("user_online");
 
   useEffect(() => {
     // check if jwt in localstorage
