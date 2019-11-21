@@ -12,7 +12,6 @@ const useStyles = makeStyles({
 
 const ContentContainer = ({ children, user }) => {
   const classes = useStyles();
-  console.log(user);
   return (
     <div className={classes.flexContainer}>
       <div className={classes.friendsBar}>

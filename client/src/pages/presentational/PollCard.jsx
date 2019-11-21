@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { makeStyles, Card, CardContent, CardHeader } from "@material-ui/core";
 import { Favorite } from "@material-ui/icons";
 
@@ -19,7 +20,7 @@ const useStyles = makeStyles({
   images: { width: "75px", height: "75px" }
 });
 
-const PollCard = ({ question, images, id }) => {
+const PollCard = ({ question, images, pollId }) => {
   const classes = useStyles();
 
   let numberOfVotes = 0;
@@ -29,21 +30,27 @@ const PollCard = ({ question, images, id }) => {
 
   return (
     <Card className={classes.card}>
-      {/* <Link to={"/votepage"} pollId={id} /> */}
-      <CardHeader
-        className={classes.cardHeader}
-        title={question}
-        subheader={`${numberOfVotes} answers`}
-      />
-      <CardContent className={classes.cardContent}>
-        {images.map(image => (
-          <div key={image._id} style={{ marginRight: "0.5rem" }}>
-            <img className={classes.images} src={image.url} alt="random" />
-            <Favorite color="secondary" />
-            {image.castBy.length}
-          </div>
-        ))}
-      </CardContent>
+      <Link
+        to={{
+          pathname: `/dashboard/votepage`,
+          state: { pollId }
+        }}
+      >
+        <CardHeader
+          className={classes.cardHeader}
+          title={question}
+          subheader={`${numberOfVotes} answers`}
+        />
+        <CardContent className={classes.cardContent}>
+          {images.map(image => (
+            <div key={image._id} style={{ marginRight: "0.5rem" }}>
+              <img className={classes.images} src={image.url} alt="random" />
+              <Favorite color="secondary" />
+              {image.castBy.length}
+            </div>
+          ))}
+        </CardContent>
+      </Link>
     </Card>
   );
 };

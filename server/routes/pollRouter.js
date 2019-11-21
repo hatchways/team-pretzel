@@ -15,4 +15,7 @@ router.post(
 
 router.get("/:id", pollController.getPoll);
 
+// Get all polls for a user
+router.get("/user-polls/:id", pollController.getUserPolls);
+
 export default router;
