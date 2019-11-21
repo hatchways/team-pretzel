@@ -26,6 +26,12 @@ const useStyles = makeStyles(theme => ({
   button: {
     margin: theme.spacing(1),
     borderRadius: 100
+  },
+  title: {
+    textAlign: "center"
+  },
+  input: {
+    width: "100%"
   }
 }));
 
@@ -54,11 +60,12 @@ const FriendListDialog = () => {
       </Button>
       <Dialog
         aria-labelledby="friendlist-dialog"
-        maxWidth="md"
+        maxWidth="sm"
+        fullWidth
         open={open}
         onClose={handleClick}
       >
-        <DialogTitle id="friendlist-dialog-title">
+        <DialogTitle className={classes.title} id="friendlist-dialog-title">
           Create a friend list
         </DialogTitle>
         <Formik
@@ -77,6 +84,7 @@ const FriendListDialog = () => {
                     onChange={handleChange}
                     value={values.title}
                     placeholder="Enter name of list"
+                    className={classes.input}
                   />
                   <List>
                     {friends.friends.map(friend => {
