@@ -1,8 +1,11 @@
 import React, { Fragment, useState } from "react";
 import { Formik } from "formik";
+import { FriendListSchema } from "../../utils/validation";
+import axios from "axios";
 import {
   Button,
   CircularProgress,
+  FormHelperText,
   Dialog,
   DialogTitle,
   DialogContent,
@@ -69,13 +72,19 @@ const FriendListDialog = () => {
           Create a friend list
         </DialogTitle>
         <Formik
+          validationSchema={FriendListSchema}
           initialValues={initialValues}
-          onSubmit={(values, actions) => {
+          validateOnChange={false}
+          onSubmit={async (values, actions) => {
             // values are the data to be sent to backend POST request
             console.log(values);
+            // const res = axios.post("/api/v1/friend-lists", values, {
+            //   headers: { Authorization: `Bearer ${localStorage.jwtToken}` }
+            // });
           }}
         >
-          {({ handleSubmit, handleChange, values }) => {
+          {({ errors, handleSubmit, handleChange, values }) => {
+            console.log(errors);
             return (
               <DialogContent>
                 <form onSubmit={handleSubmit}>
@@ -86,6 +95,12 @@ const FriendListDialog = () => {
                     placeholder="Enter name of list"
                     className={classes.input}
                   />
+                  {errors.title ? (
+                    <FormHelperText error>{errors.title}</FormHelperText>
+                  ) : null}
+                  {errors.friendsToAdd ? (
+                    <FormHelperText error>{errors.friendsToAdd}</FormHelperText>
+                  ) : null}
                   <List>
                     {friends.friends.map(friend => {
                       return (
