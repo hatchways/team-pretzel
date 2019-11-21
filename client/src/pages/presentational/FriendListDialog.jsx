@@ -76,19 +76,18 @@ const FriendListDialog = () => {
           initialValues={initialValues}
           validateOnChange={false}
           onSubmit={async ({ title, friendsToAdd }, actions) => {
-            // values are the data to be sent to backend POST request
-            const res = axios.post(
+            const res = await axios.post(
               "/api/v1/friend-lists",
               { title, friendIds: friendsToAdd },
               {
                 headers: { Authorization: `Bearer ${localStorage.jwtToken}` }
               }
             );
+            actions.setSubmitting(false);
             handleClick();
           }}
         >
           {({ errors, handleSubmit, handleChange, values }) => {
-            console.log(errors);
             return (
               <DialogContent>
                 <form onSubmit={handleSubmit}>
