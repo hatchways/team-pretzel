@@ -2,6 +2,7 @@ import React, { Fragment, useState } from "react";
 import { Formik } from "formik";
 import {
   Button,
+  CircularProgress,
   Dialog,
   DialogTitle,
   DialogContent,
@@ -28,8 +29,8 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const FriendListDialog = props => {
-  const friends = useGet("/api/v1/users", "users");
+const FriendListDialog = () => {
+  const friends = useGet("/api/v1/friends", "friends");
 
   const classes = useStyles();
 
@@ -39,7 +40,9 @@ const FriendListDialog = props => {
     setOpen(!open);
   };
 
-  return (
+  return !friends ? (
+    <CircularProgress />
+  ) : (
     <Fragment>
       <Button
         variant="outlined"
@@ -76,7 +79,7 @@ const FriendListDialog = props => {
                     placeholder="Enter name of list"
                   />
                   <List>
-                    {friends.map(friend => {
+                    {friends.friends.map(friend => {
                       return (
                         <ListItem key={friend.id}>
                           <ListItemText>{friend.name}</ListItemText>
