@@ -31,6 +31,7 @@ export const updateFriends = catchAsync(async (req, res, next) => {
 });
 
 // Get suggested list of friends
+
 export const suggestFriends = catchAsync(async (req, res, next) => {
   const currentFriends = await Friends.findOne({ user: req.user.id });
   let allUsers = await User.find();

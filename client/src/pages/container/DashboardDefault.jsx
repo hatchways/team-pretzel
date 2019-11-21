@@ -26,6 +26,7 @@ const useStyles = makeStyles({
 
 const DashboardDefault = ({ user }) => {
   const classes = useStyles();
+
   return (
     <>
       <Container className={classes.container}>

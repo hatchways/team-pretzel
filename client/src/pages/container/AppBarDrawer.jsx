@@ -86,7 +86,13 @@ const AppBarDrawer = ({ user, handleLogOut }) => {
     <div className={classes.root}>
       <AppBar position="static" className={classes.appBar}>
         <Toolbar className={classes.toolbar}>
-          <Link to={`${match.path}/friends`} className={classes.menuButton}>
+          <Link
+            to={{
+              pathname: `${match.path}/friends`,
+              state: { user }
+            }}
+            className={classes.menuButton}
+          >
             <Button>Friends</Button>
           </Link>
           <Link to="#" className={classes.menuButton}>
@@ -95,9 +101,9 @@ const AppBarDrawer = ({ user, handleLogOut }) => {
           <Link to="#" className={classes.menuButton}>
             <Button>Opinions</Button>
           </Link>
-          <Link to="#" className={classes.menuButton}>
-            <PollDialog />
-          </Link>
+
+          <PollDialog />
+
           <Button
             ref={anchorRef}
             aria-controls={open ? "menu-list-grow" : undefined}
