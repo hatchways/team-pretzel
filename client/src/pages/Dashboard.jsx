@@ -8,6 +8,7 @@ import Friends from "./container/Friends";
 import { setAuthToken } from "../utils/helpers";
 import jwt_decode from "jwt-decode";
 import useGet from "../utils/hooks/useGet";
+import VotePage from "./container/VotePage";
 
 const Dashboard = ({ history, match }) => {
   const handleLogOut = () => {
@@ -48,6 +49,7 @@ const Dashboard = ({ history, match }) => {
           render={props => <DashboardDefault {...props} user={user} />}
         />
         <Route path={`${match.path}/friends`} component={Friends} />
+        <Route path={`${match.path}/votepage`} component={VotePage} />
       </ContentContainer>
     </Router>
   );

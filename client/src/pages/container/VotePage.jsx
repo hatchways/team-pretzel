@@ -11,9 +11,12 @@ import useGet from "../../utils/hooks/useGet";
 
 const useStyles = makeStyles(theme => ({
   root: {
-    width: "100%",
-    maxWidth: 360,
-    backgroundColor: theme.palette.background.paper
+    backgroundColor: theme.palette.background.paper,
+    height: "100%",
+    minWidth: "80%",
+    maxWidth: "80%",
+
+    margin: "1rem auto"
   },
   inline: {
     display: "inline"
@@ -27,14 +30,14 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const VotePage = ({ pollId }) => {
+const VotePage = ({ location }) => {
   const classes = useStyles();
   //remove and replace with props when done
   const tempId = "5dd4e1ecd5c96a79b71f029e";
   //replace tempId with pollId when done
-  const poll = useGet(`/api/v1/polls/${tempId}`, "poll");
+  const poll = useGet(`/api/v1/polls/${location.state.pollId}`, "poll");
 
-  console.log(pollId);
+  console.log(location);
 
   let numberOfVotes = 0;
   if (poll) {
@@ -46,7 +49,7 @@ const VotePage = ({ pollId }) => {
   return !poll ? (
     <CircularProgress />
   ) : (
-    <>
+    <div className={classes.root}>
       <Typography>
         <Link to="/dashboard">
           <KeyboardArrowLeft />
@@ -70,7 +73,7 @@ const VotePage = ({ pollId }) => {
           <Friend />;
         })} */}
       </List>
-    </>
+    </div>
   );
 };
 
