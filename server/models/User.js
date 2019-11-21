@@ -25,7 +25,11 @@ const userSchema = new mongoose.Schema(
       minlength: [8, "Your password must have at least 8 characters"],
       select: false
     },
-    avatar: String
+    avatar: String,
+    online: {
+      type: Boolean,
+      default: false
+    }
   },
   {
     toJSON: { virtuals: true },
@@ -65,6 +69,12 @@ userSchema.methods.isPasswordCorrect = async function(
   userPassword
 ) {
   return await bcrypt.compare(candidatePassword, userPassword);
+};
+
+// set status
+userSchema.methods.setOnline = function() {
+  if (!this.online) this.online = true;
+  return this;
 };
 
 const User = mongoose.model("User", userSchema);
