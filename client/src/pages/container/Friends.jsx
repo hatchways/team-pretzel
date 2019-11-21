@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { makeStyles, Paper, Tabs, Tab, Typography } from "@material-ui/core";
+import {
+  makeStyles,
+  Paper,
+  Tabs,
+  Tab,
+  Typography,
+  TextField
+} from "@material-ui/core";
 import FriendsTabPanel from "../presentational/FriendsTabPanel";
 import SuggestedTabPanel from "../presentational/SuggestedTabPanel";
 import useGet from "../../utils/hooks/useGet";
@@ -34,6 +41,11 @@ const Friends = ({ location }) => {
     await axios.put(`/api/v1/friends/${friendId}`);
   };
 
+  const [inputValue, setInputValue] = useState("");
+  const handleOnChange = event => {
+    setInputValue(event.target.value);
+  };
+
   return (
     <div className={classes.root}>
       <Typography>Friends</Typography>
@@ -49,12 +61,23 @@ const Friends = ({ location }) => {
             <Tab label="Suggested" />
           </Tabs>
         </div>
-        <FriendsTabPanel friends={user.friends} value={value} index={0} />
+        <TextField
+          value={inputValue}
+          label="type name"
+          onChange={handleOnChange}
+        />
+        <FriendsTabPanel
+          friends={user.friends}
+          value={value}
+          index={0}
+          inputValue={inputValue}
+        />
         <SuggestedTabPanel
           handleAddFriend={handleAddFriend}
           potentialFriends={potentialFriends}
           value={value}
           index={1}
+          inputValue={inputValue}
         />
       </Paper>
     </div>
