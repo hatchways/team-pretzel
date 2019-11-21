@@ -4,8 +4,6 @@ import FriendListCard from "../presentational/FriendListCard";
 import FriendListDialog from "../presentational/FriendListDialog";
 import PollDialog from "../presentational/PollDialog";
 import PollCard from "../presentational/PollCard";
-import useGet from "../../utils/hooks/useGet";
-import axios from "axios";
 
 const useStyles = makeStyles({
   container: {
@@ -30,13 +28,6 @@ const DashboardDefault = ({ user }) => {
   const classes = useStyles();
 
   const [polls, setPolls] = useState(user.polls);
-  console.log(polls);
-
-  // const updatePolls = async () => {
-  //   const newPolls = await axios.get(`/api/v1/polls/user-polls/${user._id}`);
-  //   console.log(newPolls.data.polls);
-  //   setPolls(newPolls.data.polls);
-  // };
 
   return (
     <>

@@ -32,18 +32,20 @@ const useStyles = makeStyles(theme => ({
 
 const VotePage = ({ location }) => {
   const classes = useStyles();
-  //remove and replace with props when done
-  const tempId = "5dd4e1ecd5c96a79b71f029e";
-  //replace tempId with pollId when done
+
   const poll = useGet(`/api/v1/polls/${location.state.pollId}`, "poll");
 
-  console.log(location);
-
   let numberOfVotes = 0;
+  let listOfVoters = [];
   if (poll) {
-    console.log(poll.images);
     // Add up the total number of votes
     poll.images.forEach(image => (numberOfVotes += image.castBy.length));
+    // Populate list of voters
+    poll.images.forEach(image =>
+      image.castBy.length < 1
+        ? listOfVoters
+        : (listOfVoters = [image.castBy, ...listOfVoters])
+    );
   }
 
   return !poll ? (
@@ -68,10 +70,12 @@ const VotePage = ({ location }) => {
         ))}
       </div>
       <List>
-        novote
-        {/* {poll.image.map(image => {
-          <Friend />;
-        })} */}
+        {listOfVoters.length < 1 ? (
+          <h1>Nobody has voted yet</h1>
+        ) : (
+          // List the voters
+          <h1>somebody voted</h1>
+        )}
       </List>
     </div>
   );
