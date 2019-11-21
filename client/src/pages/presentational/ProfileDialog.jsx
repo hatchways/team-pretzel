@@ -58,7 +58,7 @@ const ProfileDialog = ({ user }) => {
               let formData = new FormData();
               if (name) formData.append("name", name);
               if (avatar) formData.append("avatar", avatar);
-              await axios.patch("/api/v1/users/profile/update", formData);
+              await axios.patch("/api/v1/users/profile", formData);
             }}
           >
             {({
