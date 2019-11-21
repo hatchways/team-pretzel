@@ -89,6 +89,14 @@ const AppBarDrawer = ({ user, handleLogOut }) => {
           <Toolbar className={classes.toolbar}>
             <Link
               to={{
+                pathname: `${match.path}/`
+              }}
+              className={classes.menuButton}
+            >
+              <Button>Home</Button>
+            </Link>
+            <Link
+              to={{
                 pathname: `${match.path}/friends`,
                 state: { user }
               }}
