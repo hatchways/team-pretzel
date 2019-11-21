@@ -12,6 +12,11 @@ var http = require("http");
 var socket = require("socket.io");
 
 /**
+ * App utils.
+ */
+import { setOnlineStatus } from "../utils/setStatus";
+
+/**
  * Get port from environment and store in Express.
  */
 
@@ -36,7 +41,11 @@ const io = socket(server);
 io.on("connection", socket => {
   console.log("⚡ A user connected", socket.id);
 
-  socket.on("user_online", () => console.log("A user just went online"));
+  socket.on("user_online", user => {
+    console.log("A user just went online");
+    setOnlineStatus(user.id);
+    io.sockets.emit("user_online", user);
+  });
 });
 
 /**

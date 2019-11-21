@@ -17,7 +17,9 @@ const Dashboard = ({ history, match }) => {
   };
 
   const user = useGet("/api/v1/users/profile", "user");
-  if (user) socket.emit("user_online");
+  if (user) socket.emit("user_online", user);
+
+  socket.on("user_online", () => {});
 
   useEffect(() => {
     // check if jwt in localstorage
