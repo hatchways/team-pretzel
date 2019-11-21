@@ -1,7 +1,9 @@
 import React from "react";
 import { makeStyles, Card, CardContent, CardHeader } from "@material-ui/core";
+
 import { Favorite } from "@material-ui/icons";
 import { Link } from "react-router-dom";
+
 
 const useStyles = makeStyles({
   card: {
@@ -20,7 +22,10 @@ const useStyles = makeStyles({
   images: { width: "75px", height: "75px" }
 });
 
+
+
 const PollCard = ({ question, images, id }) => {
+
   const classes = useStyles();
 
   let numberOfVotes = 0;
@@ -33,6 +38,7 @@ const PollCard = ({ question, images, id }) => {
       {/* <Link to={"/votepage"} pollId={id} /> */}
       <CardHeader
         className={classes.cardHeader}
+
         title={question}
         subheader={`${numberOfVotes} answers`}
       />
@@ -44,6 +50,7 @@ const PollCard = ({ question, images, id }) => {
             {image.castBy.length}
           </div>
         ))}
+
       </CardContent>
     </Card>
   );

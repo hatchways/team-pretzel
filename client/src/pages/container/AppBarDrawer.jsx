@@ -87,12 +87,20 @@ const AppBarDrawer = ({ user, handleLogOut }) => {
       {user ? (
         <AppBar position="static" className={classes.appBar}>
           <Toolbar className={classes.toolbar}>
-            <Link to={`${match.path}/friends`} className={classes.menuButton}>
+            <Link
+              to={{
+                pathname: `${match.path}/friends`,
+                state: { user }
+              }}
+              className={classes.menuButton}
+            >
               <Button>Friends</Button>
             </Link>
+
             <Link to="#" className={classes.menuButton}>
               <Button>Friends poll</Button>
             </Link>
+
             <Link to="#" className={classes.menuButton}>
               <Button>Opinions</Button>
             </Link>
