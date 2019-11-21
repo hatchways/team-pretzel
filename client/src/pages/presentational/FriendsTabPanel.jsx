@@ -38,7 +38,7 @@ const FriendsTabPanel = ({ value, index, friends }) => {
                 <Typography>{friend.name}</Typography>
               </ListItemText>
               <ListItemSecondaryAction>
-                <Button>Follow</Button>
+                <Button>Followed</Button>
               </ListItemSecondaryAction>
             </ListItem>
           );
