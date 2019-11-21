@@ -162,17 +162,6 @@ const AppBarDrawer = ({ user, handleLogOut }) => {
           </Toolbar>
         </AppBar>
       ) : null}
-
-      {/*</div><Drawer
-      //   className={classes.drawer}
-      //   variant="permanent"
-      //   classes={{
-      //     paper: classes.drawerPaper
-      //   }}
-      // >
-      //   <div className={classes.toolbar} />
-      //   <FriendList />
-      </Drawer>*/}
     </div>
   );
 };

@@ -1,29 +1,18 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { Formik } from "formik";
-import { makeStyles } from "@material-ui/core/styles";
-
 import {
   Dialog,
   DialogActions,
   DialogContent,
-  DialogContentText,
   DialogTitle,
   Button,
   TextField
 } from "@material-ui/core";
 
-const useStyles = makeStyles({
-  avatar: {
-    margin: 10
-  },
-  tab: {
-    color: "red"
-  }
-});
+import ImageDropzone from "./ImageDropzone";
 
 const ProfileDialog = ({ user }) => {
-  const classes = useStyles();
   const [open, setOpen] = useState(false);
   const handleClickOpen = () => {
     setOpen(true);
@@ -31,9 +20,9 @@ const ProfileDialog = ({ user }) => {
   const handleClose = () => {
     setOpen(false);
   };
-  const loadImage = event => {
+  const loadImage = files => {
     const output = document.getElementById("output");
-    output.src = URL.createObjectURL(event.target.files[0]);
+    output.src = URL.createObjectURL(files[0]);
     URL.revokeObjectURL(output);
   };
 
@@ -47,9 +36,6 @@ const ProfileDialog = ({ user }) => {
       >
         <DialogTitle id="form-dialog-title">Edit profile</DialogTitle>
         <DialogContent>
-          <DialogContentText>
-            This is where you can update your name and avatar.
-          </DialogContentText>
           <Formik
             enableReinitialize={true}
             initialValues={{ name: "", avatar: null }}
@@ -58,7 +44,7 @@ const ProfileDialog = ({ user }) => {
               let formData = new FormData();
               if (name) formData.append("name", name);
               if (avatar) formData.append("avatar", avatar);
-              await axios.patch("/api/v1/users/profile/update", formData);
+              await axios.patch("/api/v1/users/profile", formData);
             }}
           >
             {({
@@ -81,26 +67,20 @@ const ProfileDialog = ({ user }) => {
                     type="text"
                     fullWidth
                   />
-                  <input
-                    onChange={event => {
-                      setFieldValue("avatar", event.currentTarget.files[0]);
-                      loadImage(event);
-                    }}
-                    name="avatar"
-                    accept="image/*"
-                    className={classes.input}
-                    style={{ display: "none" }}
-                    id="file-upload-button"
-                    multiple
-                    type="file"
-                  />
 
-                  <img id="output" alt="upload preview" />
-                  <label htmlFor="file-upload-button">
-                    <Button component="span">Upload avatar</Button>
-                  </label>
+                  {values.avatar ? (
+                    <img id="output" alt="upload preview" />
+                  ) : (
+                    <ImageDropzone
+                      onDrop={files => {
+                        setFieldValue("avatar", files[0]);
+                        loadImage(files, "output");
+                      }}
+                    />
+                  )}
+
                   <DialogActions>
-                    <Button onClick={handleClose} color="primary">
+                    <Button onClick={handleClose} color="secondary">
                       Cancel
                     </Button>
                     <Button onClick={handleClose} color="primary" type="submit">
