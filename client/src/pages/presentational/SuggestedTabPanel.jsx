@@ -25,7 +25,8 @@ const SuggestedTabPanel = ({
   value,
   index,
   potentialFriends,
-  handleAddFriend
+  handleAddorRemoveFriend,
+  inputValue
 }) => {
   const classes = useStyles();
   return (
@@ -33,27 +34,33 @@ const SuggestedTabPanel = ({
       {potentialFriends === null ? (
         <div>...loading...</div>
       ) : (
-        potentialFriends.map(potential => {
-          return (
-            <ListItem className={classes.listItem} key={potential.id}>
-              <ListItemAvatar>
-                <Avatar alt={potential.name} src={potential.avatar} />
-              </ListItemAvatar>
-              <ListItemText>
-                <Typography>{potential.name}</Typography>
-              </ListItemText>
-              <ListItemSecondaryAction>
-                <Button
-                  onClick={() => {
-                    handleAddFriend(potential.id);
-                  }}
-                >
-                  Follow
-                </Button>
-              </ListItemSecondaryAction>
-            </ListItem>
-          );
-        })
+        potentialFriends
+          .filter(friends => {
+            return friends.name
+              .toLowerCase()
+              .includes(inputValue.toLowerCase());
+          })
+          .map(potential => {
+            return (
+              <ListItem className={classes.listItem} key={potential.id}>
+                <ListItemAvatar>
+                  <Avatar alt={potential.name} src={potential.avatar} />
+                </ListItemAvatar>
+                <ListItemText>
+                  <Typography>{potential.name}</Typography>
+                </ListItemText>
+                <ListItemSecondaryAction>
+                  <Button
+                    onClick={() => {
+                      handleAddorRemoveFriend(potential.id);
+                    }}
+                  >
+                    Follow
+                  </Button>
+                </ListItemSecondaryAction>
+              </ListItem>
+            );
+          })
       )}
     </List>
   );

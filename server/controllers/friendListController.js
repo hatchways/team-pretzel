@@ -3,7 +3,7 @@ import AppError from "../utils/AppError";
 import catchAsync from "../utils/catchAsync";
 
 export const createFriendList = catchAsync(async (req, res, next) => {
-  const { friendIds, title, user } = req.body;
+  const { friendIds, title } = req.body;
   if (friendIds.length === 0) {
     return next(new AppError("No friends were selected", 400));
   }
@@ -11,7 +11,7 @@ export const createFriendList = catchAsync(async (req, res, next) => {
   const newFriendList = await FriendList.create({
     title,
     friends: [...friendIds],
-    user
+    user: req.user._id
   });
 
   res.status(201).json({
