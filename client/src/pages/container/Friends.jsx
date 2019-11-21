@@ -37,7 +37,7 @@ const Friends = ({ location }) => {
     setValue(newValue);
   };
 
-  const handleAddFriend = async friendId => {
+  const handleAddorRemoveFriend = async friendId => {
     await axios.put(`/api/v1/friends/${friendId}`);
   };
 
@@ -67,13 +67,14 @@ const Friends = ({ location }) => {
           onChange={handleOnChange}
         />
         <FriendsTabPanel
+          handleAddorRemoveFriend={handleAddorRemoveFriend}
           friends={user.friends}
           value={value}
           index={0}
           inputValue={inputValue}
         />
         <SuggestedTabPanel
-          handleAddFriend={handleAddFriend}
+          handleAddorRemoveFriend={handleAddorRemoveFriend}
           potentialFriends={potentialFriends}
           value={value}
           index={1}
