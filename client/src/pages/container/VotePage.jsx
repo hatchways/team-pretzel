@@ -7,7 +7,6 @@ import {
   makeStyles
 } from "@material-ui/core";
 import { KeyboardArrowLeft, Favorite } from "@material-ui/icons";
-import Friend from "../presentational/Friend";
 import useGet from "../../utils/hooks/useGet";
 
 const useStyles = makeStyles(theme => ({

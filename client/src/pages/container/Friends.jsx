@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { makeStyles, Paper, Tabs, Tab, Typography } from "@material-ui/core";
 import FriendsTabPanel from "../presentational/FriendsTabPanel";
 import SuggestedTabPanel from "../presentational/SuggestedTabPanel";
@@ -31,7 +31,7 @@ const Friends = ({ location }) => {
   };
 
   const handleAddFriend = async friendId => {
-    const result = await axios.put(`/api/v1/friends/${friendId}`);
+    await axios.put(`/api/v1/friends/${friendId}`);
   };
 
   return (
