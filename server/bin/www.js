@@ -14,7 +14,7 @@ var socket = require("socket.io");
 /**
  * App utils.
  */
-import { setOnlineStatus } from "../utils/setStatus";
+import { setOnlineStatus, setOfflineStatus } from "../utils/setStatus";
 
 /**
  * Get port from environment and store in Express.
@@ -39,12 +39,18 @@ server.on("listening", onListening);
 
 const io = socket(server);
 io.on("connection", socket => {
-  console.log("⚡ A user connected", socket.id);
+  console.log("⚡ A socket successfully connected", socket.id);
 
   socket.on("user_online", user => {
     console.log("A user just went online");
     setOnlineStatus(user.id);
     io.sockets.emit("user_online", user);
+  });
+
+  socket.on("user_offline", user => {
+    console.log("User just went offline");
+    setOfflineStatus(user.id);
+    io.sockets.emit("user_offline", user);
   });
 });
 

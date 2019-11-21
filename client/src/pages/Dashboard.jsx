@@ -13,6 +13,8 @@ import socket from "../utils/socket";
 const Dashboard = ({ history, match }) => {
   const handleLogOut = () => {
     localStorage.removeItem("jwtToken");
+    socket.emit("user_offline", user);
+    socket.on("user_offline", () => {});
     history.push("/signin");
   };
 

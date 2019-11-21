@@ -77,5 +77,10 @@ userSchema.methods.setOnline = function() {
   return this;
 };
 
+userSchema.methods.setOffline = function() {
+  if (this.online) this.online = false;
+  return this;
+};
+
 const User = mongoose.model("User", userSchema);
 export default User;

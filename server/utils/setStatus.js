@@ -9,3 +9,13 @@ export const setOnlineStatus = async userId => {
     console.log(err);
   }
 };
+
+export const setOfflineStatus = async userId => {
+  try {
+    let user = await User.findById(userId);
+    user = user.setOffline();
+    await user.save();
+  } catch (err) {
+    console.log(err);
+  }
+};
