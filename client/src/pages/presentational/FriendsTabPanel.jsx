@@ -21,7 +21,13 @@ const useStyles = makeStyles({
   }
 });
 
-const FriendsTabPanel = ({ value, index, friends, inputValue }) => {
+const FriendsTabPanel = ({
+  value,
+  index,
+  friends,
+  inputValue,
+  handleAddorRemoveFriend
+}) => {
   const classes = useStyles();
   return (
     <List className={classes.root} hidden={value !== index}>
@@ -42,7 +48,13 @@ const FriendsTabPanel = ({ value, index, friends, inputValue }) => {
                   <Typography>{friend.name}</Typography>
                 </ListItemText>
                 <ListItemSecondaryAction>
-                  <Button>Followed</Button>
+                  <Button
+                    onClick={() => {
+                      handleAddorRemoveFriend(friend.id);
+                    }}
+                  >
+                    Unfollow
+                  </Button>
                 </ListItemSecondaryAction>
               </ListItem>
             );

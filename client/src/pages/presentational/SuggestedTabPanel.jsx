@@ -25,7 +25,7 @@ const SuggestedTabPanel = ({
   value,
   index,
   potentialFriends,
-  handleAddFriend,
+  handleAddorRemoveFriend,
   inputValue
 }) => {
   const classes = useStyles();
@@ -52,7 +52,7 @@ const SuggestedTabPanel = ({
                 <ListItemSecondaryAction>
                   <Button
                     onClick={() => {
-                      handleAddFriend(potential.id);
+                      handleAddorRemoveFriend(potential.id);
                     }}
                   >
                     Follow
