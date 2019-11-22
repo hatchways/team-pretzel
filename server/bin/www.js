@@ -42,19 +42,19 @@ io.on("connection", socket => {
   console.log("⚡ A socket successfully connected at", socket.id);
 
   socket.on("user_online", user => {
-    console.log("A user just went online");
+    console.log(`🙂 ${user.name} is online`);
     setOnlineStatus(user.id);
     io.sockets.emit("user_online", user);
   });
 
   socket.on("user_offline", user => {
-    console.log("User just went offline");
+    console.log(`😶 ${user.name} is offline`);
     setOfflineStatus(user.id);
     io.sockets.emit("user_offline", user);
   });
 
   socket.on("disconnect", () => {
-    console.log("Socket disconnected");
+    console.log("⭕ Socket disconnected");
   });
 });
 
