@@ -105,7 +105,13 @@ const AppBarDrawer = ({ user, handleLogOut }) => {
               <Button>Friends</Button>
             </Link>
 
-            <Link to="#" className={classes.menuButton}>
+            <Link
+              to={{
+                pathname: `${match.path}/friendspolls`,
+                state: { user }
+              }}
+              className={classes.menuButton}
+            >
               <Button>Friends poll</Button>
             </Link>
 

@@ -17,7 +17,8 @@ const useStyles = makeStyles({
     justifyContent: "center",
     padding: "1.5rem 0"
   },
-  images: { width: "75px", height: "75px" }
+  images: { width: "75px", height: "75px" },
+  link: { textDecoration: "none", color: "black" }
 });
 
 const PollCard = ({ question, images, pollId }) => {
@@ -35,6 +36,7 @@ const PollCard = ({ question, images, pollId }) => {
           pathname: `/dashboard/votepage`,
           state: { pollId }
         }}
+        className={classes.link}
       >
         <CardHeader
           className={classes.cardHeader}
