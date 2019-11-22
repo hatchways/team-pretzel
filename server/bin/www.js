@@ -39,7 +39,7 @@ server.on("listening", onListening);
 
 const io = socket(server);
 io.on("connection", socket => {
-  console.log("⚡ A socket successfully connected", socket.id);
+  console.log("⚡ A socket successfully connected at", socket.id);
 
   socket.on("user_online", user => {
     console.log("A user just went online");
@@ -51,6 +51,10 @@ io.on("connection", socket => {
     console.log("User just went offline");
     setOfflineStatus(user.id);
     io.sockets.emit("user_offline", user);
+  });
+
+  socket.on("disconnect", () => {
+    console.log("Socket disconnected");
   });
 });
 
