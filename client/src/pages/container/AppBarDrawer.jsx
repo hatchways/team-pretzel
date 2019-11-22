@@ -12,6 +12,7 @@ import {
   MenuItem,
   MenuList
 } from "@material-ui/core";
+import FiberManualRecordIcon from "@material-ui/icons/FiberManualRecord";
 
 import ProfileDialog from "../presentational/ProfileDialog";
 import PollDialog from "../presentational/PollDialog";
@@ -131,9 +132,13 @@ const AppBarDrawer = ({ user, handleLogOut }) => {
                 src={user.avatar}
                 className={classes.avatar}
               />
-              {user.online ? <span>Me online</span> : null}
-
               {user.name}
+              {/*This icon below is temporarily used for testing user online status*/}
+              {user.online ? (
+                <FiberManualRecordIcon style={{ color: "#1EA362" }} />
+              ) : (
+                <FiberManualRecordIcon color="disabled" />
+              )}
             </Button>
             <Popper
               open={open}
