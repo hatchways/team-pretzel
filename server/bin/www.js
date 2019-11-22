@@ -9,6 +9,12 @@ require("dotenv").config();
 
 var app = require("../app");
 var http = require("http");
+var socket = require("socket.io");
+
+/**
+ * App utils.
+ */
+import { setOnlineStatus, setOfflineStatus } from "../utils/setStatus";
 
 /**
  * Get port from environment and store in Express.
@@ -30,6 +36,27 @@ var server = http.createServer(app);
 server.listen(port);
 server.on("error", onError);
 server.on("listening", onListening);
+
+const io = socket(server);
+io.on("connection", socket => {
+  console.log("⚡ A socket successfully connected at", socket.id);
+
+  socket.on("user_online", user => {
+    console.log(`🙂 ${user.name} is online`);
+    setOnlineStatus(user.id);
+    io.sockets.emit("user_online", user);
+  });
+
+  socket.on("user_offline", user => {
+    console.log(`😶 ${user.name} is offline`);
+    setOfflineStatus(user.id);
+    io.sockets.emit("user_offline", user);
+  });
+
+  socket.on("disconnect", () => {
+    console.log("⭕ Socket disconnected");
+  });
+});
 
 /**
  * Normalize a port into a number, string, or false.

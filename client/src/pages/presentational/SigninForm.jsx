@@ -1,11 +1,12 @@
 import React from "react";
 import { Formik } from "formik";
 import { Button } from "@material-ui/core";
+import axios from "axios";
+
 import { SigninSchema } from "../../utils/validation";
 import FormFields from "./FormFields";
 import { styles } from "./inlineStyles";
 import { JWTtoLocalStorage } from "../../utils/helpers";
-import axios from "axios";
 
 const SigninForms = ({ history }) => {
   return (
@@ -15,11 +16,8 @@ const SigninForms = ({ history }) => {
       initialValues={{ email: "", password: "" }}
       onSubmit={async ({ email, password }, { setSubmitting }) => {
         const user = { email, password };
-        // send values to backend endpoints
         const res = await axios.post("/api/v1/users/login", user);
         const { token } = res.data;
-
-        // set token to lstorage
         JWTtoLocalStorage(token);
         setSubmitting(false);
         history.push("/dashboard");

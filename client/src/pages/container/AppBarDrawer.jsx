@@ -12,9 +12,12 @@ import {
   MenuItem,
   MenuList
 } from "@material-ui/core";
+import FiberManualRecordIcon from "@material-ui/icons/FiberManualRecord";
 
 import ProfileDialog from "../presentational/ProfileDialog";
 import PollDialog from "../presentational/PollDialog";
+
+import socket from "../../utils/socket";
 
 const drawerWidth = 240;
 
@@ -50,6 +53,9 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const AppBarDrawer = ({ user, handleLogOut }) => {
+  socket.emit("user_online", user);
+  socket.on("user_online", () => {});
+  console.log("From AppBar", user);
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const anchorRef = useRef(null);
@@ -132,8 +138,13 @@ const AppBarDrawer = ({ user, handleLogOut }) => {
                 src={user.avatar}
                 className={classes.avatar}
               />
-
               {user.name}
+              {/*This icon below is temporarily used for testing user online status*/}
+              {user.online ? (
+                <FiberManualRecordIcon style={{ color: "#1EA362" }} />
+              ) : (
+                <FiberManualRecordIcon color="disabled" />
+              )}
             </Button>
             <Popper
               open={open}
