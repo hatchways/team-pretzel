@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Container, Typography, Divider, makeStyles } from "@material-ui/core";
 import FriendListCard from "../presentational/FriendListCard";
 import FriendListDialog from "../presentational/FriendListDialog";
@@ -27,6 +27,8 @@ const useStyles = makeStyles({
 const DashboardDefault = ({ user }) => {
   const classes = useStyles();
 
+  const [polls, setPolls] = useState(user.polls);
+
   return (
     <>
       <Container className={classes.container}>
@@ -43,14 +45,17 @@ const DashboardDefault = ({ user }) => {
         </div>
         <Divider className={classes.divider} />
         <div className={classes.header}>
-          <Typography variant="h5">Polls ({user.polls.length})</Typography>
-          <PollDialog user={user} />
+          <Typography variant="h5">Polls ({polls.length})</Typography>
+          <PollDialog
+            user={user}
+            polls={polls} /* updatePolls={updatePolls} */
+          />
         </div>
         <div className={classes.cardContainer}>
-          {!user.polls ? (
+          {!polls ? (
             <h1>No polls...</h1>
           ) : (
-            user.polls.map(poll => (
+            polls.map(poll => (
               <PollCard
                 key={poll._id}
                 question={poll.question}

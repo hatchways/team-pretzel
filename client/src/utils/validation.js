@@ -29,3 +29,11 @@ export const SigninSchema = yup.object().shape({
     .required("Please provide your email"),
   password: yup.string().required("Please enter a password")
 });
+
+export const FriendListSchema = yup.object().shape({
+  title: yup
+    .string()
+    .trim()
+    .required("Title is required"),
+  friendsToAdd: yup.array().required("You need to add friends!")
+});

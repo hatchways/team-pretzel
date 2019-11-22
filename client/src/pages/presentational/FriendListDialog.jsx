@@ -1,7 +1,11 @@
 import React, { Fragment, useState } from "react";
 import { Formik } from "formik";
+import { FriendListSchema } from "../../utils/validation";
+import axios from "axios";
 import {
   Button,
+  CircularProgress,
+  FormHelperText,
   Dialog,
   DialogTitle,
   DialogContent,
@@ -25,11 +29,17 @@ const useStyles = makeStyles(theme => ({
   button: {
     margin: theme.spacing(1),
     borderRadius: 100
+  },
+  title: {
+    textAlign: "center"
+  },
+  input: {
+    width: "100%"
   }
 }));
 
-const FriendListDialog = props => {
-  const friends = useGet("/api/v1/users", "users");
+const FriendListDialog = () => {
+  const friends = useGet("/api/v1/friends", "friends");
 
   const classes = useStyles();
 
@@ -39,7 +49,9 @@ const FriendListDialog = props => {
     setOpen(!open);
   };
 
-  return (
+  return !friends ? (
+    <CircularProgress />
+  ) : (
     <Fragment>
       <Button
         variant="outlined"
@@ -51,21 +63,31 @@ const FriendListDialog = props => {
       </Button>
       <Dialog
         aria-labelledby="friendlist-dialog"
-        maxWidth="md"
+        maxWidth="sm"
+        fullWidth
         open={open}
         onClose={handleClick}
       >
-        <DialogTitle id="friendlist-dialog-title">
+        <DialogTitle className={classes.title} id="friendlist-dialog-title">
           Create a friend list
         </DialogTitle>
         <Formik
+          validationSchema={FriendListSchema}
           initialValues={initialValues}
-          onSubmit={(values, actions) => {
-            // values are the data to be sent to backend POST request
-            console.log(values);
+          validateOnChange={false}
+          onSubmit={async ({ title, friendsToAdd }, actions) => {
+            const res = await axios.post(
+              "/api/v1/friend-lists",
+              { title, friendIds: friendsToAdd },
+              {
+                headers: { Authorization: `Bearer ${localStorage.jwtToken}` }
+              }
+            );
+            actions.setSubmitting(false);
+            handleClick();
           }}
         >
-          {({ handleSubmit, handleChange, values }) => {
+          {({ errors, handleSubmit, handleChange, values }) => {
             return (
               <DialogContent>
                 <form onSubmit={handleSubmit}>
@@ -74,9 +96,16 @@ const FriendListDialog = props => {
                     onChange={handleChange}
                     value={values.title}
                     placeholder="Enter name of list"
+                    className={classes.input}
                   />
+                  {errors.title ? (
+                    <FormHelperText error>{errors.title}</FormHelperText>
+                  ) : null}
+                  {errors.friendsToAdd ? (
+                    <FormHelperText error>{errors.friendsToAdd}</FormHelperText>
+                  ) : null}
                   <List>
-                    {friends.map(friend => {
+                    {friends.friends.map(friend => {
                       return (
                         <ListItem key={friend.id}>
                           <ListItemText>{friend.name}</ListItemText>
