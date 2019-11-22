@@ -8,11 +8,14 @@ import Friends from "./container/Friends";
 import { setAuthToken } from "../utils/helpers";
 import jwt_decode from "jwt-decode";
 import useGet from "../utils/hooks/useGet";
+import socket from "../utils/socket";
 import VotePage from "./container/VotePage";
 
 const Dashboard = ({ history, match }) => {
   const handleLogOut = () => {
     localStorage.removeItem("jwtToken");
+    socket.emit("user_offline", user);
+    socket.on("user_offline", () => {});
     history.push("/signin");
   };
 
