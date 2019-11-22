@@ -28,7 +28,7 @@ const userSchema = new mongoose.Schema(
     avatar: String,
     online: {
       type: Boolean,
-      default: false
+      default: true
     }
   },
   {
