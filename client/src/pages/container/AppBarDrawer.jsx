@@ -55,7 +55,7 @@ const useStyles = makeStyles(theme => ({
 const AppBarDrawer = ({ user, handleLogOut }) => {
   socket.emit("user_online", user);
   socket.on("user_online", () => {});
-  console.log("From AppBar", user);
+  //console.log("From AppBar", user);
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const anchorRef = useRef(null);

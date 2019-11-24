@@ -87,7 +87,7 @@ const PollDialog = ({ user }) => {
                 formData.append("question", question);
                 images.map(image => formData.append("images", image));
                 formData.append("createdBy", createdBy);
-                formData.append("friendList", friendList);
+                formData.append("taggedFriendLists", friendList);
                 await axios.post("/api/v1/polls", formData);
               }}
             >
@@ -133,8 +133,8 @@ const PollDialog = ({ user }) => {
                         >
                           {user.friendLists.map(friendList => (
                             <MenuItem
-                              value={friendList.title}
-                              key={friendList.id}
+                              value={friendList._id}
+                              key={friendList._id}
                             >
                               {friendList.title}
                             </MenuItem>
