@@ -5,7 +5,8 @@ import {
   Tabs,
   Tab,
   Typography,
-  TextField
+  TextField,
+  CircularProgress
 } from "@material-ui/core";
 import FriendsTabPanel from "../presentational/FriendsTabPanel";
 import SuggestedTabPanel from "../presentational/SuggestedTabPanel";
@@ -46,43 +47,47 @@ const Friends = ({ location }) => {
     setInputValue(event.target.value);
   };
 
-  return (
-    <div className={classes.root}>
-      <Typography>Friends</Typography>
-      <Paper>
-        <div>
-          <Tabs
-            centered
-            variant="fullWidth"
+  {
+    return !user && !potentialFriends ? (
+      <CircularProgress />
+    ) : (
+      <div className={classes.root}>
+        <Typography>Friends</Typography>
+        <Paper>
+          <div>
+            <Tabs
+              centered
+              variant="fullWidth"
+              value={value}
+              onChange={handleChangeTab}
+            >
+              <Tab label="Following" />
+              <Tab label="Suggested" />
+            </Tabs>
+          </div>
+          <TextField
+            value={inputValue}
+            label="type name"
+            onChange={handleOnChange}
+          />
+          <FriendsTabPanel
+            handleAddorRemoveFriend={handleAddorRemoveFriend}
+            friends={user.friends}
             value={value}
-            onChange={handleChangeTab}
-          >
-            <Tab label="Following" />
-            <Tab label="Suggested" />
-          </Tabs>
-        </div>
-        <TextField
-          value={inputValue}
-          label="type name"
-          onChange={handleOnChange}
-        />
-        <FriendsTabPanel
-          handleAddorRemoveFriend={handleAddorRemoveFriend}
-          friends={user.friends}
-          value={value}
-          index={0}
-          inputValue={inputValue}
-        />
-        <SuggestedTabPanel
-          handleAddorRemoveFriend={handleAddorRemoveFriend}
-          potentialFriends={potentialFriends}
-          value={value}
-          index={1}
-          inputValue={inputValue}
-        />
-      </Paper>
-    </div>
-  );
+            index={0}
+            inputValue={inputValue}
+          />
+          <SuggestedTabPanel
+            handleAddorRemoveFriend={handleAddorRemoveFriend}
+            potentialFriends={potentialFriends}
+            value={value}
+            index={1}
+            inputValue={inputValue}
+          />
+        </Paper>
+      </div>
+    );
+  }
 };
 
 export default Friends;
