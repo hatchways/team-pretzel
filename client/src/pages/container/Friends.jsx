@@ -13,15 +13,24 @@ import SuggestedTabPanel from "../presentational/SuggestedTabPanel";
 import useGet from "../../utils/hooks/useGet";
 import axios from "axios";
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
   root: {
     height: "100%",
     minWidth: "80%",
     maxWidth: "80%",
     textAlign: "center",
     margin: "1rem auto"
+  },
+  textField: {
+    width: "75%",
+    "& label.Mui-focused": {
+      color: theme.primary
+    },
+    "& .MuiInput-underline:after": {
+      borderBottomColor: theme.primary
+    }
   }
-});
+}));
 
 const Friends = ({ location }) => {
   const { user } = location.state;
@@ -69,6 +78,7 @@ const Friends = ({ location }) => {
             value={inputValue}
             label="type name"
             onChange={handleOnChange}
+            className={classes.textField}
           />
           <FriendsTabPanel
             handleAddorRemoveFriend={handleAddorRemoveFriend}
