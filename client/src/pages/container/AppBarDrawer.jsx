@@ -82,10 +82,6 @@ const AppBarDrawer = ({ user, handleLogOut }) => {
     prevOpen.current = open;
   }, [open]);
 
-  const handleDialog = () => {
-    setOpen(!open);
-  };
-
   let match = useRouteMatch("/dashboard");
 
   return (
@@ -159,12 +155,7 @@ const AppBarDrawer = ({ user, handleLogOut }) => {
                     <MenuList id="menu-list-grow">
                       <MenuItem onClick={handleClose}>Profile</MenuItem>
                       <MenuItem>
-                        <ProfileDialog
-                          open={open}
-                          onClick={handleClose}
-                          handleDialog={handleDialog}
-                          user={user}
-                        />
+                        <ProfileDialog onClick={handleClose} user={user} />
                       </MenuItem>
                       <MenuItem
                         onClick={() => {
