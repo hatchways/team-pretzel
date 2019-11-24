@@ -10,7 +10,7 @@ import {
 const useStyles = makeStyles(theme => ({
   formControl: {
     marginBottom: "2rem",
-    "& .Mui-focused": {
+    "& label.Mui-focused": {
       color: theme.primary
     },
     "& .MuiInput-underline:after": {
