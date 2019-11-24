@@ -10,6 +10,7 @@ import jwt_decode from "jwt-decode";
 import useGet from "../utils/hooks/useGet";
 import socket from "../utils/socket";
 import VotePage from "./container/VotePage";
+import FriendsPolls from "./container/FriendsPolls";
 
 const Dashboard = ({ history, match }) => {
   const handleLogOut = () => {
@@ -53,6 +54,7 @@ const Dashboard = ({ history, match }) => {
         />
         <Route path={`${match.path}/friends`} component={Friends} />
         <Route path={`${match.path}/votepage`} component={VotePage} />
+        <Route path={`${match.path}/friendspolls`} component={FriendsPolls} />
       </ContentContainer>
     </Router>
   );

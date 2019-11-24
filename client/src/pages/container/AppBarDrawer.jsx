@@ -55,7 +55,7 @@ const useStyles = makeStyles(theme => ({
 const AppBarDrawer = ({ user, handleLogOut }) => {
   socket.emit("user_online", user);
   socket.on("user_online", () => {});
-  console.log("From AppBar", user);
+  //console.log("From AppBar", user);
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const anchorRef = useRef(null);
@@ -111,7 +111,13 @@ const AppBarDrawer = ({ user, handleLogOut }) => {
               <Button>Friends</Button>
             </Link>
 
-            <Link to="#" className={classes.menuButton}>
+            <Link
+              to={{
+                pathname: `${match.path}/friendspolls`,
+                state: { user }
+              }}
+              className={classes.menuButton}
+            >
               <Button>Friends poll</Button>
             </Link>
 
