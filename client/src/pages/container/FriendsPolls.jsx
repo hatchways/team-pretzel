@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { makeStyles } from "@material-ui/core/styles";
-import { CircularProgress, Grid } from "@material-ui/core";
+import { CircularProgress, Grid, Typography } from "@material-ui/core";
 import PollCard from "../presentational/PollCard";
 
 const useStyles = makeStyles(theme => ({
@@ -22,9 +22,12 @@ const FriendsPolls = () => {
     getPolls();
   }, []);
 
-  console.log(polls);
   return !polls ? (
     <CircularProgress />
+  ) : !polls.length ? (
+    <Typography variant="h4">
+      Your friends haven't created any polls yet
+    </Typography>
   ) : (
     <div className={classes.root}>
       <Grid container spacing={3} justify="space-around">
