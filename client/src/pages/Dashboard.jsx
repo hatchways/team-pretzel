@@ -75,16 +75,14 @@ const Dashboard = ({ history }) => {
           render={props => <DashboardDefault user={user} />}
         />
         <Route exact path="/friends" render={() => <Friends user={user} />} />
-        <Route
-          exact
-          path={"/votepage"}
-          render={() => <VotePage user={user} />}
-        />
+
         <Route
           exact
           path={"/friends-polls"}
           render={() => <FriendsPolls user={user} />}
         />
+
+        <Route exact path="/polls/:pollId" component={VotePage} />
       </ContentContainer>
     </Router>
   );
