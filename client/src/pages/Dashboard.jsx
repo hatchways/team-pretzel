@@ -13,7 +13,7 @@ import socket from "../utils/socket";
 import VotePage from "./container/VotePage";
 import FriendsPolls from "./container/FriendsPolls";
 
-const Dashboard = ({ history, match }) => {
+const Dashboard = ({ history }) => {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
@@ -71,12 +71,20 @@ const Dashboard = ({ history, match }) => {
       <ContentContainer user={user}>
         <Route
           exact
-          path={match.path}
-          render={props => <DashboardDefault {...props} user={user} />}
+          path="/dashboard"
+          render={props => <DashboardDefault user={user} />}
         />
-        <Route path={`${match.path}/friends`} component={Friends} />
-        <Route path={`${match.path}/votepage`} component={VotePage} />
-        <Route path={`${match.path}/friendspolls`} component={FriendsPolls} />
+        <Route exact path="/friends" render={() => <Friends user={user} />} />
+        <Route
+          exact
+          path={"/votepage"}
+          render={() => <VotePage user={user} />}
+        />
+        <Route
+          exact
+          path={"/friends-polls"}
+          render={() => <FriendsPolls user={user} />}
+        />
       </ContentContainer>
     </Router>
   );
