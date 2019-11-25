@@ -28,7 +28,7 @@ const useStyles = makeStyles({
   link: { textDecoration: "none", color: "black" }
 });
 
-const PollCard = ({ question, images, pollId, isUser, deletePoll }) => {
+const PollCard = ({ question, images, pollId, isUser = false, deletePoll }) => {
   const classes = useStyles();
 
   let numberOfVotes = 0;
