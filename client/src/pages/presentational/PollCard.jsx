@@ -45,13 +45,7 @@ const PollCard = ({ question, images, pollId, isUser = false, deletePoll }) => {
       ) : (
         <></>
       )}
-      <Link
-        to={{
-          pathname: `/dashboard/votepage`,
-          state: { pollId }
-        }}
-        className={classes.link}
-      >
+      <Link to={`/polls/${pollId}`} className={classes.link}>
         <CardHeader
           className={classes.cardHeader}
           title={question}

@@ -55,12 +55,6 @@ const VotePage = ({ match, location }) => {
     <CircularProgress />
   ) : (
     <div className={classes.root}>
-      <Typography>
-        <Link to="/dashboard">
-          <KeyboardArrowLeft />
-          Back
-        </Link>
-      </Typography>
       <Typography variant="h3">{poll.question}</Typography>
       <Typography variant="subtitle1">{numberOfVotes} answers</Typography>
       <div className={classes.imageContainer}>
