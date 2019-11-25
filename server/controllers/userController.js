@@ -69,7 +69,7 @@ export const getTaggedPolls = catchAsync(async (req, res, next) => {
   const taggedPolls = await Poll.find(
     { taggedFriendLists },
     { taggedFriendLists: 0 }
-  );
+  ).populate("images");
 
   res.status(200).json({
     status: "success",

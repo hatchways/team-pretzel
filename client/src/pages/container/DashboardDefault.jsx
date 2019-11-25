@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import { Container, Typography, Divider, makeStyles } from "@material-ui/core";
 import FriendListCard from "../presentational/FriendListCard";
 import FriendListDialog from "../presentational/FriendListDialog";
@@ -21,7 +22,8 @@ const useStyles = makeStyles({
   },
   divider: {
     margin: "1rem"
-  }
+  },
+  link: { textDecoration: "none", color: "black" }
 });
 
 const DashboardDefault = ({ user }) => {
@@ -56,12 +58,20 @@ const DashboardDefault = ({ user }) => {
             <h1>No polls...</h1>
           ) : (
             polls.map(poll => (
-              <PollCard
+              <Link
+                to={{
+                  pathname: `/dashboard/votepage`,
+                  state: { pollId: poll._id }
+                }}
+                className={classes.link}
                 key={poll._id}
-                question={poll.question}
-                images={poll.images}
-                pollId={poll._id}
-              />
+              >
+                <PollCard
+                  question={poll.question}
+                  images={poll.images}
+                  pollId={poll._id}
+                />
+              </Link>
             ))
           )}
         </div>
