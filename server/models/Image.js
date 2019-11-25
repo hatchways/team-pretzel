@@ -11,10 +11,6 @@ const imageSchema = new mongoose.Schema({
   __v: {
     type: Number,
     select: false
-  },
-  pollId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Poll"
   }
 });
 

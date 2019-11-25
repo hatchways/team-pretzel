@@ -22,8 +22,8 @@ const useStyles = makeStyles(theme => ({
     display: "inline"
   },
   images: {
-    width: "200px",
-    height: "200px"
+    width: "150px",
+    height: "150px"
   },
   imageContainer: {
     display: "flex"
@@ -58,14 +58,18 @@ const VotePage = ({ location }) => {
           Back
         </Link>
       </Typography>
-      <Typography variant="h1">{poll.question}</Typography>
-      <Typography variant="h4">{numberOfVotes} answers</Typography>
+      <Typography variant="h3">{poll.question}</Typography>
+      <Typography variant="subtitle1">{numberOfVotes} answers</Typography>
       <div className={classes.imageContainer}>
         {poll.images.map(image => (
           <div key={image._id} style={{ marginRight: "0.5rem" }}>
             <img className={classes.images} src={image.url} alt="random" />
-            <Favorite color="secondary" />
-            {image.castBy.length}
+            <div style={{ marginLeft: "40%" }}>
+              <Typography variant="subtitle2" style={{ fontSize: "1.5rem" }}>
+                <Favorite color="secondary" />
+                {image.castBy.length}
+              </Typography>
+            </div>
           </div>
         ))}
       </div>

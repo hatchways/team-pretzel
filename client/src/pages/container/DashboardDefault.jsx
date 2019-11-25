@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
 import { Container, Typography, Divider, makeStyles } from "@material-ui/core";
 import FriendListCard from "../presentational/FriendListCard";
 import FriendListDialog from "../presentational/FriendListDialog";
 import PollDialog from "../presentational/PollDialog";
 import PollCard from "../presentational/PollCard";
+import axios from "axios";
 
 const useStyles = makeStyles({
   container: {
@@ -22,14 +22,15 @@ const useStyles = makeStyles({
   },
   divider: {
     margin: "1rem"
-  },
-  link: { textDecoration: "none", color: "black" }
+  }
 });
 
 const DashboardDefault = ({ user }) => {
   const classes = useStyles();
 
   const [polls, setPolls] = useState(user.polls);
+
+  const deletePoll = async id => await axios.delete(`/api/v1/polls/${id}`);
 
   return (
     <>
@@ -48,30 +49,21 @@ const DashboardDefault = ({ user }) => {
         <Divider className={classes.divider} />
         <div className={classes.header}>
           <Typography variant="h5">Polls ({polls.length})</Typography>
-          <PollDialog
-            user={user}
-            polls={polls} /* updatePolls={updatePolls} */
-          />
+          <PollDialog user={user} polls={polls} />
         </div>
         <div className={classes.cardContainer}>
           {!polls ? (
             <h1>No polls...</h1>
           ) : (
             polls.map(poll => (
-              <Link
-                to={{
-                  pathname: `/dashboard/votepage`,
-                  state: { pollId: poll._id }
-                }}
-                className={classes.link}
+              <PollCard
                 key={poll._id}
-              >
-                <PollCard
-                  question={poll.question}
-                  images={poll.images}
-                  pollId={poll._id}
-                />
-              </Link>
+                question={poll.question}
+                images={poll.images}
+                pollId={poll._id}
+                isUser={user._id === poll.createdBy ? true : false}
+                deletePoll={user._id === poll.createdBy ? deletePoll : null}
+              />
             ))
           )}
         </div>
