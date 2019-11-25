@@ -18,4 +18,7 @@ router.get("/:id", pollController.getPoll);
 // Get all polls for a user
 router.get("/user-polls/:id", pollController.getUserPolls);
 
+// Delete a poll
+router.delete("/:id", authController.checkAuth, pollController.deletePoll);
+
 export default router;

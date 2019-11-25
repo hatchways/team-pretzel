@@ -48,3 +48,14 @@ export const getUserPolls = catchAsync(async (req, res, next) => {
     polls
   });
 });
+
+// Delete a poll
+export const deletePoll = catchAsync(async (req, res, next) => {
+  // Delete images
+  const poll = await Poll.findById(req.params.id);
+
+  const images = () => poll.images.forEach(image => console.log(image));
+  images();
+
+  // Delete poll
+});
