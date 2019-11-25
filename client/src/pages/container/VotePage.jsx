@@ -24,13 +24,6 @@ const useStyles = makeStyles(theme => ({
   inline: {
     display: "inline"
   },
-<<<<<<< HEAD
-  images: {
-    width: "150px",
-    height: "150px"
-  },
-=======
->>>>>>> f46e631cf1704aad1c92eaa038f49384f3550604
   imageContainer: {
     display: "flex"
   }
@@ -61,27 +54,11 @@ const VotePage = ({ match, location }) => {
     <CircularProgress />
   ) : (
     <div className={classes.root}>
-<<<<<<< HEAD
-      <Typography variant="h3">{poll.question}</Typography>
-      <Typography variant="subtitle1">{numberOfVotes} answers</Typography>
-      <div className={classes.imageContainer}>
-        {poll.images.map(image => (
-          <div key={image._id} style={{ marginRight: "0.5rem" }}>
-            <img className={classes.images} src={image.url} alt="random" />
-            <div style={{ marginLeft: "40%" }}>
-              <Typography variant="subtitle2" style={{ fontSize: "1.5rem" }}>
-                <Favorite color="secondary" />
-                {image.castBy.length}
-              </Typography>
-            </div>
-          </div>
-=======
       <Typography variant="h1">{poll.question}</Typography>
       {/* <Typography variant="h4">{numberOfVotes} answers</Typography>*/}
       <div className={classes.imageContainer}>
         {poll.images.map(image => (
           <PollImage image={image} key={image._id} />
->>>>>>> f46e631cf1704aad1c92eaa038f49384f3550604
         ))}
       </div>
       {/* <List>
