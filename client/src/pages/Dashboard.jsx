@@ -30,6 +30,11 @@ const Dashboard = ({ history, match }) => {
     fetchData();
   }, []);
 
+  if (user) {
+    socket.emit("user_online", user);
+    socket.on("user_online", () => {});
+  }
+
   console.log(user);
 
   const handleLogOut = () => {

@@ -17,8 +17,6 @@ import FiberManualRecordIcon from "@material-ui/icons/FiberManualRecord";
 import ProfileDialog from "../presentational/ProfileDialog";
 import PollDialog from "../presentational/PollDialog";
 
-import socket from "../../utils/socket";
-
 const drawerWidth = 240;
 
 const useStyles = makeStyles(theme => ({
@@ -53,8 +51,6 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const AppBarDrawer = ({ user, handleLogOut }) => {
-  socket.emit("user_online", user);
-  socket.on("user_online", () => {});
   //console.log("From AppBar", user);
   const classes = useStyles();
   const [open, setOpen] = useState(false);
