@@ -164,7 +164,7 @@ const AppBarDrawer = ({ user, handleLogOut }) => {
                   <Paper>
                     <MenuList id="menu-list-grow">
                       <MenuItem onClick={handleClose}>Profile</MenuItem>
-                      <MenuItem>
+                      <MenuItem onClick={handleClose}>
                         <ProfileDialog
                           open={open}
                           onClick={handleClose}
