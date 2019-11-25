@@ -14,12 +14,10 @@ import ImageDropzone from "./ImageDropzone";
 
 const ProfileDialog = ({ user }) => {
   const [open, setOpen] = useState(false);
-  const handleClickOpen = () => {
-    setOpen(true);
+  const handleDialog = () => {
+    setOpen(!open);
   };
-  const handleClose = () => {
-    setOpen(false);
-  };
+
   const loadImage = files => {
     const output = document.getElementById("output");
     output.src = URL.createObjectURL(files[0]);
@@ -28,10 +26,10 @@ const ProfileDialog = ({ user }) => {
 
   return (
     <React.Fragment>
-      <p onClick={handleClickOpen}>Update profile</p>
+      <p onClick={handleDialog}>Update profile</p>
       <Dialog
         open={open}
-        onClose={handleClose}
+        onClose={handleDialog}
         aria-labelledby="form-dialog-title"
       >
         <DialogTitle id="form-dialog-title">Edit profile</DialogTitle>
@@ -80,10 +78,14 @@ const ProfileDialog = ({ user }) => {
                   )}
 
                   <DialogActions>
-                    <Button onClick={handleClose} color="secondary">
+                    <Button onClick={handleDialog} color="secondary">
                       Cancel
                     </Button>
-                    <Button onClick={handleClose} color="primary" type="submit">
+                    <Button
+                      onClick={handleDialog}
+                      color="primary"
+                      type="submit"
+                    >
                       Save
                     </Button>
                   </DialogActions>

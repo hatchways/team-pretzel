@@ -5,22 +5,32 @@ import {
   Tabs,
   Tab,
   Typography,
-  TextField
+  TextField,
+  CircularProgress
 } from "@material-ui/core";
 import FriendsTabPanel from "../presentational/FriendsTabPanel";
 import SuggestedTabPanel from "../presentational/SuggestedTabPanel";
 import useGet from "../../utils/hooks/useGet";
 import axios from "axios";
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
   root: {
     height: "100%",
     minWidth: "80%",
     maxWidth: "80%",
     textAlign: "center",
     margin: "1rem auto"
+  },
+  textField: {
+    width: "75%",
+    "& label.Mui-focused": {
+      color: theme.primary
+    },
+    "& .MuiInput-underline:after": {
+      borderBottomColor: theme.primary
+    }
   }
-});
+}));
 
 const Friends = ({ user }) => {
   const classes = useStyles();
@@ -45,7 +55,9 @@ const Friends = ({ user }) => {
     setInputValue(event.target.value);
   };
 
-  return (
+  return !user && !potentialFriends ? (
+    <CircularProgress />
+  ) : (
     <div className={classes.root}>
       <Typography>Friends</Typography>
       <Paper>
@@ -64,6 +76,7 @@ const Friends = ({ user }) => {
           value={inputValue}
           label="type name"
           onChange={handleOnChange}
+          className={classes.textField}
         />
         <FriendsTabPanel
           handleAddorRemoveFriend={handleAddorRemoveFriend}
