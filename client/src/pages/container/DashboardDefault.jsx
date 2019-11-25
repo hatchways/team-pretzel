@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
+import { withRouter } from "react-router";
 import { Container, Typography, Divider, makeStyles } from "@material-ui/core";
 import FriendListCard from "../presentational/FriendListCard";
 import FriendListDialog from "../presentational/FriendListDialog";
@@ -26,10 +27,9 @@ const useStyles = makeStyles({
   link: { textDecoration: "none", color: "black" }
 });
 
-const DashboardDefault = ({ user }) => {
+const DashboardDefault = ({ user, match, history }) => {
+  const polls = user.polls;
   const classes = useStyles();
-
-  const [polls, setPolls] = useState(user.polls);
 
   return (
     <>
@@ -45,33 +45,27 @@ const DashboardDefault = ({ user }) => {
           <FriendListCard />
           <FriendListCard />
         </div>
+
         <Divider className={classes.divider} />
+
         <div className={classes.header}>
           <Typography variant="h5">Polls ({polls.length})</Typography>
-          <PollDialog
-            user={user}
-            polls={polls} /* updatePolls={updatePolls} */
-          />
+          <PollDialog user={user} polls={polls} />
         </div>
         <div className={classes.cardContainer}>
           {!polls ? (
             <h1>No polls...</h1>
           ) : (
             polls.map(poll => (
-              <Link
-                to={{
-                  pathname: `/dashboard/votepage`,
-                  state: { pollId: poll._id }
-                }}
-                className={classes.link}
-                key={poll._id}
-              >
-                <PollCard
-                  question={poll.question}
-                  images={poll.images}
-                  pollId={poll._id}
-                />
-              </Link>
+              <div key={poll._id}>
+                <Link to={`/polls/${poll._id}`}>
+                  <PollCard
+                    question={poll.question}
+                    images={poll.images}
+                    pollId={poll._id}
+                  />
+                </Link>
+              </div>
             ))
           )}
         </div>
@@ -80,4 +74,4 @@ const DashboardDefault = ({ user }) => {
   );
 };
 
-export default DashboardDefault;
+export default withRouter(DashboardDefault);

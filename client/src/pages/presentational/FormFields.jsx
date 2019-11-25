@@ -7,11 +7,17 @@ import {
   FormHelperText
 } from "@material-ui/core";
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
   formControl: {
-    marginBottom: "2rem"
+    marginBottom: "2rem",
+    "& label.Mui-focused": {
+      color: theme.primary
+    },
+    "& .MuiInput-underline:after": {
+      borderBottomColor: theme.primary
+    }
   }
-});
+}));
 
 const FormFields = ({ label, error, type, name, value, onChange, errors }) => {
   const classes = useStyles();
