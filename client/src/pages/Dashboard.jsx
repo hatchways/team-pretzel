@@ -1,45 +1,51 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import { CircularProgress } from "@material-ui/core";
 import AppBarDrawer from "./container/AppBarDrawer";
 import ContentContainer from "./container/ContentContainer";
 import DashboardDefault from "./container/DashboardDefault";
 import Friends from "./container/Friends";
-import { setAuthToken } from "../utils/helpers";
-import jwt_decode from "jwt-decode";
-import useGet from "../utils/hooks/useGet";
 import socket from "../utils/socket";
 import VotePage from "./container/VotePage";
 import FriendsPolls from "./container/FriendsPolls";
 
-const Dashboard = ({ history, match }) => {
+const Dashboard = ({ history }) => {
+  const [user, setUser] = useState(null);
+  const [error, setError] = useState(false);
+
+  useEffect(() => {
+    let _isMounted = true;
+    const fetchData = async () => {
+      try {
+        const token = localStorage.getItem("jwtToken");
+        const res = await axios.get("/api/v1/users/profile", {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+        if (_isMounted) setUser(res.data.user);
+      } catch (err) {
+        setError(err);
+      }
+    };
+    fetchData();
+    return () => (_isMounted = false);
+  }, []);
+
+  if (error) return <div>Error: {error}</div>;
+
+  if (user && !error) {
+    socket.emit("user_online", user);
+    socket.on("user_online", () => {});
+  }
+
   const handleLogOut = () => {
     localStorage.removeItem("jwtToken");
     socket.emit("user_offline", user);
-    socket.on("user_offline", () => {});
+    socket.on("user_offline");
     history.push("/signin");
   };
-
-  const user = useGet("/api/v1/users/profile", "user");
-
-  useEffect(() => {
-    // check if jwt in localstorage
-    if (localStorage.jwtToken) {
-      const decoded = jwt_decode(localStorage.jwtToken);
-      // current time
-      const currentTime = Date.now() / 1000;
-      // compare current time and token exp
-      // if exp time > current time - sign in
-      if (currentTime < decoded.exp) {
-        setAuthToken(localStorage.jwtToken);
-      } else {
-        // remove token from lstorage
-        handleLogOut();
-      }
-    } else {
-      handleLogOut();
-    }
-  }, []);
 
   return !user ? (
     <CircularProgress />
@@ -49,12 +55,18 @@ const Dashboard = ({ history, match }) => {
       <ContentContainer user={user}>
         <Route
           exact
-          path={match.path}
-          render={props => <DashboardDefault {...props} user={user} />}
+          path="/dashboard"
+          render={() => <DashboardDefault user={user} />}
         />
-        <Route path={`${match.path}/friends`} component={Friends} />
-        <Route path={`${match.path}/votepage`} component={VotePage} />
-        <Route path={`${match.path}/friendspolls`} component={FriendsPolls} />
+        <Route exact path="/friends" render={() => <Friends user={user} />} />
+
+        <Route
+          exact
+          path={"/friends-polls"}
+          render={() => <FriendsPolls user={user} />}
+        />
+
+        <Route exact path="/polls/:pollId" component={VotePage} />
       </ContentContainer>
     </Router>
   );

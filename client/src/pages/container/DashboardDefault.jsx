@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
+import { Link } from "react-router-dom";
+import { withRouter } from "react-router";
 import { Container, Typography, Divider, makeStyles } from "@material-ui/core";
 import FriendListCard from "../presentational/FriendListCard";
 import FriendListDialog from "../presentational/FriendListDialog";
@@ -25,13 +27,10 @@ const useStyles = makeStyles({
   }
 });
 
-const DashboardDefault = ({ user }) => {
+const DashboardDefault = ({ user, match, history }) => {
+  const polls = user.polls;
   const classes = useStyles();
-
-  const [polls, setPolls] = useState(user.polls);
-
   const deletePoll = async id => await axios.delete(`/api/v1/polls/${id}`);
-
   return (
     <>
       <Container className={classes.container}>
@@ -46,7 +45,9 @@ const DashboardDefault = ({ user }) => {
           <FriendListCard />
           <FriendListCard />
         </div>
+
         <Divider className={classes.divider} />
+
         <div className={classes.header}>
           <Typography variant="h5">Polls ({polls.length})</Typography>
           <PollDialog user={user} polls={polls} />
@@ -72,4 +73,4 @@ const DashboardDefault = ({ user }) => {
   );
 };
 
-export default DashboardDefault;
+export default withRouter(DashboardDefault);

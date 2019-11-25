@@ -31,8 +31,10 @@ const FriendsTabPanel = ({
   const classes = useStyles();
   return (
     <List className={classes.root} hidden={value !== index}>
-      {friends === null ? (
-        <div>...loading...</div>
+      {!friends.length ? (
+        <ListItem className={classes.listItem}>
+          <Typography style={{ margin: "auto" }}>Get some friends</Typography>
+        </ListItem>
       ) : (
         friends[0].friends
           .filter(friend => {

@@ -1,12 +1,12 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { withRouter } from "react-router";
 import {
   CircularProgress,
   List,
   Typography,
   makeStyles
 } from "@material-ui/core";
-import { KeyboardArrowLeft, Favorite } from "@material-ui/icons";
+import { Favorite } from "@material-ui/icons";
 import useGet from "../../utils/hooks/useGet";
 
 const useStyles = makeStyles(theme => ({
@@ -30,10 +30,13 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const VotePage = ({ location }) => {
-  const classes = useStyles();
+const VotePage = ({ match, location }) => {
+  const {
+    params: { pollId }
+  } = match;
 
-  const poll = useGet(`/api/v1/polls/${location.state.pollId}`, "poll");
+  const poll = useGet(`/api/v1/polls/${pollId}`, "poll");
+  const classes = useStyles();
 
   let numberOfVotes = 0;
   let listOfVoters = [];
@@ -85,6 +88,6 @@ const VotePage = ({ location }) => {
   );
 };
 
-export default VotePage;
+export default withRouter(VotePage);
 
 //friends who voted
