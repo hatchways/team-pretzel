@@ -8,6 +8,9 @@ import {
 } from "@material-ui/core";
 import { Favorite } from "@material-ui/icons";
 import useGet from "../../utils/hooks/useGet";
+// import socket from "../../utils/socket";
+
+import PollImage from "../presentational/PollImage";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -21,10 +24,13 @@ const useStyles = makeStyles(theme => ({
   inline: {
     display: "inline"
   },
+<<<<<<< HEAD
   images: {
     width: "150px",
     height: "150px"
   },
+=======
+>>>>>>> f46e631cf1704aad1c92eaa038f49384f3550604
   imageContainer: {
     display: "flex"
   }
@@ -38,23 +44,24 @@ const VotePage = ({ match, location }) => {
   const poll = useGet(`/api/v1/polls/${pollId}`, "poll");
   const classes = useStyles();
 
-  let numberOfVotes = 0;
-  let listOfVoters = [];
-  if (poll) {
-    // Add up the total number of votes
-    poll.images.forEach(image => (numberOfVotes += image.castBy.length));
-    // Populate list of voters
-    poll.images.forEach(image =>
-      image.castBy.length < 1
-        ? listOfVoters
-        : (listOfVoters = [image.castBy, ...listOfVoters])
-    );
-  }
+  // let numberOfVotes = 0;
+  // let listOfVoters = [];
+  // if (poll) {
+  //   // Add up the total number of votes
+  //   poll.images.forEach(image => (numberOfVotes += image.castBy.length));
+  //   // Populate list of voters
+  //   poll.images.forEach(image =>
+  //     image.castBy.length < 1
+  //       ? listOfVoters
+  //       : (listOfVoters = [image.castBy, ...listOfVoters])
+  //   );
+  // }
 
   return !poll ? (
     <CircularProgress />
   ) : (
     <div className={classes.root}>
+<<<<<<< HEAD
       <Typography variant="h3">{poll.question}</Typography>
       <Typography variant="subtitle1">{numberOfVotes} answers</Typography>
       <div className={classes.imageContainer}>
@@ -68,16 +75,23 @@ const VotePage = ({ match, location }) => {
               </Typography>
             </div>
           </div>
+=======
+      <Typography variant="h1">{poll.question}</Typography>
+      {/* <Typography variant="h4">{numberOfVotes} answers</Typography>*/}
+      <div className={classes.imageContainer}>
+        {poll.images.map(image => (
+          <PollImage image={image} key={image._id} />
+>>>>>>> f46e631cf1704aad1c92eaa038f49384f3550604
         ))}
       </div>
-      <List>
+      {/* <List>
         {listOfVoters.length < 1 ? (
           <h1>Nobody has voted yet</h1>
         ) : (
           // List the voters
           <h1>somebody voted</h1>
         )}
-      </List>
+      </List> */}
     </div>
   );
 };
