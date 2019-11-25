@@ -8,6 +8,9 @@ import {
 } from "@material-ui/core";
 import { Favorite } from "@material-ui/icons";
 import useGet from "../../utils/hooks/useGet";
+// import socket from "../../utils/socket";
+
+import PollImage from "../presentational/PollImage";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -20,10 +23,6 @@ const useStyles = makeStyles(theme => ({
   },
   inline: {
     display: "inline"
-  },
-  images: {
-    width: "200px",
-    height: "200px"
   },
   imageContainer: {
     display: "flex"
@@ -38,42 +37,38 @@ const VotePage = ({ match, location }) => {
   const poll = useGet(`/api/v1/polls/${pollId}`, "poll");
   const classes = useStyles();
 
-  let numberOfVotes = 0;
-  let listOfVoters = [];
-  if (poll) {
-    // Add up the total number of votes
-    poll.images.forEach(image => (numberOfVotes += image.castBy.length));
-    // Populate list of voters
-    poll.images.forEach(image =>
-      image.castBy.length < 1
-        ? listOfVoters
-        : (listOfVoters = [image.castBy, ...listOfVoters])
-    );
-  }
+  // let numberOfVotes = 0;
+  // let listOfVoters = [];
+  // if (poll) {
+  //   // Add up the total number of votes
+  //   poll.images.forEach(image => (numberOfVotes += image.castBy.length));
+  //   // Populate list of voters
+  //   poll.images.forEach(image =>
+  //     image.castBy.length < 1
+  //       ? listOfVoters
+  //       : (listOfVoters = [image.castBy, ...listOfVoters])
+  //   );
+  // }
 
   return !poll ? (
     <CircularProgress />
   ) : (
     <div className={classes.root}>
       <Typography variant="h1">{poll.question}</Typography>
-      <Typography variant="h4">{numberOfVotes} answers</Typography>
+      {/* <Typography variant="h4">{numberOfVotes} answers</Typography>*/}
       <div className={classes.imageContainer}>
         {poll.images.map(image => (
-          <div key={image._id} style={{ marginRight: "0.5rem" }}>
-            <img className={classes.images} src={image.url} alt="random" />
-            <Favorite color="secondary" />
-            {image.castBy.length}
-          </div>
+          <PollImage image={image} key={image._id} />
         ))}
       </div>
-      <List>
+      {/* <List>
         {listOfVoters.length < 1 ? (
           <h1>Nobody has voted yet</h1>
         ) : (
           // List the voters
           <h1>somebody voted</h1>
         )}
-      </List>
+      </List> */}
     </div>
   );
 };

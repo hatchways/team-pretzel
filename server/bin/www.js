@@ -15,6 +15,7 @@ var socket = require("socket.io");
  * App utils.
  */
 import { setOnlineStatus, setOfflineStatus } from "../utils/setStatus";
+import { getVotes } from "../utils/getVotes";
 
 /**
  * Get port from environment and store in Express.
@@ -51,6 +52,11 @@ io.on("connection", socket => {
     console.log(`😶 ${user.name} is offline`);
     setOfflineStatus(user.id);
     io.sockets.emit("user_offline", user);
+  });
+
+  socket.on("current_votes", async imageId => {
+    const votes = await getVotes(imageId);
+    io.sockets.emit("current_votes", votes);
   });
 
   socket.on("disconnect", () => {
