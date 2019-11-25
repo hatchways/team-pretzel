@@ -6,62 +6,46 @@ import AppBarDrawer from "./container/AppBarDrawer";
 import ContentContainer from "./container/ContentContainer";
 import DashboardDefault from "./container/DashboardDefault";
 import Friends from "./container/Friends";
-// import { setAuthToken } from "../utils/helpers";
-// import jwt_decode from "jwt-decode";
-// import useGet from "../utils/hooks/useGet";
 import socket from "../utils/socket";
 import VotePage from "./container/VotePage";
 import FriendsPolls from "./container/FriendsPolls";
 
 const Dashboard = ({ history }) => {
   const [user, setUser] = useState(null);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
+    let _isMounted = true;
     const fetchData = async () => {
-      const token = localStorage.getItem("jwtToken");
-      const res = await axios.get("/api/v1/users/profile", {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      });
-      const fetchedUser = await res.data.user;
-      setUser(fetchedUser);
+      try {
+        const token = localStorage.getItem("jwtToken");
+        const res = await axios.get("/api/v1/users/profile", {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+        if (_isMounted) setUser(res.data.user);
+      } catch (err) {
+        setError(err);
+      }
     };
     fetchData();
+    return () => (_isMounted = false);
   }, []);
 
-  if (user) {
+  if (error) return <div>Error: {error}</div>;
+
+  if (user && !error) {
     socket.emit("user_online", user);
     socket.on("user_online", () => {});
   }
 
-  console.log(user);
-
   const handleLogOut = () => {
     localStorage.removeItem("jwtToken");
     socket.emit("user_offline", user);
-    socket.on("user_offline", () => {});
+    socket.on("user_offline");
     history.push("/signin");
   };
-
-  // useEffect(() => {
-  //   // check if jwt in localstorage
-  //   if (localStorage.jwtToken) {
-  //     const decoded = jwt_decode(localStorage.jwtToken);
-  //     // current time
-  //     const currentTime = Date.now() / 1000;
-  //     // compare current time and token exp
-  //     // if exp time > current time - sign in
-  //     if (currentTime < decoded.exp) {
-  //       setAuthToken(localStorage.jwtToken);
-  //     } else {
-  //       // remove token from lstorage
-  //       handleLogOut();
-  //     }
-  //   } else {
-  //     handleLogOut();
-  //   }
-  // }, []);
 
   return !user ? (
     <CircularProgress />
@@ -72,7 +56,7 @@ const Dashboard = ({ history }) => {
         <Route
           exact
           path="/dashboard"
-          render={props => <DashboardDefault user={user} />}
+          render={() => <DashboardDefault user={user} />}
         />
         <Route exact path="/friends" render={() => <Friends user={user} />} />
 
