@@ -22,8 +22,7 @@ const useStyles = makeStyles({
   }
 });
 
-const Friends = ({ location }) => {
-  const { user } = location.state;
+const Friends = ({ user }) => {
   const classes = useStyles();
 
   // get suggested friends
