@@ -166,7 +166,6 @@ const AppBarDrawer = ({ user, handleLogOut, match }) => {
           </Popper>
         </Toolbar>
       </AppBar>
-      )
     </div>
   );
 };

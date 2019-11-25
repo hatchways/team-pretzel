@@ -18,6 +18,7 @@ export const savePollImages = catchAsync(async (req, res, next) => {
 
 export const createPoll = catchAsync(async (req, res, next) => {
   const poll = await Poll.create(req.body);
+
   res.status(201).json({
     status: "success",
     poll
@@ -46,5 +47,20 @@ export const getUserPolls = catchAsync(async (req, res, next) => {
   res.status(200).json({
     status: "success",
     polls
+  });
+});
+
+// Delete a poll
+export const deletePoll = catchAsync(async (req, res, next) => {
+  const poll = await Poll.findById(req.params.id);
+  // Delete images
+  await poll.images.forEach(
+    async image => await Image.findByIdAndDelete(image)
+  );
+  // Delete poll
+  await Poll.findByIdAndDelete(req.params.id);
+
+  res.json({
+    status: "Poll deleted"
   });
 });

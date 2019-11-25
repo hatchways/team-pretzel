@@ -6,6 +6,7 @@ import FriendListCard from "../presentational/FriendListCard";
 import FriendListDialog from "../presentational/FriendListDialog";
 import PollDialog from "../presentational/PollDialog";
 import PollCard from "../presentational/PollCard";
+import axios from "axios";
 
 const useStyles = makeStyles({
   container: {
@@ -23,14 +24,13 @@ const useStyles = makeStyles({
   },
   divider: {
     margin: "1rem"
-  },
-  link: { textDecoration: "none", color: "black" }
+  }
 });
 
 const DashboardDefault = ({ user, match, history }) => {
   const polls = user.polls;
   const classes = useStyles();
-
+  const deletePoll = async id => await axios.delete(`/api/v1/polls/${id}`);
   return (
     <>
       <Container className={classes.container}>
@@ -57,15 +57,14 @@ const DashboardDefault = ({ user, match, history }) => {
             <h1>No polls...</h1>
           ) : (
             polls.map(poll => (
-              <div key={poll._id}>
-                <Link to={`/polls/${poll._id}`}>
-                  <PollCard
-                    question={poll.question}
-                    images={poll.images}
-                    pollId={poll._id}
-                  />
-                </Link>
-              </div>
+              <PollCard
+                key={poll._id}
+                question={poll.question}
+                images={poll.images}
+                pollId={poll._id}
+                isUser={user._id === poll.createdBy ? true : false}
+                deletePoll={user._id === poll.createdBy ? deletePoll : null}
+              />
             ))
           )}
         </div>
