@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Link, useRouteMatch } from "react-router-dom";
+import { NavLink } from "react-router-dom";
+import { withRouter } from "react-router";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   Button,
@@ -16,8 +17,6 @@ import FiberManualRecordIcon from "@material-ui/icons/FiberManualRecord";
 
 import ProfileDialog from "../presentational/ProfileDialog";
 import PollDialog from "../presentational/PollDialog";
-
-import socket from "../../utils/socket";
 
 const drawerWidth = 240;
 
@@ -52,10 +51,7 @@ const useStyles = makeStyles(theme => ({
   avatar: { margin: 10 }
 }));
 
-const AppBarDrawer = ({ user, handleLogOut }) => {
-  socket.emit("user_online", user);
-  socket.on("user_online", () => {});
-  console.log("From AppBar", user);
+const AppBarDrawer = ({ user, handleLogOut, match }) => {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const anchorRef = useRef(null);
@@ -82,98 +78,97 @@ const AppBarDrawer = ({ user, handleLogOut }) => {
     prevOpen.current = open;
   }, [open]);
 
-  let match = useRouteMatch("/dashboard");
+  const handleDialog = () => {
+    setOpen(!open);
+  };
+
+  // let match = useRouteMatch("/dashboard");
 
   return (
     <div className={classes.root}>
-      {user ? (
-        <AppBar position="static" className={classes.appBar}>
-          <Toolbar className={classes.toolbar}>
-            <Link
-              to={{
-                pathname: `${match.path}/`
-              }}
-              className={classes.menuButton}
-            >
-              <Button>Home</Button>
-            </Link>
-            <Link
-              to={{
-                pathname: `${match.path}/friends`,
-                state: { user }
-              }}
-              className={classes.menuButton}
-            >
-              <Button>Friends</Button>
-            </Link>
+      <AppBar position="static" className={classes.appBar}>
+        <Toolbar className={classes.toolbar}>
+          <NavLink exact to="/dashboard" className={classes.menuButton}>
+            <Button>Home</Button>
+          </NavLink>
 
-            <Link to="#" className={classes.menuButton}>
-              <Button>Friends poll</Button>
-            </Link>
+          <NavLink exact to="/friends" className={classes.menuButton}>
+            <Button>Friends</Button>
+          </NavLink>
 
-            <Link to="#" className={classes.menuButton}>
-              <Button>Opinions</Button>
-            </Link>
+          <NavLink exact to="/friends-polls" className={classes.menuButton}>
+            <Button>Friends poll</Button>
+          </NavLink>
 
-            <PollDialog user={user} />
+          <NavLink to="#" className={classes.menuButton}>
+            <Button>Opinions</Button>
+          </NavLink>
 
-            <Button
-              ref={anchorRef}
-              aria-controls={open ? "menu-list-grow" : undefined}
-              aria-haspopup="true"
-              onClick={handleToggle}
-            >
-              <Avatar
-                alt={user.name}
-                src={user.avatar}
-                className={classes.avatar}
-              />
-              {user.name}
-              {/*This icon below is temporarily used for testing user online status*/}
-              {user.online ? (
-                <FiberManualRecordIcon style={{ color: "#1EA362" }} />
-              ) : (
-                <FiberManualRecordIcon color="disabled" />
-              )}
-            </Button>
-            <Popper
-              open={open}
-              anchorEl={anchorRef.current}
-              role={undefined}
-              transition
-              disablePortal
-            >
-              {({ TransitionProps, placement }) => (
-                <Grow
-                  {...TransitionProps}
-                  style={{
-                    transformOrigin:
-                      placement === "bottom" ? "center top" : "center bottom"
-                  }}
-                >
-                  <Paper>
-                    <MenuList id="menu-list-grow">
-                      <MenuItem onClick={handleClose}>Profile</MenuItem>
-                      <MenuItem>
-                        <ProfileDialog onClick={handleClose} user={user} />
-                      </MenuItem>
-                      <MenuItem
-                        onClick={() => {
-                          handleLogOut();
-                        }}
-                      >
-                        Logout
-                      </MenuItem>
-                    </MenuList>
-                  </Paper>
-                </Grow>
-              )}
-            </Popper>
-          </Toolbar>
-        </AppBar>
-      ) : null}
+          <PollDialog user={user} />
+
+          <Button
+            ref={anchorRef}
+            aria-controls={open ? "menu-list-grow" : undefined}
+            aria-haspopup="true"
+            onClick={handleToggle}
+          >
+            <Avatar
+              alt={user.name}
+              src={user.avatar}
+              className={classes.avatar}
+            />
+            {user.name}
+            {/*This icon below is temporarily used for testing user online status*/}
+            {user.online ? (
+              <FiberManualRecordIcon style={{ color: "#1EA362" }} />
+            ) : (
+              <FiberManualRecordIcon color="disabled" />
+            )}
+          </Button>
+
+          <Popper
+            open={open}
+            anchorEl={anchorRef.current}
+            role={undefined}
+            transition
+            disablePortal
+          >
+            {({ TransitionProps, placement }) => (
+              <Grow
+                {...TransitionProps}
+                style={{
+                  transformOrigin:
+                    placement === "bottom" ? "center top" : "center bottom"
+                }}
+              >
+                <Paper>
+                  <MenuList id="menu-list-grow">
+                    <MenuItem onClick={handleClose}>Profile</MenuItem>
+                    <MenuItem>
+                      <ProfileDialog
+                        open={open}
+                        onClick={handleClose}
+                        handleDialog={handleDialog}
+                        user={user}
+                      />
+                    </MenuItem>
+                    <MenuItem
+                      onClick={() => {
+                        handleLogOut();
+                      }}
+                    >
+                      Logout
+                    </MenuItem>
+                  </MenuList>
+                </Paper>
+              </Grow>
+            )}
+          </Popper>
+        </Toolbar>
+      </AppBar>
+      )
     </div>
   );
 };
 
-export default AppBarDrawer;
+export default withRouter(AppBarDrawer);
