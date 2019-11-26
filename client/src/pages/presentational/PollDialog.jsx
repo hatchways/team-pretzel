@@ -149,9 +149,8 @@ const PollDialog = ({ user, addPoll }) => {
 
                     <div className={classes.imagesInput}>
                       {values.images[0] ? (
-                        <Card>
+                        <Card className={classes.card}>
                           <CardMedia
-                            className={classes.card}
                             component="img"
                             className={classes.cardMedia}
                             src={URL.createObjectURL(values.images[0])}
@@ -170,9 +169,8 @@ const PollDialog = ({ user, addPoll }) => {
                       )}
 
                       {values.images[1] ? (
-                        <Card>
+                        <Card className={classes.card}>
                           <CardMedia
-                            className={classes.card}
                             component="img"
                             className={classes.cardMedia}
                             src={URL.createObjectURL(values.images[1])}
