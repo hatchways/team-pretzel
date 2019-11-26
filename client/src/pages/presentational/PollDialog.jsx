@@ -55,6 +55,9 @@ const useStyles = makeStyles({
   cardMedia: {
     height: 250,
     width: 350
+  },
+  buttons: {
+    marginTop: "2rem"
   }
 });
 
@@ -191,7 +194,7 @@ const PollDialog = ({ user, addPoll }) => {
                       </Card>
                     </div>
 
-                    <DialogActions>
+                    <DialogActions className={classes.buttons}>
                       <Button onClick={handleClose} color="secondary">
                         Cancel
                       </Button>
