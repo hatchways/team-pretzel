@@ -23,15 +23,19 @@ const PollImage = ({ image }) => {
 
   return (
     <div style={{ marginRight: "0.5rem" }}>
-      <img className={classes.image} src={image.url} alt="random" />
-      <Favorite
-        color="secondary"
+      <img
+        className={classes.image}
+        src={image.url}
+        alt="random"
         onClick={async () => {
           await axios.post(`/api/v1/images/${image._id}`);
           socket.emit("current_votes", image._id);
         }}
       />
-      {votes}
+      <div style={{ marginLeft: "40%" }}>
+        <Favorite color="secondary" />
+        {votes}
+      </div>
     </div>
   );
 };

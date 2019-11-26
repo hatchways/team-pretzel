@@ -61,14 +61,11 @@ const VotePage = ({ match, location }) => {
           <PollImage image={image} key={image._id} />
         ))}
       </div>
-      {/* <List>
-        {listOfVoters.length < 1 ? (
-          <h1>Nobody has voted yet</h1>
-        ) : (
-          // List the voters
-          <h1>somebody voted</h1>
-        )}
-      </List> */}
+      {!poll.images.castBy ? (
+        <></>
+      ) : (
+        <List>{poll.images.castBy(voter => console.log(voter))}</List>
+      )}
     </div>
   );
 };
