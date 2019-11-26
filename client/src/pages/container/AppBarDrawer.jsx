@@ -82,26 +82,16 @@ const AppBarDrawer = ({ user, handleLogOut, match }) => {
     setOpen(!open);
   };
 
-  // let match = useRouteMatch("/dashboard");
-
   return (
     <div className={classes.root}>
       <AppBar position="static" className={classes.appBar}>
         <Toolbar className={classes.toolbar}>
-          <NavLink exact to="/dashboard" className={classes.menuButton}>
-            <Button>Home</Button>
-          </NavLink>
-
           <NavLink exact to="/friends" className={classes.menuButton}>
             <Button>Friends</Button>
           </NavLink>
 
           <NavLink exact to="/friends-polls" className={classes.menuButton}>
             <Button>Friends poll</Button>
-          </NavLink>
-
-          <NavLink to="#" className={classes.menuButton}>
-            <Button>Opinions</Button>
           </NavLink>
 
           <PollDialog user={user} />
@@ -118,7 +108,7 @@ const AppBarDrawer = ({ user, handleLogOut, match }) => {
               className={classes.avatar}
             />
             {user.name}
-            {/*This icon below is temporarily used for testing user online status*/}
+
             {user.online ? (
               <FiberManualRecordIcon style={{ color: "#1EA362" }} />
             ) : (

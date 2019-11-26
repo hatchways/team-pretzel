@@ -10,7 +10,7 @@ const PollsContainer = ({ classes, user }) => {
 
   useEffect(() => {
     getPolls(user._id);
-  }, [loading]);
+  }, [loading, user._id]);
 
   const getPolls = async id => {
     const response = await axios.get(`/api/v1/polls/user-polls/${id}`);

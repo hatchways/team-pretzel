@@ -1,9 +1,8 @@
 import React from "react";
 
 import { withRouter } from "react-router";
-import { Container, Typography, Divider, makeStyles } from "@material-ui/core";
-import FriendListCard from "../presentational/FriendListCard";
-import FriendListDialog from "../presentational/FriendListDialog";
+import { Container, Divider, makeStyles } from "@material-ui/core";
+
 import PollsContainer from "./PollsContainer";
 import FriendListContainer from "./FriendListContainer";
 

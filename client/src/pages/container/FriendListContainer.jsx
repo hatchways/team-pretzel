@@ -1,16 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Typography } from "@material-ui/core";
 import FriendListDialog from "../presentational/FriendListDialog";
 import FriendListCard from "../presentational/FriendListCard";
-import axios from "axios";
 
 const FriendListContainer = ({ classes, user }) => {
-  const [friendList, setFriendList] = useState([]);
-  const [loading, setLoading] = useState(true);
-
   useEffect(() => {});
-
-  const getFriendList = () => {};
 
   return (
     <>
