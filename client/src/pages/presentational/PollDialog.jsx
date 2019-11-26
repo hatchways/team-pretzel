@@ -7,10 +7,13 @@ import {
   Button,
   TextField,
   FormControl,
+  Card,
+  CardMedia,
   InputLabel,
   Select,
   MenuItem
 } from "@material-ui/core";
+
 import { makeStyles } from "@material-ui/core/styles";
 
 import ImageDropzone from "./ImageDropzone";
@@ -38,9 +41,23 @@ const useStyles = makeStyles({
     width: "100%"
   },
   imagesInput: {
+    width: "100%",
     marginTop: "1rem",
     display: "flex",
-    flexDirection: "row"
+    flexDirection: "row",
+    justifyContent: "space-between"
+  },
+  card: {
+    height: 250,
+    width: 350,
+    objectFit: "contain"
+  },
+  cardMedia: {
+    height: 250,
+    width: 350
+  },
+  buttons: {
+    marginTop: "2rem"
   }
 });
 
@@ -52,12 +69,6 @@ const PollDialog = ({ user, addPoll }) => {
   };
   const handleClose = () => {
     setOpen(false);
-  };
-
-  const loadImage = (files, id) => {
-    const output = document.getElementById(`${id}`);
-    output.src = URL.createObjectURL(files[0]);
-    URL.revokeObjectURL(output);
   };
 
   return (
@@ -143,36 +154,47 @@ const PollDialog = ({ user, addPoll }) => {
                     </div>
 
                     <div className={classes.imagesInput}>
-                      {values.images[0] ? (
-                        <img id="output1" alt="First option" />
-                      ) : (
-                        <ImageDropzone
-                          onDrop={files => {
-                            setFieldValue("images", [
-                              ...values.images,
-                              files[0]
-                            ]);
-                            loadImage(files, "output1");
-                          }}
-                        />
-                      )}
-
-                      {values.images[1] ? (
-                        <img id="output2" alt="Second option" />
-                      ) : (
-                        <ImageDropzone
-                          onDrop={files => {
-                            setFieldValue("images", [
-                              ...values.images,
-                              files[0]
-                            ]);
-                            loadImage(files, "output2");
-                          }}
-                        />
-                      )}
+                      <Card className={classes.card}>
+                        {values.images[0] ? (
+                          <CardMedia
+                            component="img"
+                            className={classes.cardMedia}
+                            src={URL.createObjectURL(values.images[0])}
+                            title="First option"
+                          />
+                        ) : (
+                          <ImageDropzone
+                            onDrop={files => {
+                              setFieldValue("images", [
+                                ...values.images,
+                                files[0]
+                              ]);
+                            }}
+                          />
+                        )}
+                      </Card>
+                      <Card className={classes.card}>
+                        {values.images[1] ? (
+                          <CardMedia
+                            component="img"
+                            className={classes.cardMedia}
+                            src={URL.createObjectURL(values.images[1])}
+                            title="Second option"
+                          />
+                        ) : (
+                          <ImageDropzone
+                            onDrop={files => {
+                              setFieldValue("images", [
+                                ...values.images,
+                                files[0]
+                              ]);
+                            }}
+                          />
+                        )}
+                      </Card>
                     </div>
 
-                    <DialogActions>
+                    <DialogActions className={classes.buttons}>
                       <Button onClick={handleClose} color="secondary">
                         Cancel
                       </Button>
