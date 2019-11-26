@@ -16,7 +16,7 @@ const PollImage = ({ image }) => {
 
   useEffect(() => {
     socket.emit("current_votes", image._id);
-    socket.on("current_votes", votes => setVotes(votes));
+    socket.on("current_votes", votes => setVotes(votes + 1));
   }, [image._id]);
 
   const classes = useStyles();

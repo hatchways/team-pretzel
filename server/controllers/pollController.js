@@ -26,7 +26,10 @@ export const createPoll = catchAsync(async (req, res, next) => {
 });
 
 export const getPoll = catchAsync(async (req, res, next) => {
-  const poll = await Poll.findById(req.params.id).populate("images");
+  const poll = await Poll.findById(req.params.id).populate({
+    path: "images",
+    populate: "castBy"
+  });
   res.status(200).json({
     status: "success",
     poll
