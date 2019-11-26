@@ -43,7 +43,9 @@ export const getAllPolls = catchAsync(async (req, res, next) => {
 
 // Get all polls for a user
 export const getUserPolls = catchAsync(async (req, res, next) => {
-  const polls = await Poll.find({ createdBy: req.params.id });
+  const polls = await Poll.find({ createdBy: req.params.id }).populate(
+    "images"
+  );
   res.status(200).json({
     status: "success",
     polls

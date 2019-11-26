@@ -1,12 +1,11 @@
 import React from "react";
-import { Link } from "react-router-dom";
+
 import { withRouter } from "react-router";
 import { Container, Typography, Divider, makeStyles } from "@material-ui/core";
 import FriendListCard from "../presentational/FriendListCard";
 import FriendListDialog from "../presentational/FriendListDialog";
-import PollDialog from "../presentational/PollDialog";
-import PollCard from "../presentational/PollCard";
-import axios from "axios";
+import PollsContainer from "./PollsContainer";
+import FriendListContainer from "./FriendListContainer";
 
 const useStyles = makeStyles({
   container: {
@@ -28,46 +27,14 @@ const useStyles = makeStyles({
 });
 
 const DashboardDefault = ({ user, match, history }) => {
-  const polls = user.polls;
   const classes = useStyles();
-  const deletePoll = async id => await axios.delete(`/api/v1/polls/${id}`);
+
   return (
     <>
       <Container className={classes.container}>
-        <div className={classes.header}>
-          <Typography variant="h5">Friend Lists</Typography>
-          <FriendListDialog />
-        </div>
-        <div className={classes.cardContainer}>
-          <FriendListCard />
-          <FriendListCard />
-          <FriendListCard />
-          <FriendListCard />
-          <FriendListCard />
-        </div>
-
+        <PollsContainer classes={classes} user={user} />
         <Divider className={classes.divider} />
-
-        <div className={classes.header}>
-          <Typography variant="h5">Polls ({polls.length})</Typography>
-          <PollDialog user={user} polls={polls} />
-        </div>
-        <div className={classes.cardContainer}>
-          {!polls ? (
-            <h1>No polls...</h1>
-          ) : (
-            polls.map(poll => (
-              <PollCard
-                key={poll._id}
-                question={poll.question}
-                images={poll.images}
-                pollId={poll._id}
-                isUser={user._id === poll.createdBy ? true : false}
-                deletePoll={user._id === poll.createdBy ? deletePoll : null}
-              />
-            ))
-          )}
-        </div>
+        <FriendListContainer classes={classes} user={user} />
       </Container>
     </>
   );
