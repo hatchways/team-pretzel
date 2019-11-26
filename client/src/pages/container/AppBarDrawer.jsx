@@ -82,8 +82,6 @@ const AppBarDrawer = ({ user, handleLogOut, match }) => {
     setOpen(!open);
   };
 
-  // let match = useRouteMatch("/dashboard");
-
   return (
     <div className={classes.root}>
       <AppBar position="static" className={classes.appBar}>
@@ -110,7 +108,7 @@ const AppBarDrawer = ({ user, handleLogOut, match }) => {
               className={classes.avatar}
             />
             {user.name}
-            {/*This icon below is temporarily used for testing user online status*/}
+
             {user.online ? (
               <FiberManualRecordIcon style={{ color: "#1EA362" }} />
             ) : (

@@ -76,7 +76,7 @@ const FriendListDialog = () => {
           initialValues={initialValues}
           validateOnChange={false}
           onSubmit={async ({ title, friendsToAdd }, actions) => {
-            const res = await axios.post(
+            await axios.post(
               "/api/v1/friend-lists",
               { title, friendIds: friendsToAdd },
               {

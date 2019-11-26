@@ -7,7 +7,7 @@ import {
   Typography,
   Button
 } from "@material-ui/core";
-import { Favorite, MoreVert, DeleteForever } from "@material-ui/icons";
+import { Favorite, DeleteForever } from "@material-ui/icons";
 import { Link } from "react-router-dom";
 
 const useStyles = makeStyles({
