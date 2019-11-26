@@ -41,13 +41,16 @@ const useStyles = makeStyles({
     width: "100%"
   },
   imagesInput: {
+    width: "100%",
     marginTop: "1rem",
     display: "flex",
-    flexDirection: "row"
+    flexDirection: "row",
+    justifyContent: "space-between"
   },
   card: {
     height: 250,
-    width: 350
+    width: 350,
+    objectFit: "contain"
   },
   cardMedia: {
     height: 250,
@@ -148,45 +151,44 @@ const PollDialog = ({ user, addPoll }) => {
                     </div>
 
                     <div className={classes.imagesInput}>
-                      {values.images[0] ? (
-                        <Card className={classes.card}>
+                      <Card className={classes.card}>
+                        {values.images[0] ? (
                           <CardMedia
                             component="img"
                             className={classes.cardMedia}
                             src={URL.createObjectURL(values.images[0])}
                             title="First option"
                           />
-                        </Card>
-                      ) : (
-                        <ImageDropzone
-                          onDrop={files => {
-                            setFieldValue("images", [
-                              ...values.images,
-                              files[0]
-                            ]);
-                          }}
-                        />
-                      )}
-
-                      {values.images[1] ? (
-                        <Card className={classes.card}>
+                        ) : (
+                          <ImageDropzone
+                            onDrop={files => {
+                              setFieldValue("images", [
+                                ...values.images,
+                                files[0]
+                              ]);
+                            }}
+                          />
+                        )}
+                      </Card>
+                      <Card className={classes.card}>
+                        {values.images[1] ? (
                           <CardMedia
                             component="img"
                             className={classes.cardMedia}
                             src={URL.createObjectURL(values.images[1])}
                             title="Second option"
                           />
-                        </Card>
-                      ) : (
-                        <ImageDropzone
-                          onDrop={files => {
-                            setFieldValue("images", [
-                              ...values.images,
-                              files[0]
-                            ]);
-                          }}
-                        />
-                      )}
+                        ) : (
+                          <ImageDropzone
+                            onDrop={files => {
+                              setFieldValue("images", [
+                                ...values.images,
+                                files[0]
+                              ]);
+                            }}
+                          />
+                        )}
+                      </Card>
                     </div>
 
                     <DialogActions>

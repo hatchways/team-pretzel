@@ -24,7 +24,6 @@ const ImageDropzone = ({ onDrop }) => {
         {({ getRootProps, getInputProps }) => (
           <div {...getRootProps()} className={classes.dropzone}>
             <input accept="image/*" {...getInputProps()} />
-            <p>Drag 'n' drop an image</p>
           </div>
         )}
       </Dropzone>
