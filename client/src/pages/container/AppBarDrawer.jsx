@@ -88,20 +88,12 @@ const AppBarDrawer = ({ user, handleLogOut, match }) => {
     <div className={classes.root}>
       <AppBar position="static" className={classes.appBar}>
         <Toolbar className={classes.toolbar}>
-          <NavLink exact to="/dashboard" className={classes.menuButton}>
-            <Button>Home</Button>
-          </NavLink>
-
           <NavLink exact to="/friends" className={classes.menuButton}>
             <Button>Friends</Button>
           </NavLink>
 
           <NavLink exact to="/friends-polls" className={classes.menuButton}>
             <Button>Friends poll</Button>
-          </NavLink>
-
-          <NavLink to="#" className={classes.menuButton}>
-            <Button>Opinions</Button>
           </NavLink>
 
           <PollDialog user={user} />
