@@ -38,7 +38,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const FriendListDialog = () => {
+const FriendListDialog = setLoading => {
   const friends = useGet("/api/v1/friends", "friends");
 
   const classes = useStyles();
@@ -84,6 +84,7 @@ const FriendListDialog = () => {
               }
             );
             actions.setSubmitting(false);
+            //setLoading(true);
             handleClick();
           }}
         >

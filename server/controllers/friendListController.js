@@ -19,3 +19,15 @@ export const createFriendList = catchAsync(async (req, res, next) => {
     data: { friendList: newFriendList }
   });
 });
+
+// Get all friend lists for a user
+export const getFriendLists = catchAsync(async (req, res) => {
+  const friendLists = await FriendList.find({ user: req.params.id }).populate(
+    "friends"
+  );
+
+  res.json({
+    status: "success",
+    friendLists
+  });
+});

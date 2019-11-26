@@ -17,20 +17,14 @@ const useStyles = makeStyles({
   cardHeader: { borderBottom: "0.5px solid lightgrey" }
 });
 
-const friends = [
-  { id: 1, name: "leon", avatar: "#" },
-  { id: 2, name: "kay", avatar: "#" },
-  { id: 3, name: "sunny", avatar: "#" }
-];
-
-const FriendListCard = props => {
+const FriendListCard = ({ title, friends }) => {
   const classes = useStyles();
   return (
     <Card className={classes.card}>
       <CardHeader
         className={classes.cardHeader}
-        title="Title"
-        subheader="This is the subheader"
+        title={title}
+        subheader={`${friends.length} friends`}
       />
       <CardContent>
         <Container>

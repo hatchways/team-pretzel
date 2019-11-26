@@ -42,9 +42,7 @@ const PollCard = ({ question, images, pollId, isUser = false, deletePoll }) => {
         <Button>
           <DeleteForever onClick={() => deletePoll(pollId)} />
         </Button>
-      ) : (
-        <></>
-      )}
+      )
       <Link to={`/polls/${pollId}`} className={classes.link}>
         <CardHeader
           className={classes.cardHeader}
