@@ -1,7 +1,6 @@
 import React, { Fragment, useState } from "react";
 import { Formik } from "formik";
 import { FriendListSchema } from "../../utils/validation";
-import axios from "axios";
 import {
   Button,
   CircularProgress,
@@ -17,14 +16,6 @@ import {
   ListItemSecondaryAction,
   makeStyles
 } from "@material-ui/core";
-import Friend from "../presentational/Friend";
-
-import useGet from "../../utils/hooks/useGet";
-
-const initialValues = {
-  title: "",
-  friendsToAdd: []
-};
 
 const useStyles = makeStyles(theme => ({
   button: {
@@ -39,8 +30,8 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const FriendListDialog = addFriendList => {
-  const friends = useGet("/api/v1/friends", "friends");
+const FriendListDialog = ({ addFriendList, user }) => {
+  const friends = user.friends[0].friends;
 
   const classes = useStyles();
 
@@ -74,16 +65,14 @@ const FriendListDialog = addFriendList => {
         </DialogTitle>
         <Formik
           validationSchema={FriendListSchema}
-          initialValues={initialValues}
+          initialValues={{ title: "", friendsToAdd: [] }}
           validateOnChange={false}
           onSubmit={async ({ title, friendsToAdd }, actions) => {
-            // await axios.post("/api/v1/friend-lists", {
-            //   title,
-            //   friendIds: friendsToAdd
-            // });
-            addFriendList(title, friendsToAdd);
+            addFriendList({
+              title,
+              friendIds: friendsToAdd
+            });
             actions.setSubmitting(false);
-            //setLoading(true);
             handleClick();
           }}
         >
@@ -105,7 +94,7 @@ const FriendListDialog = addFriendList => {
                     <FormHelperText error>{errors.friendsToAdd}</FormHelperText>
                   ) : null}
                   <List>
-                    {friends.friends.map(friend => {
+                    {friends.map(friend => {
                       return (
                         <ListItem key={friend.id}>
                           <ListItemText>{friend.name}</ListItemText>

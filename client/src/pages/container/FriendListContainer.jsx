@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Typography } from "@material-ui/core";
+import { Typography, CircularProgress } from "@material-ui/core";
 import FriendListDialog from "../presentational/FriendListDialog";
 import FriendListCard from "../presentational/FriendListCard";
 import axios from "axios";
@@ -18,8 +18,8 @@ const FriendListContainer = ({ classes, user }) => {
     setLoading(false);
   };
 
-  const addFriendList = async (title, friendsToAdd) => {
-    await axios.post("/api/v1/friend-lists", { title, friendsToAdd });
+  const addFriendList = async friendListObj => {
+    await axios.post("/api/v1/friend-lists", friendListObj);
     setLoading(true);
   };
 
@@ -27,11 +27,11 @@ const FriendListContainer = ({ classes, user }) => {
     <>
       <div className={classes.header}>
         <Typography variant="h5">Friend Lists</Typography>
-        <FriendListDialog addFriendList={addFriendList} />
+        <FriendListDialog addFriendList={addFriendList} user={user} />
       </div>
       <div className={classes.cardContainer}>
         {loading ? (
-          <></>
+          <CircularProgress />
         ) : !friendList ? (
           <h1>No friend list</h1>
         ) : (

@@ -7,8 +7,8 @@ import {
 } from "../controllers/friendListController";
 
 // create a friendlist
-router.use(authController.checkAuth);
-router.post("/", createFriendList);
+//router.use(authController.checkAuth);
+router.post("/", authController.checkAuth, createFriendList);
 
 // Get friendlists for a user
 router.get("/:id", authController.checkAuth, getFriendLists);
