@@ -5,8 +5,7 @@ import {
   CardContent,
   CardHeader,
   CardMedia,
-  Typography,
-  Button
+  Typography
 } from "@material-ui/core";
 import { Favorite, HighlightOff } from "@material-ui/icons";
 import { Link } from "react-router-dom";
