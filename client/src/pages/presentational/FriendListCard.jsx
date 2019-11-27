@@ -7,6 +7,7 @@ import {
   Container
 } from "@material-ui/core";
 import Friend from "./Friend";
+import DeleteDialog from "./DeleteDialog";
 
 const useStyles = makeStyles({
   card: {
@@ -17,15 +18,24 @@ const useStyles = makeStyles({
   cardHeader: { borderBottom: "0.5px solid lightgrey" }
 });
 
-const FriendListCard = ({ title, friends }) => {
+const FriendListCard = ({
+  title,
+  friends,
+  id,
+  deleteFriendList,
+  isUser = false
+}) => {
   const classes = useStyles();
   return (
     <Card className={classes.card}>
+      {isUser ? (
+        <DeleteDialog title={title} deleteFunction={deleteFriendList} id={id} />
+      ) : null}
       <CardHeader
         className={classes.cardHeader}
         title={title}
         subheader={`${friends.length} friends`}
-      />
+      ></CardHeader>
       <CardContent>
         <Container>
           <Friend friends={friends} />

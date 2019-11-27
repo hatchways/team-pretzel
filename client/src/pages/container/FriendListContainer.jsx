@@ -23,6 +23,11 @@ const FriendListContainer = ({ classes, user }) => {
     setLoading(true);
   };
 
+  const deleteFriendList = async id => {
+    await axios.delete(`/api/v1/friend-lists/${id}`);
+    setLoading(true);
+  };
+
   return (
     <>
       <div className={classes.header}>
@@ -32,14 +37,21 @@ const FriendListContainer = ({ classes, user }) => {
       <div className={classes.cardContainer}>
         {loading ? (
           <CircularProgress />
-        ) : !friendList ? (
-          <h1>No friend list</h1>
+        ) : !friendList.length ? (
+          <Typography variant="h6">
+            You haven't created a friend list yet
+          </Typography>
         ) : (
           friendList.map(list => (
             <FriendListCard
               key={list._id}
               friends={list.friends}
               title={list.title}
+              id={list._id}
+              isUser={user._id === list.user ? true : false}
+              deleteFriendList={
+                user._id === list.user ? deleteFriendList : null
+              }
             />
           ))
         )}

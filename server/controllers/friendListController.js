@@ -31,3 +31,12 @@ export const getFriendLists = catchAsync(async (req, res) => {
     friendLists
   });
 });
+
+// Delete friend list
+export const deleteFriendList = catchAsync(async (req, res) => {
+  await FriendList.findByIdAndDelete(req.params.id);
+
+  res.json({
+    status: "FriendList deleted"
+  });
+});

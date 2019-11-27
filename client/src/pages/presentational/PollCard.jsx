@@ -8,8 +8,9 @@ import {
   Typography,
   Button
 } from "@material-ui/core";
-import { Favorite, DeleteForever } from "@material-ui/icons";
+import { Favorite, HighlightOff } from "@material-ui/icons";
 import { Link } from "react-router-dom";
+import DeleteDialog from "../presentational/DeleteDialog";
 
 const useStyles = makeStyles({
   card: {
@@ -44,9 +45,11 @@ const PollCard = ({ question, images, pollId, isUser = false, deletePoll }) => {
   return (
     <Card className={classes.card}>
       {isUser ? (
-        <Button>
-          <DeleteForever onClick={() => deletePoll(pollId)} />
-        </Button>
+        <DeleteDialog
+          title={question}
+          deleteFunction={deletePoll}
+          id={pollId}
+        />
       ) : null}
       <Link to={`/polls/${pollId}`} className={classes.link}>
         <CardHeader
