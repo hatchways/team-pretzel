@@ -1,7 +1,6 @@
 import React, { Fragment, useState } from "react";
 import { Formik } from "formik";
 import { FriendListSchema } from "../../utils/validation";
-import axios from "axios";
 import {
   Button,
   CircularProgress,
@@ -18,13 +17,6 @@ import {
   makeStyles
 } from "@material-ui/core";
 
-import useGet from "../../utils/hooks/useGet";
-
-const initialValues = {
-  title: "",
-  friendsToAdd: []
-};
-
 const useStyles = makeStyles(theme => ({
   button: {
     margin: theme.spacing(1),
@@ -38,8 +30,8 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const FriendListDialog = () => {
-  const friends = useGet("/api/v1/friends", "friends");
+const FriendListDialog = ({ addFriendList, user }) => {
+  const friends = user.friends[0].friends;
 
   const classes = useStyles();
 
@@ -73,16 +65,13 @@ const FriendListDialog = () => {
         </DialogTitle>
         <Formik
           validationSchema={FriendListSchema}
-          initialValues={initialValues}
+          initialValues={{ title: "", friendsToAdd: [] }}
           validateOnChange={false}
           onSubmit={async ({ title, friendsToAdd }, actions) => {
-            await axios.post(
-              "/api/v1/friend-lists",
-              { title, friendIds: friendsToAdd },
-              {
-                headers: { Authorization: `Bearer ${localStorage.jwtToken}` }
-              }
-            );
+            addFriendList({
+              title,
+              friendIds: friendsToAdd
+            });
             actions.setSubmitting(false);
             handleClick();
           }}
@@ -105,7 +94,7 @@ const FriendListDialog = () => {
                     <FormHelperText error>{errors.friendsToAdd}</FormHelperText>
                   ) : null}
                   <List>
-                    {friends.friends.map(friend => {
+                    {friends.map(friend => {
                       return (
                         <ListItem key={friend.id}>
                           <ListItemText>{friend.name}</ListItemText>

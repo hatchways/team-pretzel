@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Typography } from "@material-ui/core";
+import { Typography, CircularProgress } from "@material-ui/core";
 import PollCard from "../presentational/PollCard";
 import PollDialog from "../presentational/PollDialog";
 import axios from "axios";
@@ -36,9 +36,9 @@ const PollsContainer = ({ classes, user }) => {
       </div>
       <div className={classes.cardContainer}>
         {loading ? (
-          <></>
-        ) : !polls ? (
-          <h1>No polls...</h1>
+          <CircularProgress />
+        ) : !polls.length ? (
+          <Typography variant="h6">You haven't created a poll yet</Typography>
         ) : (
           polls.map(poll => (
             <PollCard
