@@ -4,11 +4,13 @@ import {
   Card,
   CardContent,
   CardHeader,
+  CardMedia,
   Typography,
   Button
 } from "@material-ui/core";
-import { Favorite, MoreVert, DeleteForever } from "@material-ui/icons";
+import { Favorite, HighlightOff } from "@material-ui/icons";
 import { Link } from "react-router-dom";
+import DeleteDialog from "../presentational/DeleteDialog";
 
 const useStyles = makeStyles({
   card: {
@@ -23,6 +25,10 @@ const useStyles = makeStyles({
     display: "flex",
     justifyContent: "center",
     padding: "1.5rem 0"
+  },
+  media: {
+    height: 120,
+    width: 120
   },
   images: { width: "75px", height: "75px" },
   link: { textDecoration: "none", color: "black" }
@@ -39,12 +45,12 @@ const PollCard = ({ question, images, pollId, isUser = false, deletePoll }) => {
   return (
     <Card className={classes.card}>
       {isUser ? (
-        <Button>
-          <DeleteForever onClick={() => deletePoll(pollId)} />
-        </Button>
-      ) : (
-        <></>
-      )}
+        <DeleteDialog
+          title={question}
+          deleteFunction={deletePoll}
+          id={pollId}
+        />
+      ) : null}
       <Link to={`/polls/${pollId}`} className={classes.link}>
         <CardHeader
           className={classes.cardHeader}
@@ -54,7 +60,13 @@ const PollCard = ({ question, images, pollId, isUser = false, deletePoll }) => {
         <CardContent className={classes.cardContent}>
           {images.map(image => (
             <div key={image._id} style={{ marginRight: "0.5rem" }}>
-              <img className={classes.images} src={image.url} alt="random" />
+              <CardMedia
+                component="img"
+                className={classes.media}
+                image={image.url}
+                title="Poll option"
+              />
+
               <div style={{ marginLeft: "40%" }}>
                 <Typography variant="subtitle2" style={{ fontSize: "1rem" }}>
                   <Favorite color="secondary" />
