@@ -45,7 +45,8 @@ io.on("connection", socket => {
   socket.on("user_online", user => {
     console.log(`🙂 ${user.name} is online`);
     setOnlineStatus(user.id);
-    io.sockets.emit("user_online", user);
+    socket.broadcast.emit("user_online", user);
+    // io.sockets.emit("user_online", user);
   });
 
   socket.on("user_offline", user => {
