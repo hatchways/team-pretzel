@@ -1,6 +1,7 @@
 import React from "react";
 import FriendList from "./FriendList";
 import { Container, makeStyles } from "@material-ui/core";
+import socket from "../../utils/socket";
 
 const useStyles = makeStyles({
   flexContainer: {
@@ -12,6 +13,9 @@ const useStyles = makeStyles({
 
 const ContentContainer = ({ children, user }) => {
   const classes = useStyles();
+  socket.on("user_online", onlineUser => {
+    console.log(onlineUser);
+  });
   return (
     <div className={classes.flexContainer}>
       <div className={classes.friendsBar}>
