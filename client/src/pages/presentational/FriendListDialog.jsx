@@ -17,6 +17,7 @@ import {
   ListItemSecondaryAction,
   makeStyles
 } from "@material-ui/core";
+import Friend from "../presentational/Friend";
 
 import useGet from "../../utils/hooks/useGet";
 
@@ -38,7 +39,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const FriendListDialog = setLoading => {
+const FriendListDialog = addFriendList => {
   const friends = useGet("/api/v1/friends", "friends");
 
   const classes = useStyles();
@@ -76,13 +77,11 @@ const FriendListDialog = setLoading => {
           initialValues={initialValues}
           validateOnChange={false}
           onSubmit={async ({ title, friendsToAdd }, actions) => {
-            await axios.post(
-              "/api/v1/friend-lists",
-              { title, friendIds: friendsToAdd },
-              {
-                headers: { Authorization: `Bearer ${localStorage.jwtToken}` }
-              }
-            );
+            // await axios.post("/api/v1/friend-lists", {
+            //   title,
+            //   friendIds: friendsToAdd
+            // });
+            addFriendList(title, friendsToAdd);
             actions.setSubmitting(false);
             //setLoading(true);
             handleClick();

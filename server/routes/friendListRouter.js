@@ -10,6 +10,7 @@ import {
 router.use(authController.checkAuth);
 router.post("/", createFriendList);
 
+// Get friendlists for a user
 router.get("/:id", authController.checkAuth, getFriendLists);
 
 export default router;

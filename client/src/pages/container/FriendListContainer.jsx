@@ -10,7 +10,7 @@ const FriendListContainer = ({ classes, user }) => {
 
   useEffect(() => {
     getFriendList(user._id);
-  }, [loading]);
+  }, [loading, user._id]);
 
   const getFriendList = async id => {
     const response = await axios.get(`/api/v1/friend-lists/${id}`);
@@ -18,8 +18,8 @@ const FriendListContainer = ({ classes, user }) => {
     setLoading(false);
   };
 
-  const addFriendList = async formData => {
-    await axios.post("/api/v1/friend-lists", formData);
+  const addFriendList = async (title, friendsToAdd) => {
+    await axios.post("/api/v1/friend-lists", { title, friendsToAdd });
     setLoading(true);
   };
 
@@ -27,7 +27,7 @@ const FriendListContainer = ({ classes, user }) => {
     <>
       <div className={classes.header}>
         <Typography variant="h5">Friend Lists</Typography>
-        <FriendListDialog setLoading={setLoading} />
+        <FriendListDialog addFriendList={addFriendList} />
       </div>
       <div className={classes.cardContainer}>
         {loading ? (
