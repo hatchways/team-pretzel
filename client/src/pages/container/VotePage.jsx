@@ -30,7 +30,6 @@ const VotePage = ({ match, location, user }) => {
   const [poll, setPoll] = useState([]);
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(true);
-
   const [isUser, setIsUser] = useState(false);
 
   useEffect(() => {
