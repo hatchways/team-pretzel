@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Typography, CircularProgress } from "@material-ui/core";
+import { Typography, CircularProgress, GridList } from "@material-ui/core";
 import PollCard from "../presentational/PollCard";
 import PollDialog from "../presentational/PollDialog";
 import axios from "axios";
@@ -29,12 +29,12 @@ const PollsContainer = ({ classes, user }) => {
   };
 
   return (
-    <>
+    <div>
       <div className={classes.header}>
         <Typography variant="h5">Polls ({polls.length})</Typography>
         <PollDialog user={user} polls={polls} addPoll={addPoll} />
       </div>
-      <div className={classes.cardContainer}>
+      <GridList className={classes.gridList}>
         {loading ? (
           <CircularProgress />
         ) : !polls.length ? (
@@ -51,8 +51,8 @@ const PollsContainer = ({ classes, user }) => {
             />
           ))
         )}
-      </div>
-    </>
+      </GridList>
+    </div>
   );
 };
 
