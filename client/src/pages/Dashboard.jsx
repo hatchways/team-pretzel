@@ -37,13 +37,11 @@ const Dashboard = ({ history }) => {
 
   if (user && !error) {
     socket.emit("user_online", user);
-    socket.on("user_online", () => {});
   }
 
   const handleLogOut = () => {
     localStorage.removeItem("jwtToken");
     socket.emit("user_offline", user);
-    socket.on("user_offline");
     history.push("/signin");
   };
 
