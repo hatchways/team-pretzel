@@ -73,12 +73,14 @@ userSchema.methods.isPasswordCorrect = async function(
 
 // set status
 userSchema.methods.setOnline = function() {
-  if (!this.online) this.online = true;
+  // if (!this.online) this.online = true;
+  this.online = true;
   return this;
 };
 
 userSchema.methods.setOffline = function() {
-  if (this.online) this.online = false;
+  // if (this.online) this.online = false;
+  this.online = false;
   return this;
 };
 
