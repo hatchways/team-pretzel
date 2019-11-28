@@ -36,8 +36,10 @@ const PollImage = ({ image, handleVoteClick, userId, isUser }) => {
         src={image.url}
         alt="random"
         onClick={() => {
-          if (!isUser || !voted) {
-            handleVoteClick(image._id);
+          if (!isUser) {
+            if (!voted) {
+              handleVoteClick(image._id);
+            }
           }
         }}
       />

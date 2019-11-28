@@ -4,7 +4,6 @@ import { CircularProgress, Typography, makeStyles } from "@material-ui/core";
 import PollImage from "../presentational/PollImage";
 import VoteList from "../presentational/VoteList";
 import axios from "axios";
-import { SettingsInputSvideoRounded } from "@material-ui/icons";
 
 const useStyles = makeStyles(theme => ({
   root: {
