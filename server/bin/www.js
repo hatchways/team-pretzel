@@ -51,8 +51,11 @@ io.on("connection", socket => {
 
   socket.on("user_offline", async user => {
     console.log(`😶 ${user.name} is offline`);
-    await setOfflineStatus(user.id);
-    socket.broadcast.emit("user_offline", user);
+    const offlineUser = await setOfflineStatus(user.id);
+    console.log("www: ", offlineUser);
+
+    socket.broadcast.emit("user_offline", offlineUser);
+    socket.disconnect();
     // io.sockets.emit("user_offline", user);
   });
 
