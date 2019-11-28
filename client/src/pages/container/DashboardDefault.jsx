@@ -5,21 +5,19 @@ import PollsContainer from "./PollsContainer";
 import FriendListContainer from "./FriendListContainer";
 
 const useStyles = makeStyles({
-  container: {
-    margin: "1rem "
-  },
   header: {
     display: "flex",
     alignItems: "center",
-    justifyContent: "space-between"
+    justifyContent: "space-between",
+    marginTop: "2rem"
   },
-  cardContainer: {
-    display: "flex",
-    overflowX: "scroll",
-    padding: "0.5rem 0.5rem"
+  gridList: {
+    flexWrap: "nowrap",
+    transform: "translateZ(0)",
+    padding: "2rem 0.5rem"
   },
   divider: {
-    margin: "1rem"
+    margin: "2rem"
   }
 });
 
@@ -28,7 +26,7 @@ const DashboardDefault = ({ user, match, history }) => {
 
   return (
     <>
-      <Container className={classes.container}>
+      <Container>
         <PollsContainer classes={classes} user={user} />
         <Divider className={classes.divider} />
         <FriendListContainer classes={classes} user={user} />
