@@ -1,11 +1,12 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { ListItem, Avatar } from "@material-ui/core";
+import { ListItem, Avatar, Typography } from "@material-ui/core";
 import FiberManualRecordIcon from "@material-ui/icons/FiberManualRecord";
+import OnlineBadge from "./OnlineBadge";
 
 const useStyles = makeStyles({
-  avatar: {
-    marginRight: "2rem"
+  name: {
+    marginLeft: "2rem"
   },
   status: {
     float: "right",
@@ -22,12 +23,32 @@ const Friend = ({ friends }) => {
     <>
       {friends.map(friend => (
         <ListItem key={friend.id}>
-          <Avatar
-            className={classes.avatar}
-            alt={friend.name}
-            src={friend.avatar}
-          />
           {friend.online ? (
+            <OnlineBadge
+              overlap="circle"
+              anchorOrigin={{
+                vertical: "bottom",
+                horizontal: "right"
+              }}
+              variant="dot"
+            >
+              <Avatar
+                className={classes.avatar}
+                alt={friend.name}
+                src={friend.avatar}
+              />
+            </OnlineBadge>
+          ) : (
+            <Avatar alt={friend.name} src={friend.avatar} />
+          )}
+          {/*<OnlineBadge>
+            <Avatar
+              className={classes.avatar}
+              alt={friend.name}
+              src={friend.avatar}
+            />
+          </OnlineBadge>*/}
+          {/*friend.online ? (
             <FiberManualRecordIcon
               className={classes.status}
               style={{ color: "#1EA362" }}
@@ -37,9 +58,11 @@ const Friend = ({ friends }) => {
               className={classes.status}
               color="disabled"
             />
-          )}
+          )*/}
 
-          {friend.name}
+          <Typography className={classes.name} variant="body2">
+            {friend.name}
+          </Typography>
         </ListItem>
       ))}
     </>
