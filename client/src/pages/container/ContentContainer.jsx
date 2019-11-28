@@ -33,26 +33,22 @@ const ContentContainer = ({ children }) => {
 
   useEffect(() => {
     socket.on("user_online", onlineUser => {
-      console.log("onlineUser:", onlineUser);
       const updateFriends = friends.map(friend => {
         if (friend.id === onlineUser.id) {
           friend.online = onlineUser.online;
         }
         return friend;
       });
-      console.log("update friends online: ", updateFriends);
       setFriends(updateFriends);
     });
 
     socket.on("user_offline", offlineUser => {
-      console.log(`offline user:`, offlineUser);
       const updateFriends = friends.map(friend => {
         if (friend.id === offlineUser.id) {
           friend.online = offlineUser.online;
         }
         return friend;
       });
-      console.log("update friends offline: ", updateFriends);
       setFriends(updateFriends);
     });
   }, [friends]);
