@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Typography, CircularProgress } from "@material-ui/core";
+import { Typography, CircularProgress, GridList } from "@material-ui/core";
 import FriendListDialog from "../presentational/FriendListDialog";
 import FriendListCard from "../presentational/FriendListCard";
 import axios from "axios";
@@ -46,7 +46,7 @@ const FriendListContainer = ({ classes, user }) => {
         <Typography variant="h5">Friend Lists</Typography>
         <FriendListDialog addFriendList={addFriendList} friends={friends} />
       </div>
-      <div className={classes.cardContainer}>
+      <GridList className={classes.gridList}>
         {loading ? (
           <CircularProgress />
         ) : !friendList.length ? (
@@ -67,7 +67,7 @@ const FriendListContainer = ({ classes, user }) => {
             />
           ))
         )}
-      </div>
+      </GridList>
     </>
   );
 };

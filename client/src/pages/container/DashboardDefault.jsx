@@ -1,25 +1,21 @@
 import React from "react";
 import { withRouter } from "react-router";
-import { Container, Divider, makeStyles } from "@material-ui/core";
+import { Container, makeStyles } from "@material-ui/core";
 import PollsContainer from "./PollsContainer";
 import FriendListContainer from "./FriendListContainer";
 
 const useStyles = makeStyles({
-  container: {
-    margin: "1rem "
-  },
   header: {
     display: "flex",
     alignItems: "center",
-    justifyContent: "space-between"
+    justifyContent: "space-between",
+    marginTop: "4rem"
   },
-  cardContainer: {
-    display: "flex",
-    overflowX: "scroll",
-    padding: "0.5rem 0.5rem"
-  },
-  divider: {
-    margin: "1rem"
+  gridList: {
+    flexWrap: "nowrap",
+    transform: "translateZ(0)",
+    padding: "2rem 0.5rem",
+    height: "100%"
   }
 });
 
@@ -27,13 +23,10 @@ const DashboardDefault = ({ user, match, history }) => {
   const classes = useStyles();
 
   return (
-    <>
-      <Container className={classes.container}>
-        <PollsContainer classes={classes} user={user} />
-        <Divider className={classes.divider} />
-        <FriendListContainer classes={classes} user={user} />
-      </Container>
-    </>
+    <Container>
+      <PollsContainer classes={classes} user={user} />
+      <FriendListContainer classes={classes} user={user} />
+    </Container>
   );
 };
 
