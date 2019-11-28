@@ -30,9 +30,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const FriendListDialog = ({ addFriendList, user }) => {
-  const friends = user.friends[0].friends;
-
+const FriendListDialog = ({ addFriendList, friends }) => {
   const classes = useStyles();
 
   const [open, setOpen] = useState(false);
