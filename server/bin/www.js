@@ -46,7 +46,6 @@ io.on("connection", socket => {
     console.log(`🙂 ${user.name} is online`);
     await setOnlineStatus(user.id);
     socket.broadcast.emit("user_online", user);
-    // io.sockets.emit("user_online", user);
   });
 
   socket.on("user_offline", async user => {
@@ -55,8 +54,6 @@ io.on("connection", socket => {
     console.log("www: ", offlineUser);
 
     socket.broadcast.emit("user_offline", offlineUser);
-    socket.disconnect();
-    // io.sockets.emit("user_offline", user);
   });
 
   socket.on("current_votes", async imageId => {
