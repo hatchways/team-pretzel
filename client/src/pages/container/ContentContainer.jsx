@@ -14,10 +14,8 @@ const useStyles = makeStyles({
 
 const ContentContainer = ({ children }) => {
   const classes = useStyles();
-  socket.on("user_online", onlineUser => {
-    console.log(onlineUser);
-  });
   const [friends, setFriends] = useState([]);
+
   const getFriends = async () => {
     const token = localStorage.getItem("jwtToken");
     const res = await axios.get("/api/v1/friends", {
@@ -32,6 +30,20 @@ const ContentContainer = ({ children }) => {
   useEffect(() => {
     getFriends();
   }, []);
+
+  useEffect(() => {
+    socket.on("user_online", onlineUser => {
+      console.log("content container onlineUser:", onlineUser);
+      const updateFriends = friends.map(friend => {
+        if (friend.id === onlineUser.id) {
+          friend.online = onlineUser.online;
+        }
+        return friend;
+      });
+      console.log("update friends: ", updateFriends);
+      setFriends(updateFriends);
+    });
+  }, [friends]);
   return (
     <div className={classes.flexContainer}>
       <div className={classes.friendsBar}>
