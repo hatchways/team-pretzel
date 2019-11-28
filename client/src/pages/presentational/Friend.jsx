@@ -1,7 +1,6 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { ListItem, Avatar, Typography } from "@material-ui/core";
-import FiberManualRecordIcon from "@material-ui/icons/FiberManualRecord";
 import OnlineBadge from "./OnlineBadge";
 
 const useStyles = makeStyles({
@@ -41,25 +40,6 @@ const Friend = ({ friends }) => {
           ) : (
             <Avatar alt={friend.name} src={friend.avatar} />
           )}
-          {/*<OnlineBadge>
-            <Avatar
-              className={classes.avatar}
-              alt={friend.name}
-              src={friend.avatar}
-            />
-          </OnlineBadge>*/}
-          {/*friend.online ? (
-            <FiberManualRecordIcon
-              className={classes.status}
-              style={{ color: "#1EA362" }}
-            />
-          ) : (
-            <FiberManualRecordIcon
-              className={classes.status}
-              color="disabled"
-            />
-          )*/}
-
           <Typography className={classes.name} variant="body2">
             {friend.name}
           </Typography>

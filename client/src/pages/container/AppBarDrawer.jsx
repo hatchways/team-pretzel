@@ -15,8 +15,6 @@ import {
   Typography
 } from "@material-ui/core";
 import OnlineBadge from "../presentational/OnlineBadge";
-import FiberManualRecordIcon from "@material-ui/icons/FiberManualRecord";
-
 import ProfileDialog from "../presentational/ProfileDialog";
 import PollDialog from "../presentational/PollDialog";
 
