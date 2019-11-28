@@ -6,11 +6,23 @@ import axios from "axios";
 
 const FriendListContainer = ({ classes, user }) => {
   const [friendList, setFriendList] = useState([]);
+  const [friends, setFriends] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     getFriendList(user._id);
+    getFriends();
   }, [loading, user._id]);
+
+  const getFriends = async () => {
+    const token = localStorage.getItem("jwtToken");
+    const response = await axios.get("/api/v1/friends", {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+    setFriends(response.data.friends);
+  };
 
   const getFriendList = async id => {
     const response = await axios.get(`/api/v1/friend-lists/${id}`);
@@ -32,7 +44,7 @@ const FriendListContainer = ({ classes, user }) => {
     <>
       <div className={classes.header}>
         <Typography variant="h5">Friend Lists</Typography>
-        <FriendListDialog addFriendList={addFriendList} user={user} />
+        <FriendListDialog addFriendList={addFriendList} friends={friends} />
       </div>
       <div className={classes.cardContainer}>
         {loading ? (
