@@ -14,11 +14,6 @@ const useStyles = makeStyles({
 const PollImage = ({ image }) => {
   const [votes, setVotes] = useState(image.castBy.length);
 
-  useEffect(() => {
-    socket.emit("current_votes", image._id);
-    socket.on("current_votes", votes => setVotes(votes + 1));
-  }, [image._id]);
-
   const classes = useStyles();
 
   return (
@@ -28,8 +23,8 @@ const PollImage = ({ image }) => {
         src={image.url}
         alt="random"
         onClick={async () => {
-          await axios.post(`/api/v1/images/${image._id}`);
-          socket.emit("current_votes", image._id);
+          await axios.post(`/api/v1/vote/${image._id}`);
+          setVotes(votes + 1);
         }}
       />
       <div style={{ marginLeft: "40%" }}>

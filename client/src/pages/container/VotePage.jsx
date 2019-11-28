@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { withRouter } from "react-router";
 import {
   CircularProgress,
@@ -8,6 +8,7 @@ import {
 } from "@material-ui/core";
 import useGet from "../../utils/hooks/useGet";
 import PollImage from "../presentational/PollImage";
+import VoteList from "../presentational/VoteList";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -32,6 +33,7 @@ const VotePage = ({ match, location }) => {
   } = match;
 
   const poll = useGet(`/api/v1/polls/${pollId}`, "poll");
+
   const classes = useStyles();
 
   return !poll ? (
@@ -39,19 +41,13 @@ const VotePage = ({ match, location }) => {
   ) : (
     <div className={classes.root}>
       <Typography variant="h3">{poll.question}</Typography>
-      <Typography variant="subtitle1">{numberOfVotes} answers</Typography>
+      {/* <Typography variant="subtitle1">{numberOfVotes} answers</Typography> */}
       <div className={classes.imageContainer}>
         {poll.images.map(image => (
           <PollImage image={image} key={image._id} />
         ))}
       </div>
-      {!listOfVoters ? (
-        <>no vote</>
-      ) : (
-        <List>
-          <VoterList listOfVoters={listOfVoters} />
-        </List>
-      )}
+      <VoteList images={poll.images} />
     </div>
   );
 };

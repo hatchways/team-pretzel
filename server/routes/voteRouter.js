@@ -7,4 +7,6 @@ import * as voteController from "../controllers/voteController";
 
 router.post("/:id", authController.checkAuth, voteController.vote);
 
+router.get("/:id", authController.checkAuth, voteController.getVoters);
+
 export default router;
