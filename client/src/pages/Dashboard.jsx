@@ -36,14 +36,12 @@ const Dashboard = ({ history }) => {
   if (error) return <div>Error: {error}</div>;
 
   if (user && !error) {
-    console.log("user", user);
     socket.emit("user_online", user);
   }
 
   const handleLogOut = () => {
     localStorage.removeItem("jwtToken");
     socket.emit("user_offline", user);
-    socket.on("user_offline");
     history.push("/signin");
   };
 
