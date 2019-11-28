@@ -10,7 +10,7 @@ const voteSchema = new mongoose.Schema({
     ref: "Image"
   },
   date: {
-    type: Date,
+    type: Number,
     default: Date.now()
   }
 });

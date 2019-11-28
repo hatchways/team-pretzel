@@ -2,6 +2,7 @@ import multerUpload from "../utils/multerUpload";
 import catchAsync from "../utils/catchAsync";
 import Poll from "../models/Poll";
 import Image from "../models/Image";
+import Vote from "../models/Vote";
 
 export const uploadPollImages = multerUpload.array("images", 2);
 
@@ -26,10 +27,21 @@ export const createPoll = catchAsync(async (req, res, next) => {
 });
 
 export const getPoll = catchAsync(async (req, res, next) => {
-  const poll = await Poll.findById(req.params.id).populate({
-    path: "images",
-    populate: "castBy"
-  });
+  const poll = await Poll.findById(req.params.id)
+    .populate({
+      path: "images",
+      populate: {
+        path: "castBy",
+        populate: { path: "user" }
+      }
+    })
+    .populate({
+      path: "images",
+      populate: {
+        path: "castBy",
+        populate: { path: "image", select: "url" }
+      }
+    });
   res.status(200).json({
     status: "success",
     poll
@@ -58,10 +70,14 @@ export const getUserPolls = catchAsync(async (req, res, next) => {
 // Delete a poll
 export const deletePoll = catchAsync(async (req, res, next) => {
   const poll = await Poll.findById(req.params.id);
-  // Delete images
-  await poll.images.forEach(
-    async image => await Image.findByIdAndDelete(image)
-  );
+  // Delete images and votes
+  await poll.images.forEach(async image => {
+    const pollImage = await Image.findById(image);
+    await pollImage.castBy.forEach(
+      async castById => await Vote.findByIdAndDelete(castById)
+    );
+    await Image.findByIdAndDelete(image);
+  });
   // Delete poll
   await Poll.findByIdAndDelete(req.params.id);
 

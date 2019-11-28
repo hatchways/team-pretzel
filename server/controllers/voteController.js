@@ -8,15 +8,14 @@ export const vote = catchAsync(async (req, res, next) => {
     image: req.params.id
   });
 
-  console.log(newVote);
+  const image = await Image.findById(req.params.id);
+  image.vote(newVote._id);
+  await image.save();
 
-  // const image = await Image.findById(req.params.id);
-  // image.vote(req.user._id);
-  // await image.save();
-
-  await Image.res.status(201).json({
+  res.status(201).json({
     status: "success",
-    newVote
+    newVote,
+    image
   });
 });
 

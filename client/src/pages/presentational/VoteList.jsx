@@ -1,33 +1,52 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
-import { List, ListItem } from "@material-ui/core";
+import {
+  List,
+  CircularProgress,
+  ListItemAvatar,
+  Avatar,
+  ListItemText,
+  Divider
+} from "@material-ui/core";
+import moment from "moment";
 
 const VoteList = ({ images }) => {
   const [voters, setVoters] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    getVoters(images);
+    const initialVoters = [];
+    images.forEach(image =>
+      image.castBy.forEach(voter => initialVoters.push(voter))
+    );
+    setVoters(initialVoters);
     setLoading(false);
-  }, [loading, images]);
+  }, [images]);
 
-  const getVoters = async images => {
-    await images.forEach(async image => {
-      const response = await axios.get(`/api/v1/vote/${image._id}`);
-      console.log(response.data.voters);
-
-      //console.log(listOfVoters);
-    });
-  };
-  //console.log(voters);
   return loading ? (
-    <h1>loading...</h1>
-  ) : !voters ? (
-    <h1>no voters</h1>
-  ) : (
+    <CircularProgress />
+  ) : !voters.length ? null : (
     <List>
       {voters.map(voter => (
-        <h1>{voter.user.name}</h1>
+        <React.Fragment key={voter._id}>
+          <div style={{ display: "flex", margin: "1rem" }}>
+            <ListItemAvatar>
+              <Avatar alt={voter.user.name} src={voter.user.avatar} />
+            </ListItemAvatar>
+            <ListItemText
+              primary={`${voter.user.name} voted`}
+              secondary={moment(voter.date)
+                .startOf("hour")
+                .fromNow()}
+            />
+
+            <img
+              style={{ width: "4rem", height: "4rem" }}
+              src={voter.image.url}
+              alt="Not found"
+            />
+          </div>
+          <Divider />
+        </React.Fragment>
       ))}
     </List>
   );
