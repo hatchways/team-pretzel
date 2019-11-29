@@ -19,6 +19,7 @@ import {
   setOfflineStatus,
   getUpdatedProfile
 } from "../utils/userHelper";
+import { getUpdatedFriends } from "../utils/friendsHelpers";
 import { getVotes } from "../utils/getVotes";
 
 /**
@@ -61,6 +62,11 @@ io.on("connection", socket => {
   socket.on("profile_updated", async userId => {
     const updatedUser = await getUpdatedProfile(userId);
     io.sockets.emit("profile_updated", updatedUser);
+  });
+
+  socket.on("friends_updated", async friendsId => {
+    const updatedFriends = await getUpdatedFriends(friendsId);
+    io.sockets.emit("friends_updated", updatedFriends);
   });
 
   socket.on("current_votes", async imageId => {

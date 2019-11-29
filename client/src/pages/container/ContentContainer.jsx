@@ -23,8 +23,7 @@ const ContentContainer = ({ children }) => {
         Authorization: `Bearer ${token}`
       }
     });
-
-    setFriends(res.data.friends);
+    setFriends(res.data.friends.friends);
   };
 
   useEffect(() => {
@@ -51,7 +50,13 @@ const ContentContainer = ({ children }) => {
       });
       setFriends(updateFriends);
     });
+
+    socket.on("friends_updated", updatedFriends => {
+      console.log("in ContentContainer", updatedFriends);
+      setFriends(updatedFriends);
+    });
   }, [friends]);
+
   return (
     <div className={classes.flexContainer}>
       <div className={classes.friendsBar}>

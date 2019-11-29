@@ -12,6 +12,7 @@ import FriendsTabPanel from "../presentational/FriendsTabPanel";
 import SuggestedTabPanel from "../presentational/SuggestedTabPanel";
 import useGet from "../../utils/hooks/useGet";
 import axios from "axios";
+import socket from "../../utils/socket";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -34,6 +35,7 @@ const useStyles = makeStyles(theme => ({
 
 const Friends = ({ user }) => {
   const classes = useStyles();
+  console.log("in Friends", user);
 
   // get suggested friends
   const potentialFriends = useGet(
@@ -48,6 +50,8 @@ const Friends = ({ user }) => {
 
   const handleAddorRemoveFriend = async friendId => {
     await axios.put(`/api/v1/friends/${friendId}`);
+    console.log(user.friends[0]._id);
+    socket.emit("friends_updated", user.friends[0]._id);
   };
 
   const [inputValue, setInputValue] = useState("");
