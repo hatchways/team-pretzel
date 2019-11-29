@@ -30,5 +30,9 @@ const pollSchema = new mongoose.Schema({
   }
 });
 
+pollSchema.methods.getOtherImage = function(currentImageId) {
+  return this.images.filter(imageId => imageId != currentImageId)[0];
+};
+
 const Poll = mongoose.model("Poll", pollSchema);
 export default Poll;
