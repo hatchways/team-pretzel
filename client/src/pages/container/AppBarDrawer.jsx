@@ -63,7 +63,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const AppBarDrawer = ({ user, setUser, handleLogOut, match }) => {
+const AppBarDrawer = ({ user, handleLogOut, match }) => {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const anchorRef = useRef(null);

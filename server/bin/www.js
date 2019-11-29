@@ -60,7 +60,7 @@ io.on("connection", socket => {
 
   socket.on("profile_updated", async userId => {
     const updatedUser = await getUpdatedProfile(userId);
-    socket.broadcast.emit("profile_updated", updatedUser);
+    io.sockets.emit("profile_updated", updatedUser);
   });
 
   socket.on("current_votes", async imageId => {

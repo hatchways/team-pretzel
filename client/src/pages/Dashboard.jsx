@@ -56,7 +56,7 @@ const Dashboard = ({ history }) => {
     <CircularProgress />
   ) : (
     <Router>
-      <AppBarDrawer user={user} handleLogOut={handleLogOut} setUser={setUser} />
+      <AppBarDrawer user={user} handleLogOut={handleLogOut} />
       <ContentContainer user={user}>
         <Route
           exact
