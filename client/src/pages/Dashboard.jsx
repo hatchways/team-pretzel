@@ -74,7 +74,7 @@ const Dashboard = ({ history }) => {
     const res = await axios.put(`/api/v1/friends/${friendId}`);
     console.log("add or remove res: ", res.data.friends);
 
-    setFriends(res.data.friends);
+    // setFriends(res.data.friends);
   };
 
   useEffect(() => {
