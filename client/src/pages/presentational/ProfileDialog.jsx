@@ -26,6 +26,9 @@ const useStyles = makeStyles({
   cardMedia: {
     height: 250,
     width: 350
+  },
+  button: {
+    borderRadius: 100
   }
 });
 
@@ -39,7 +42,14 @@ const ProfileDialog = ({ user }) => {
 
   return (
     <React.Fragment>
-      <p onClick={handleDialog}>Update profile</p>
+      <Button
+        variant="outlined"
+        size="small"
+        className={classes.button}
+        onClick={handleDialog}
+      >
+        Update Profile
+      </Button>
       <Dialog
         open={open}
         onClose={handleDialog}
