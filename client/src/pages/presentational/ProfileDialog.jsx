@@ -7,21 +7,34 @@ import {
   DialogContent,
   DialogTitle,
   Button,
-  TextField
+  TextField,
+  Card,
+  CardMedia
 } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
 
+import socket from "../../utils/socket";
 import ImageDropzone from "./ImageDropzone";
+
+const useStyles = makeStyles({
+  card: {
+    height: "250",
+    width: 350,
+    objectFit: "contain",
+    margin: "2rem 0"
+  },
+  cardMedia: {
+    height: 250,
+    width: 350
+  }
+});
 
 const ProfileDialog = ({ user }) => {
   const [open, setOpen] = useState(false);
+  const classes = useStyles();
+
   const handleDialog = () => {
     setOpen(!open);
-  };
-
-  const loadImage = files => {
-    const output = document.getElementById("output");
-    output.src = URL.createObjectURL(files[0]);
-    URL.revokeObjectURL(output);
   };
 
   return (
@@ -43,6 +56,7 @@ const ProfileDialog = ({ user }) => {
               if (name) formData.append("name", name);
               if (avatar) formData.append("avatar", avatar);
               await axios.patch("/api/v1/users/profile", formData);
+              socket.emit("profile_updated", user._id);
             }}
           >
             {({
@@ -66,16 +80,22 @@ const ProfileDialog = ({ user }) => {
                     fullWidth
                   />
 
-                  {values.avatar ? (
-                    <img id="output" alt="upload preview" />
-                  ) : (
-                    <ImageDropzone
-                      onDrop={files => {
-                        setFieldValue("avatar", files[0]);
-                        loadImage(files, "output");
-                      }}
-                    />
-                  )}
+                  <Card className={classes.card}>
+                    {values.avatar ? (
+                      <CardMedia
+                        component="img"
+                        className={classes.cardMedia}
+                        src={URL.createObjectURL(values.avatar)}
+                        title="Your new avatar"
+                      />
+                    ) : (
+                      <ImageDropzone
+                        onDrop={files => {
+                          setFieldValue("avatar", files[0]);
+                        }}
+                      />
+                    )}
+                  </Card>
 
                   <DialogActions>
                     <Button onClick={handleDialog} color="secondary">

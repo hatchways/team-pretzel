@@ -1,4 +1,3 @@
-import React from "react";
 import { Badge, withStyles } from "@material-ui/core";
 
 const OnlineBadge = withStyles(theme => ({

@@ -1,6 +1,13 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { withRouter } from "react-router";
-import { CircularProgress, Typography, makeStyles } from "@material-ui/core";
+import {
+  CircularProgress,
+  Typography,
+  Container,
+  makeStyles
+} from "@material-ui/core";
+import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import PollImage from "../presentational/PollImage";
 import VoteListContainer from "./VoteListContainer";
 import axios from "axios";
@@ -10,15 +17,18 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: theme.palette.background.paper,
     height: "100%",
     minWidth: "80%",
-    maxWidth: "80%",
-
-    margin: "1rem auto"
+    display: "flex",
+    flexDirection: "column"
   },
-  inline: {
-    display: "inline"
+  container: {
+    margin: "3rem 0"
+  },
+  arrowBack: {
+    marginBottom: "2rem"
   },
   imageContainer: {
-    display: "flex"
+    display: "flex",
+    margin: "3rem 0"
   }
 }));
 
@@ -81,20 +91,34 @@ const VotePage = ({ match, location, user }) => {
     <CircularProgress />
   ) : (
     <div className={classes.root}>
-      <Typography variant="h3">{poll.question}</Typography>
-      <Typography variant="subtitle2">{voters.length} answers</Typography>
-      <div className={classes.imageContainer}>
-        {images.map(image => (
-          <PollImage
-            image={image}
-            key={image._id}
-            handleVoteClick={handleVoteClick}
-            userId={user._id}
-            isUser={isUser}
+      <Container className={classes.container}>
+        <Link to="/dashboard">
+          <ArrowBackIcon
+            fontSize="large"
+            color="secondary"
+            className={classes.arrowBack}
           />
-        ))}
-      </div>
-      <VoteListContainer pollId={pollId} />
+        </Link>
+
+        <Typography variant="h4">{poll.question}</Typography>
+        <Typography variant="subtitle2">
+          {voters.length === 1
+            ? `${voters.length} answer`
+            : `${voters.length} answers`}
+        </Typography>
+        <div className={classes.imageContainer}>
+          {images.map(image => (
+            <PollImage
+              image={image}
+              key={image._id}
+              handleVoteClick={handleVoteClick}
+              userId={user._id}
+              isUser={isUser}
+            />
+          ))}
+        </div>
+        <VoteListContainer pollId={pollId} />
+      </Container>
     </div>
   );
 };

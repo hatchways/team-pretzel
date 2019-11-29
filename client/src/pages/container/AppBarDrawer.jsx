@@ -18,6 +18,9 @@ import OnlineBadge from "../presentational/OnlineBadge";
 import ProfileDialog from "../presentational/ProfileDialog";
 import PollDialog from "../presentational/PollDialog";
 
+import logo from "../../assets/logo.jpg";
+import socket from "../../utils/socket";
+
 const drawerWidth = 240;
 
 const useStyles = makeStyles(theme => ({
@@ -26,7 +29,14 @@ const useStyles = makeStyles(theme => ({
   },
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
-    backgroundColor: "white"
+    backgroundColor: "white",
+    position: "relative"
+  },
+  logo: {
+    height: "4rem",
+    width: "4rem",
+    marginLeft: "5rem",
+    position: "absolute"
   },
   menuButton: {
     marginRight: theme.spacing(2),
@@ -87,6 +97,9 @@ const AppBarDrawer = ({ user, handleLogOut, match }) => {
   return (
     <div className={classes.root}>
       <AppBar position="static" className={classes.appBar}>
+        <NavLink exact to="/dashboard">
+          <img src={logo} alt="logo" className={classes.logo} />
+        </NavLink>
         <Toolbar className={classes.toolbar}>
           <NavLink exact to="/friends" className={classes.menuButton}>
             <Button>Friends</Button>

@@ -30,8 +30,15 @@ const Dashboard = ({ history }) => {
       }
     };
     fetchData();
+
     return () => (_isMounted = false);
   }, []);
+
+  useEffect(() => {
+    socket.on("profile_updated", updatedUser => {
+      setUser(updatedUser);
+    });
+  }, [user]);
 
   if (error) return <div>Error: {error}</div>;
 
