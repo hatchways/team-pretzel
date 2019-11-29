@@ -36,8 +36,7 @@ const Dashboard = ({ history }) => {
 
   useEffect(() => {
     socket.on("profile_updated", updatedUser => {
-      user = updatedUser;
-      console.log("from appbar", user);
+      setUser(updatedUser);
     });
   }, [user]);
 
