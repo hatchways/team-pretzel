@@ -119,14 +119,7 @@ const AppBarDrawer = ({ user, handleLogOut, match }) => {
             aria-haspopup="true"
             onClick={handleToggle}
           >
-            <OnlineBadge
-              overlap="circle"
-              anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "right"
-              }}
-              variant="dot"
-            >
+            <OnlineBadge overlap="circle" variant="dot">
               <Avatar alt={user.name} src={user.avatar} />
             </OnlineBadge>
             <Typography className={classes.name}>{user.name}</Typography>

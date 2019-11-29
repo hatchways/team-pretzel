@@ -11,7 +11,6 @@ import {
 import FriendsTabPanel from "../presentational/FriendsTabPanel";
 import SuggestedTabPanel from "../presentational/SuggestedTabPanel";
 import useGet from "../../utils/hooks/useGet";
-import axios from "axios";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -32,7 +31,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const Friends = ({ user }) => {
+const Friends = ({ friends, handleAddorRemoveFriend }) => {
   const classes = useStyles();
 
   // get suggested friends
@@ -46,16 +45,12 @@ const Friends = ({ user }) => {
     setValue(newValue);
   };
 
-  const handleAddorRemoveFriend = async friendId => {
-    await axios.put(`/api/v1/friends/${friendId}`);
-  };
-
   const [inputValue, setInputValue] = useState("");
   const handleOnChange = event => {
     setInputValue(event.target.value);
   };
 
-  return !user && !potentialFriends ? (
+  return !friends && !potentialFriends.length ? (
     <CircularProgress />
   ) : (
     <div className={classes.root}>
@@ -80,7 +75,7 @@ const Friends = ({ user }) => {
         />
         <FriendsTabPanel
           handleAddorRemoveFriend={handleAddorRemoveFriend}
-          friends={user.friends}
+          friends={friends}
           value={value}
           index={0}
           inputValue={inputValue}

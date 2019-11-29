@@ -13,12 +13,27 @@ import FriendsPolls from "./container/FriendsPolls";
 const Dashboard = ({ history }) => {
   const [user, setUser] = useState(null);
   const [error, setError] = useState(false);
+  const [friends, setFriends] = useState([]);
 
   useEffect(() => {
     let _isMounted = true;
+    const token = localStorage.getItem("jwtToken");
+    const getFriends = async () => {
+      try {
+        const res = await axios.get("/api/v1/friends", {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+
+        if (_isMounted) setFriends(res.data.friends);
+      } catch (error) {
+        setError(error);
+      }
+    };
+
     const fetchData = async () => {
       try {
-        const token = localStorage.getItem("jwtToken");
         const res = await axios.get("/api/v1/users/profile", {
           headers: {
             Authorization: `Bearer ${token}`
@@ -29,8 +44,9 @@ const Dashboard = ({ history }) => {
         setError(err);
       }
     };
-    fetchData();
 
+    fetchData();
+    getFriends();
     return () => (_isMounted = false);
   }, []);
 
@@ -38,12 +54,13 @@ const Dashboard = ({ history }) => {
     socket.on("profile_updated", updatedUser => {
       setUser(updatedUser);
     });
+
+    socket.emit("user_online", user);
   }, [user]);
 
   if (error) return <div>Error: {error}</div>;
-
-  if (user && !error) {
-    socket.emit("user_online", user);
+  if (error) {
+    console.log("error", error);
   }
 
   const handleLogOut = () => {
@@ -52,24 +69,37 @@ const Dashboard = ({ history }) => {
     history.push("/signin");
   };
 
+  const handleAddorRemoveFriend = async friendId => {
+    const res = await axios.put(`/api/v1/friends/${friendId}`);
+    console.log("add or remove res: ", res.data.friends);
+
+    // setFriends(res.data.friends);
+  };
+
   return !user ? (
     <CircularProgress />
   ) : (
     <Router>
       <AppBarDrawer user={user} handleLogOut={handleLogOut} />
-      <ContentContainer user={user}>
+      <ContentContainer friends={friends} setFriends={setFriends}>
         <Route
           exact
           path="/dashboard"
           render={() => <DashboardDefault user={user} />}
         />
-        <Route exact path="/friends" render={() => <Friends user={user} />} />
-
         <Route
           exact
-          path={"/friends-polls"}
-          render={() => <FriendsPolls user={user} />}
+          path="/friends"
+          render={props => (
+            <Friends
+              {...props}
+              friends={friends}
+              handleAddorRemoveFriend={handleAddorRemoveFriend}
+            />
+          )}
         />
+
+        <Route exact path={"/friends-polls"} render={() => <FriendsPolls />} />
 
         <Route
           exact
