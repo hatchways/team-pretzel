@@ -11,10 +11,10 @@ import {
   Popper,
   Grow,
   MenuItem,
-  MenuList
+  MenuList,
+  Typography
 } from "@material-ui/core";
-import FiberManualRecordIcon from "@material-ui/icons/FiberManualRecord";
-
+import OnlineBadge from "../presentational/OnlineBadge";
 import ProfileDialog from "../presentational/ProfileDialog";
 import PollDialog from "../presentational/PollDialog";
 
@@ -48,7 +48,9 @@ const useStyles = makeStyles(theme => ({
     marginRight: "5rem",
     ...theme.mixins.toolbar
   },
-  avatar: { margin: 10 }
+  name: {
+    marginLeft: "0.5rem"
+  }
 }));
 
 const AppBarDrawer = ({ user, handleLogOut, match }) => {
@@ -94,26 +96,26 @@ const AppBarDrawer = ({ user, handleLogOut, match }) => {
             <Button>Friends poll</Button>
           </NavLink>
 
-          <PollDialog user={user} />
+          <PollDialog user={user} className={classes.menuButton} />
 
           <Button
+            className={classes.name}
             ref={anchorRef}
             aria-controls={open ? "menu-list-grow" : undefined}
             aria-haspopup="true"
             onClick={handleToggle}
           >
-            <Avatar
-              alt={user.name}
-              src={user.avatar}
-              className={classes.avatar}
-            />
-            {user.name}
-
-            {user.online ? (
-              <FiberManualRecordIcon style={{ color: "#1EA362" }} />
-            ) : (
-              <FiberManualRecordIcon color="disabled" />
-            )}
+            <OnlineBadge
+              overlap="circle"
+              anchorOrigin={{
+                vertical: "bottom",
+                horizontal: "right"
+              }}
+              variant="dot"
+            >
+              <Avatar alt={user.name} src={user.avatar} />
+            </OnlineBadge>
+            <Typography className={classes.name}>{user.name}</Typography>
           </Button>
 
           <Popper

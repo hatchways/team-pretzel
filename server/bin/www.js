@@ -42,16 +42,18 @@ const io = socket(server);
 io.on("connection", socket => {
   console.log("⚡ A socket successfully connected at", socket.id);
 
-  socket.on("user_online", user => {
+  socket.on("user_online", async user => {
     console.log(`🙂 ${user.name} is online`);
-    setOnlineStatus(user.id);
-    io.sockets.emit("user_online", user);
+    await setOnlineStatus(user.id);
+    socket.broadcast.emit("user_online", user);
   });
 
-  socket.on("user_offline", user => {
+  socket.on("user_offline", async user => {
     console.log(`😶 ${user.name} is offline`);
-    setOfflineStatus(user.id);
-    io.sockets.emit("user_offline", user);
+    const offlineUser = await setOfflineStatus(user.id);
+    console.log("www: ", offlineUser);
+
+    socket.broadcast.emit("user_offline", offlineUser);
   });
 
   socket.on("current_votes", async imageId => {
