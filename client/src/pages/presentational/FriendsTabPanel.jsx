@@ -29,6 +29,7 @@ const FriendsTabPanel = ({
   handleAddorRemoveFriend
 }) => {
   const classes = useStyles();
+
   return (
     <List className={classes.root} hidden={value !== index}>
       {!friends.length ? (
@@ -36,7 +37,7 @@ const FriendsTabPanel = ({
           <Typography style={{ margin: "auto" }}>Get some friends</Typography>
         </ListItem>
       ) : (
-        friends[0].friends
+        friends
           .filter(friend => {
             return friend.name.toLowerCase().includes(inputValue.toLowerCase());
           })
