@@ -2,9 +2,8 @@ import React, { useState, useEffect } from "react";
 import { withRouter } from "react-router";
 import { CircularProgress, Typography, makeStyles } from "@material-ui/core";
 import PollImage from "../presentational/PollImage";
-import VoteList from "../presentational/VoteList";
+import VoteListContainer from "./VoteListContainer";
 import axios from "axios";
-import { SettingsInputSvideoRounded } from "@material-ui/icons";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -31,13 +30,15 @@ const VotePage = ({ match, location, user }) => {
   const [poll, setPoll] = useState([]);
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(true);
-
   const [isUser, setIsUser] = useState(false);
+  const [voters, setVoters] = useState([]);
+  const [voted, setVoted] = useState(false);
 
   useEffect(() => {
     getPoll(pollId);
-
+    votes(pollId);
     checkIsUser(poll, user);
+    hasVoted(user, voters);
   }, [loading, pollId]);
 
   const getPoll = async id => {
@@ -48,14 +49,30 @@ const VotePage = ({ match, location, user }) => {
   };
 
   const handleVoteClick = async imageId => {
-    await axios.post(`/api/v1/vote/${imageId}`);
-    setLoading(true);
+    if (!isUser) {
+      if (!voted) {
+        await axios.post(`/api/v1/vote/${imageId}`, {
+          poll: pollId,
+          timestamp: Date.now()
+        });
+        setLoading(true);
+      }
+    }
   };
 
   const checkIsUser = (poll, user) => {
     if (poll.createdBy === user._id) {
       setIsUser(true);
     }
+  };
+
+  const votes = async pollId => {
+    const response = await axios.get(`/api/v1/vote/votes/${pollId}`);
+    setVoters(response.data.votes);
+  };
+
+  const hasVoted = (user, voters) => {
+    voters.forEach(voter => voter.user._id === user._id && setVoted(true));
   };
 
   const classes = useStyles();
@@ -65,7 +82,7 @@ const VotePage = ({ match, location, user }) => {
   ) : (
     <div className={classes.root}>
       <Typography variant="h3">{poll.question}</Typography>
-      {/* <Typography variant="subtitle1">{numberOfVotes} answers</Typography> */}
+      <Typography variant="subtitle2">{voters.length} answers</Typography>
       <div className={classes.imageContainer}>
         {images.map(image => (
           <PollImage
@@ -77,7 +94,7 @@ const VotePage = ({ match, location, user }) => {
           />
         ))}
       </div>
-      <VoteList images={images} />
+      <VoteListContainer pollId={pollId} />
     </div>
   );
 };
