@@ -30,8 +30,16 @@ const Dashboard = ({ history }) => {
       }
     };
     fetchData();
+
     return () => (_isMounted = false);
   }, []);
+
+  useEffect(() => {
+    socket.on("profile_updated", updatedUser => {
+      user = updatedUser;
+      console.log("from appbar", user);
+    });
+  }, [user]);
 
   if (error) return <div>Error: {error}</div>;
 
@@ -49,7 +57,7 @@ const Dashboard = ({ history }) => {
     <CircularProgress />
   ) : (
     <Router>
-      <AppBarDrawer user={user} handleLogOut={handleLogOut} />
+      <AppBarDrawer user={user} handleLogOut={handleLogOut} setUser={setUser} />
       <ContentContainer user={user}>
         <Route
           exact

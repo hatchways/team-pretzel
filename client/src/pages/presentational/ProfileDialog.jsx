@@ -13,6 +13,7 @@ import {
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
+import socket from "../../utils/socket";
 import ImageDropzone from "./ImageDropzone";
 
 const useStyles = makeStyles({
@@ -55,6 +56,7 @@ const ProfileDialog = ({ user }) => {
               if (name) formData.append("name", name);
               if (avatar) formData.append("avatar", avatar);
               await axios.patch("/api/v1/users/profile", formData);
+              socket.emit("profile_updated", user._id);
             }}
           >
             {({

@@ -19,6 +19,7 @@ import ProfileDialog from "../presentational/ProfileDialog";
 import PollDialog from "../presentational/PollDialog";
 
 import logo from "../../assets/logo.jpg";
+import socket from "../../utils/socket";
 
 const drawerWidth = 240;
 
@@ -62,7 +63,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const AppBarDrawer = ({ user, handleLogOut, match }) => {
+const AppBarDrawer = ({ user, setUser, handleLogOut, match }) => {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const anchorRef = useRef(null);
