@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import FriendList from "./FriendList";
 import { Container, makeStyles } from "@material-ui/core";
 import socket from "../../utils/socket";
-import axios from "axios";
 
 const useStyles = makeStyles({
   flexContainer: {
@@ -12,24 +11,8 @@ const useStyles = makeStyles({
   friendsBar: { width: "25%", borderRight: "0.5px solid lightgrey" }
 });
 
-const ContentContainer = ({ children }) => {
+const ContentContainer = ({ children, friends, setFriends }) => {
   const classes = useStyles();
-  const [friends, setFriends] = useState([]);
-
-  const getFriends = async () => {
-    const token = localStorage.getItem("jwtToken");
-    const res = await axios.get("/api/v1/friends", {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    });
-
-    setFriends(res.data.friends);
-  };
-
-  useEffect(() => {
-    getFriends();
-  }, []);
 
   useEffect(() => {
     socket.on("user_online", onlineUser => {
