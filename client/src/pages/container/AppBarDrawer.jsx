@@ -12,11 +12,15 @@ import {
   Grow,
   MenuItem,
   MenuList,
-  Typography
+  Typography,
+  ClickAwayListener
 } from "@material-ui/core";
 import OnlineBadge from "../presentational/OnlineBadge";
 import ProfileDialog from "../presentational/ProfileDialog";
 import PollDialog from "../presentational/PollDialog";
+
+import logo from "../../assets/logo.jpg";
+import socket from "../../utils/socket";
 
 const drawerWidth = 240;
 
@@ -26,7 +30,14 @@ const useStyles = makeStyles(theme => ({
   },
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
-    backgroundColor: "white"
+    backgroundColor: "white",
+    position: "relative"
+  },
+  logo: {
+    height: "4rem",
+    width: "4rem",
+    marginLeft: "5rem",
+    position: "absolute"
   },
   menuButton: {
     marginRight: theme.spacing(2),
@@ -87,6 +98,9 @@ const AppBarDrawer = ({ user, handleLogOut, match }) => {
   return (
     <div className={classes.root}>
       <AppBar position="static" className={classes.appBar}>
+        <NavLink exact to="/dashboard">
+          <img src={logo} alt="logo" className={classes.logo} />
+        </NavLink>
         <Toolbar className={classes.toolbar}>
           <NavLink exact to="/friends" className={classes.menuButton}>
             <Button>Friends</Button>
@@ -96,7 +110,7 @@ const AppBarDrawer = ({ user, handleLogOut, match }) => {
             <Button>Friends poll</Button>
           </NavLink>
 
-          <PollDialog user={user} className={classes.menuButton} />
+          <ProfileDialog user={user} className={classes.menuButton} />
 
           <Button
             className={classes.name}
@@ -127,24 +141,17 @@ const AppBarDrawer = ({ user, handleLogOut, match }) => {
                 }}
               >
                 <Paper>
-                  <MenuList id="menu-list-grow">
-                    <MenuItem onClick={handleClose}>Profile</MenuItem>
-                    <MenuItem>
-                      <ProfileDialog
-                        open={open}
-                        onClick={handleClose}
-                        handleDialog={handleDialog}
-                        user={user}
-                      />
-                    </MenuItem>
-                    <MenuItem
-                      onClick={() => {
-                        handleLogOut();
-                      }}
-                    >
-                      Logout
-                    </MenuItem>
-                  </MenuList>
+                  <ClickAwayListener onClickAway={handleClose}>
+                    <MenuList id="menu-list-grow">
+                      <MenuItem
+                        onClick={() => {
+                          handleLogOut();
+                        }}
+                      >
+                        Logout
+                      </MenuItem>
+                    </MenuList>
+                  </ClickAwayListener>
                 </Paper>
               </Grow>
             )}

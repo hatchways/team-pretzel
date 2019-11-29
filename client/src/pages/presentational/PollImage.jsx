@@ -1,47 +1,48 @@
-import React, { useState, useEffect } from "react";
-import { makeStyles } from "@material-ui/core";
+import React from "react";
+import { CardMedia, Card, makeStyles } from "@material-ui/core";
 import { Favorite } from "@material-ui/icons";
 import socket from "../../utils/socket";
 
 const useStyles = makeStyles({
+  container: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center"
+  },
+  card: {
+    marginRight: "2rem"
+  },
   image: {
     width: "200px",
-    height: "200px"
+    height: "200px",
+    cursor: "pointer"
+  },
+  votes: {
+    display: "flex",
+    alignItems: "center",
+    marginTop: "1rem"
   }
 });
 
-const PollImage = ({ image, handleVoteClick, userId, isUser }) => {
+const PollImage = ({ image, handleVoteClick }) => {
   const votes = image.castBy.length;
-
-  const [voted, setVoted] = useState(false);
-
-  useEffect(() => {
-    hasVoted(userId, image);
-  });
-
-  const hasVoted = (user, image) => {
-    image.castBy.forEach(voter => {
-      if (voter.user._id === user) {
-        setVoted(true);
-      }
-    });
-  };
 
   const classes = useStyles();
 
   return (
-    <div style={{ marginRight: "0.5rem" }}>
-      <img
-        className={classes.image}
-        src={image.url}
-        alt="random"
-        onClick={() => {
-          if (!isUser || !voted) {
+    <div className={classes.container}>
+      <Card className={classes.card}>
+        <CardMedia
+          component="img"
+          className={classes.image}
+          image={image.url}
+          title="Click to vote"
+          onClick={() => {
             handleVoteClick(image._id);
-          }
-        }}
-      />
-      <div style={{ marginLeft: "40%" }}>
+          }}
+        />
+      </Card>
+      <div className={classes.votes}>
         <Favorite color="secondary" />
         {votes}
       </div>

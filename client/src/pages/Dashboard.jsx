@@ -51,18 +51,17 @@ const Dashboard = ({ history }) => {
   }, []);
 
   useEffect(() => {
+    socket.on("profile_updated", updatedUser => {
+      setUser(updatedUser);
+    });
+
     socket.emit("user_online", user);
   }, [user]);
 
-  // if (error) return <div>Error: {error}</div>;
+  if (error) return <div>Error: {error}</div>;
   if (error) {
     console.log("error", error);
   }
-
-  // if (user && !error) {
-  // if (user) {
-  //   socket.emit("user_online", user);
-  // }
 
   const handleLogOut = () => {
     localStorage.removeItem("jwtToken");
@@ -76,10 +75,6 @@ const Dashboard = ({ history }) => {
 
     // setFriends(res.data.friends);
   };
-
-  useEffect(() => {
-    console.log("friends updated");
-  }, [friends]);
 
   return !user ? (
     <CircularProgress />

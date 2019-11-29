@@ -48,7 +48,7 @@ const useStyles = makeStyles({
     justifyContent: "space-between"
   },
   card: {
-    height: 250,
+    height: "250",
     width: 350,
     objectFit: "contain"
   },
@@ -81,9 +81,10 @@ const PollDialog = ({ user, addPoll }) => {
       >
         Create Poll
       </Button>
+
       <Dialog open={open} onClose={handleClose} maxWidth={false}>
         <DialogContent>
-          {user.friendLists.length ? (
+          {user && user.friendLists && user.friendLists.length ? (
             <Formik
               initialValues={{
                 question: "",

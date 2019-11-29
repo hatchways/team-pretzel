@@ -21,3 +21,12 @@ export const setOfflineStatus = async userId => {
     console.log(err);
   }
 };
+
+export const getUpdatedProfile = async userId => {
+  try {
+    let user = await User.findById(userId);
+    return user;
+  } catch (err) {
+    console.log(err);
+  }
+};

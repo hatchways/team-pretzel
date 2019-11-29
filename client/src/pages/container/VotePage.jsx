@@ -1,25 +1,34 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { withRouter } from "react-router";
-import { CircularProgress, Typography, makeStyles } from "@material-ui/core";
+import {
+  CircularProgress,
+  Typography,
+  Container,
+  makeStyles
+} from "@material-ui/core";
+import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import PollImage from "../presentational/PollImage";
-import VoteList from "../presentational/VoteList";
+import VoteListContainer from "./VoteListContainer";
 import axios from "axios";
-import { SettingsInputSvideoRounded } from "@material-ui/icons";
 
 const useStyles = makeStyles(theme => ({
   root: {
     backgroundColor: theme.palette.background.paper,
     height: "100%",
     minWidth: "80%",
-    maxWidth: "80%",
-
-    margin: "1rem auto"
+    display: "flex",
+    flexDirection: "column"
   },
-  inline: {
-    display: "inline"
+  container: {
+    margin: "3rem 0"
+  },
+  arrowBack: {
+    marginBottom: "2rem"
   },
   imageContainer: {
-    display: "flex"
+    display: "flex",
+    margin: "3rem 0"
   }
 }));
 
@@ -31,13 +40,15 @@ const VotePage = ({ match, location, user }) => {
   const [poll, setPoll] = useState([]);
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(true);
-
   const [isUser, setIsUser] = useState(false);
+  const [voters, setVoters] = useState([]);
+  const [voted, setVoted] = useState(false);
 
   useEffect(() => {
     getPoll(pollId);
-
+    votes(pollId);
     checkIsUser(poll, user);
+    hasVoted(user, voters);
   }, [loading, pollId]);
 
   const getPoll = async id => {
@@ -48,8 +59,15 @@ const VotePage = ({ match, location, user }) => {
   };
 
   const handleVoteClick = async imageId => {
-    await axios.post(`/api/v1/vote/${imageId}`);
-    setLoading(true);
+    if (!isUser) {
+      if (!voted) {
+        await axios.post(`/api/v1/vote/${imageId}`, {
+          poll: pollId,
+          timestamp: Date.now()
+        });
+        setLoading(true);
+      }
+    }
   };
 
   const checkIsUser = (poll, user) => {
@@ -58,26 +76,49 @@ const VotePage = ({ match, location, user }) => {
     }
   };
 
+  const votes = async pollId => {
+    const response = await axios.get(`/api/v1/vote/votes/${pollId}`);
+    setVoters(response.data.votes);
+  };
+
+  const hasVoted = (user, voters) => {
+    voters.forEach(voter => voter.user._id === user._id && setVoted(true));
+  };
+
   const classes = useStyles();
 
   return loading ? (
     <CircularProgress />
   ) : (
     <div className={classes.root}>
-      <Typography variant="h3">{poll.question}</Typography>
-      {/* <Typography variant="subtitle1">{numberOfVotes} answers</Typography> */}
-      <div className={classes.imageContainer}>
-        {images.map(image => (
-          <PollImage
-            image={image}
-            key={image._id}
-            handleVoteClick={handleVoteClick}
-            userId={user._id}
-            isUser={isUser}
+      <Container className={classes.container}>
+        <Link to="/dashboard">
+          <ArrowBackIcon
+            fontSize="large"
+            color="secondary"
+            className={classes.arrowBack}
           />
-        ))}
-      </div>
-      <VoteList images={images} />
+        </Link>
+
+        <Typography variant="h4">{poll.question}</Typography>
+        <Typography variant="subtitle2">
+          {voters.length === 1
+            ? `${voters.length} answer`
+            : `${voters.length} answers`}
+        </Typography>
+        <div className={classes.imageContainer}>
+          {images.map(image => (
+            <PollImage
+              image={image}
+              key={image._id}
+              handleVoteClick={handleVoteClick}
+              userId={user._id}
+              isUser={isUser}
+            />
+          ))}
+        </div>
+        <VoteListContainer pollId={pollId} />
+      </Container>
     </div>
   );
 };

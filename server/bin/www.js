@@ -14,7 +14,11 @@ var socket = require("socket.io");
 /**
  * App utils.
  */
-import { setOnlineStatus, setOfflineStatus } from "../utils/setStatus";
+import {
+  setOnlineStatus,
+  setOfflineStatus,
+  getUpdatedProfile
+} from "../utils/userHelper";
 import { getVotes } from "../utils/getVotes";
 
 /**
@@ -51,9 +55,12 @@ io.on("connection", socket => {
   socket.on("user_offline", async user => {
     console.log(`😶 ${user.name} is offline`);
     const offlineUser = await setOfflineStatus(user.id);
-    console.log("www: ", offlineUser);
-
     socket.broadcast.emit("user_offline", offlineUser);
+  });
+
+  socket.on("profile_updated", async userId => {
+    const updatedUser = await getUpdatedProfile(userId);
+    io.sockets.emit("profile_updated", updatedUser);
   });
 
   socket.on("current_votes", async imageId => {

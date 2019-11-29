@@ -5,7 +5,7 @@ const imageSchema = new mongoose.Schema({
   castBy: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User"
+      ref: "Vote"
     }
   ],
   __v: {
