@@ -5,6 +5,7 @@ export const setOnlineStatus = async userId => {
     let user = await User.findById(userId);
     user = user.setOnline();
     await user.save();
+    return user;
   } catch (err) {
     console.log(err);
   }
@@ -15,6 +16,7 @@ export const setOfflineStatus = async userId => {
     let user = await User.findById(userId);
     user = user.setOffline();
     await user.save();
+    return user;
   } catch (err) {
     console.log(err);
   }

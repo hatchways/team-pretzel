@@ -12,6 +12,7 @@ import pollRouter from "./routes/pollRouter";
 import friendListRouter from "./routes/friendListRouter";
 import friendsRouter from "./routes/friendsRouter";
 import imageRouter from "./routes/imageRouter";
+import voteRouter from "./routes/voteRouter";
 
 var app = express();
 
@@ -28,6 +29,7 @@ app.use("/api/v1/polls", pollRouter);
 app.use("/api/v1/friend-lists", friendListRouter);
 app.use("/api/v1/friends", friendsRouter);
 app.use("/api/v1/images", imageRouter);
+app.use("/api/v1/vote", voteRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

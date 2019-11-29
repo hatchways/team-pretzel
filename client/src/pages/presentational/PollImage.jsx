@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core";
 import { Favorite } from "@material-ui/icons";
-import axios from "axios";
 import socket from "../../utils/socket";
 
 const useStyles = makeStyles({
@@ -11,13 +10,22 @@ const useStyles = makeStyles({
   }
 });
 
-const PollImage = ({ image }) => {
-  const [votes, setVotes] = useState(image.castBy.length);
+const PollImage = ({ image, handleVoteClick, userId, isUser }) => {
+  const votes = image.castBy.length;
+
+  const [voted, setVoted] = useState(false);
 
   useEffect(() => {
-    socket.emit("current_votes", image._id);
-    socket.on("current_votes", votes => setVotes(votes));
-  }, [image._id]);
+    hasVoted(userId, image);
+  });
+
+  const hasVoted = (user, image) => {
+    image.castBy.forEach(voter => {
+      if (voter.user._id === user) {
+        setVoted(true);
+      }
+    });
+  };
 
   const classes = useStyles();
 
@@ -27,9 +35,10 @@ const PollImage = ({ image }) => {
         className={classes.image}
         src={image.url}
         alt="random"
-        onClick={async () => {
-          await axios.post(`/api/v1/images/${image._id}`);
-          socket.emit("current_votes", image._id);
+        onClick={() => {
+          if (!isUser || !voted) {
+            handleVoteClick(image._id);
+          }
         }}
       />
       <div style={{ marginLeft: "40%" }}>
