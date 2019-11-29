@@ -48,7 +48,7 @@ const useStyles = makeStyles({
     justifyContent: "space-between"
   },
   card: {
-    height: 250,
+    height: "250",
     width: 350,
     objectFit: "contain"
   },
