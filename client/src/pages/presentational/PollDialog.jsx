@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Formik } from "formik";
 import {
   Dialog,
@@ -13,6 +13,7 @@ import {
   Select,
   MenuItem
 } from "@material-ui/core";
+import axios from "axios";
 
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -63,8 +64,16 @@ const useStyles = makeStyles({
 
 const PollDialog = ({ user, addPoll }) => {
   const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
+  const [friendLists, setFriendLists] = useState([]);
+
+  const getFriendLists = async id => {
+    const response = await axios.get(`/api/v1/friend-lists/${id}`);
+    setFriendLists(response.data.friendLists);
+  };
+
   const handleClickOpen = () => {
+    getFriendLists(user._id);
     setOpen(true);
   };
   const handleClose = () => {
@@ -142,7 +151,7 @@ const PollDialog = ({ user, addPoll }) => {
                           value={values.friendList}
                           name="friendList"
                         >
-                          {user.friendLists.map(friendList => (
+                          {friendLists.map(friendList => (
                             <MenuItem
                               value={friendList._id}
                               key={friendList._id}
