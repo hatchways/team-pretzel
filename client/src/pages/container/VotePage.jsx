@@ -101,7 +101,11 @@ const VotePage = ({ match, location, user }) => {
         </Link>
 
         <Typography variant="h4">{poll.question}</Typography>
-        <Typography variant="subtitle2">{voters.length} answers</Typography>
+        <Typography variant="subtitle2">
+          {voters.length === 1
+            ? `${voters.length} answer`
+            : `${voters.length} answers`}
+        </Typography>
         <div className={classes.imageContainer}>
           {images.map(image => (
             <PollImage

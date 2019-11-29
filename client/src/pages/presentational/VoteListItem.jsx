@@ -3,29 +3,42 @@ import {
   ListItemAvatar,
   Avatar,
   ListItemText,
-  Divider
+  Divider,
+  Container,
+  makeStyles
 } from "@material-ui/core";
 import moment from "moment";
 
+const useStyles = makeStyles({
+  container: {
+    display: "flex",
+    alignItems: "center",
+    height: "6rem"
+  },
+  image: {
+    width: "4rem",
+    height: "4rem"
+  }
+});
+
 const VoteListItem = ({ name, avatar, imageUrl, timestamp }) => {
+  const classes = useStyles();
+
   return (
     <>
       <Divider />
-      <div style={{ display: "flex", margin: "1rem" }}>
+      <Container className={classes.container}>
         <ListItemAvatar>
           <Avatar alt={name} src={avatar} />
         </ListItemAvatar>
+
         <ListItemText
           primary={`${name} voted`}
           secondary={moment(timestamp).fromNow()}
         />
 
-        <img
-          style={{ width: "4rem", height: "4rem" }}
-          src={imageUrl}
-          alt="Not found"
-        />
-      </div>
+        <img className={classes.image} src={imageUrl} alt="Not found" />
+      </Container>
       <Divider />
     </>
   );
