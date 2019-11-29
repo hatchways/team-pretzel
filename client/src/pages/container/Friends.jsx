@@ -50,7 +50,7 @@ const Friends = ({ friends, handleAddorRemoveFriend }) => {
     setInputValue(event.target.value);
   };
 
-  return !friends.length && !potentialFriends.length ? (
+  return !friends && !potentialFriends.length ? (
     <CircularProgress />
   ) : (
     <div className={classes.root}>
