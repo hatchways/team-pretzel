@@ -23,14 +23,7 @@ const Friend = ({ friends }) => {
       {friends.map(friend => (
         <ListItem key={friend.id}>
           {friend.online ? (
-            <OnlineBadge
-              overlap="circle"
-              anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "right"
-              }}
-              variant="dot"
-            >
+            <OnlineBadge overlap="circle" variant="dot">
               <Avatar
                 className={classes.avatar}
                 alt={friend.name}
