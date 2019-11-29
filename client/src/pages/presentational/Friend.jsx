@@ -18,7 +18,7 @@ const useStyles = makeStyles({
 
 const Friend = ({ friends }) => {
   const classes = useStyles();
-  return (
+  return !friends ? null : (
     <>
       {friends.map(friend => (
         <ListItem key={friend.id}>
