@@ -12,7 +12,8 @@ import {
   Grow,
   MenuItem,
   MenuList,
-  Typography
+  Typography,
+  ClickAwayListener
 } from "@material-ui/core";
 import OnlineBadge from "../presentational/OnlineBadge";
 import ProfileDialog from "../presentational/ProfileDialog";
@@ -109,7 +110,7 @@ const AppBarDrawer = ({ user, handleLogOut, match }) => {
             <Button>Friends poll</Button>
           </NavLink>
 
-          <PollDialog user={user} className={classes.menuButton} />
+          <ProfileDialog user={user} className={classes.menuButton} />
 
           <Button
             className={classes.name}
@@ -147,24 +148,17 @@ const AppBarDrawer = ({ user, handleLogOut, match }) => {
                 }}
               >
                 <Paper>
-                  <MenuList id="menu-list-grow">
-                    <MenuItem onClick={handleClose}>Profile</MenuItem>
-                    <MenuItem>
-                      <ProfileDialog
-                        open={open}
-                        onClick={handleClose}
-                        handleDialog={handleDialog}
-                        user={user}
-                      />
-                    </MenuItem>
-                    <MenuItem
-                      onClick={() => {
-                        handleLogOut();
-                      }}
-                    >
-                      Logout
-                    </MenuItem>
-                  </MenuList>
+                  <ClickAwayListener onClickAway={handleClose}>
+                    <MenuList id="menu-list-grow">
+                      <MenuItem
+                        onClick={() => {
+                          handleLogOut();
+                        }}
+                      >
+                        Logout
+                      </MenuItem>
+                    </MenuList>
+                  </ClickAwayListener>
                 </Paper>
               </Grow>
             )}
