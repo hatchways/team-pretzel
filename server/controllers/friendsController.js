@@ -8,6 +8,13 @@ export const getAllFriends = catchAsync(async (req, res, next) => {
     "friends"
   );
 
+  if (!friends) {
+    res.status(200).json({
+      status: "success",
+      friends: []
+    });
+  }
+
   res.status(200).json({
     status: "success",
     friends: friends.friends
