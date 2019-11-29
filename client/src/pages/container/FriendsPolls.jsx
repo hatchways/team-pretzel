@@ -25,12 +25,12 @@ const FriendsPolls = () => {
   return !polls ? (
     <CircularProgress />
   ) : !polls.length ? (
-    <Typography variant="h4">
+    <Typography variant="h6">
       Your friends haven't created any polls yet
     </Typography>
   ) : (
     <div className={classes.root}>
-      <Grid container spacing={3} justify="space-around">
+      <Grid container spacing={3}>
         {polls.map(poll => (
           <Grid key={poll._id} item xs>
             <PollCard

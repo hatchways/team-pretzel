@@ -1,5 +1,5 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core";
+import { CardMedia, makeStyles } from "@material-ui/core";
 import { Favorite } from "@material-ui/icons";
 import socket from "../../utils/socket";
 
@@ -17,14 +17,16 @@ const PollImage = ({ image, handleVoteClick }) => {
 
   return (
     <div style={{ marginRight: "0.5rem" }}>
-      <img
+      <CardMedia
+        component="img"
         className={classes.image}
-        src={image.url}
-        alt="random"
+        image={image.url}
+        title="Poll option"
         onClick={() => {
           handleVoteClick(image._id);
         }}
       />
+
       <div style={{ marginLeft: "40%" }}>
         <Favorite color="secondary" />
         {votes}

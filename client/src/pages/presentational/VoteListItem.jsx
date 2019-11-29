@@ -10,6 +10,7 @@ import moment from "moment";
 const VoteListItem = ({ name, avatar, imageUrl, timestamp }) => {
   return (
     <>
+      <Divider />
       <div style={{ display: "flex", margin: "1rem" }}>
         <ListItemAvatar>
           <Avatar alt={name} src={avatar} />
