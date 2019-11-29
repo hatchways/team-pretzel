@@ -9,9 +9,12 @@ const voteSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Image"
   },
-  date: {
-    type: Number,
-    default: Date.now()
+  timestamp: {
+    type: Number
+  },
+  poll: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Poll"
   }
 });
 

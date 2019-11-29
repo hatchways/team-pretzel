@@ -9,4 +9,11 @@ router.post("/:id", authController.checkAuth, voteController.vote);
 
 router.get("/:id", authController.checkAuth, voteController.getVoters);
 
+// Get votes by poll
+router.get(
+  "/votes/:id",
+  authController.checkAuth,
+  voteController.getVotesByPoll
+);
+
 export default router;

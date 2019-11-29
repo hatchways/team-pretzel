@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { makeStyles } from "@material-ui/core";
 import { Favorite } from "@material-ui/icons";
 import socket from "../../utils/socket";
@@ -10,22 +10,8 @@ const useStyles = makeStyles({
   }
 });
 
-const PollImage = ({ image, handleVoteClick, userId, isUser }) => {
+const PollImage = ({ image, handleVoteClick }) => {
   const votes = image.castBy.length;
-
-  const [voted, setVoted] = useState(false);
-
-  useEffect(() => {
-    hasVoted(userId, image);
-  });
-
-  const hasVoted = (user, image) => {
-    image.castBy.forEach(voter => {
-      if (voter.user._id === user) {
-        setVoted(true);
-      }
-    });
-  };
 
   const classes = useStyles();
 
@@ -36,11 +22,7 @@ const PollImage = ({ image, handleVoteClick, userId, isUser }) => {
         src={image.url}
         alt="random"
         onClick={() => {
-          if (!isUser) {
-            if (!voted) {
-              handleVoteClick(image._id);
-            }
-          }
+          handleVoteClick(image._id);
         }}
       />
       <div style={{ marginLeft: "40%" }}>
