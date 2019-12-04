@@ -8,9 +8,9 @@ import {
   TextField,
   CircularProgress
 } from "@material-ui/core";
-import FriendsTabPanel from "../presentational/FriendsTabPanel";
-import SuggestedTabPanel from "../presentational/SuggestedTabPanel";
-import useGet from "../../utils/hooks/useGet";
+import FriendsTabPanel from "../components/Friends/FriendsTabPanel";
+import SuggestedTabPanel from "../components/Friends/SuggestedTabPanel";
+import useGet from "../utils/hooks/useGet";
 
 const useStyles = makeStyles(theme => ({
   root: {

@@ -9,7 +9,7 @@ import {
 } from "@material-ui/core";
 import { Favorite } from "@material-ui/icons";
 import { Link } from "react-router-dom";
-import DeleteDialog from "../presentational/DeleteDialog";
+import DeleteDialog from "../Common/DeleteDialog";
 
 const useStyles = makeStyles({
   card: {

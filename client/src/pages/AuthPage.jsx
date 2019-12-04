@@ -3,8 +3,8 @@ import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid, Paper, Fab } from "@material-ui/core";
 
-import SignIn from "./container/SignIn";
-import SignUp from "./container/SignUp";
+import SignIn from "../components/Auth/SignIn";
+import SignUp from "../components/Auth/SignUp";
 import authBackgroundImage from "../assets/authBackgroundImage.png";
 
 const useStyles = makeStyles({

@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import FriendList from "./FriendList";
+import FriendList from "../FriendList/FriendList";
 import { Container, makeStyles } from "@material-ui/core";
 import socket from "../../utils/socket";
 

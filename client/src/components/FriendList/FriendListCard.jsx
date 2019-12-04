@@ -6,8 +6,8 @@ import {
   CardHeader,
   Container
 } from "@material-ui/core";
-import Friend from "./Friend";
-import DeleteDialog from "./DeleteDialog";
+import Friend from "../Friends/Friend";
+import DeleteDialog from "../Common/DeleteDialog";
 
 const useStyles = makeStyles({
   card: {

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { List, CircularProgress } from "@material-ui/core";
 import axios from "axios";
-import VoteListItem from "../presentational/VoteListItem";
+import VoteListItem from "./VoteListItem";
 
 const VoteListContainer = ({ pollId }) => {
   const [voters, setVoters] = useState([]);

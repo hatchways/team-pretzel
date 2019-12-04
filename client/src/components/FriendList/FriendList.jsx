@@ -1,7 +1,7 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { List, Typography } from "@material-ui/core";
-import Friend from "../presentational/Friend";
+import Friend from "../Friends/Friend";
 
 const useStyles = makeStyles(theme => ({
   // root: { position: "absolute", top: "5rem" },

@@ -8,8 +8,8 @@ import {
   makeStyles
 } from "@material-ui/core";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
-import PollImage from "../presentational/PollImage";
-import VoteListContainer from "./VoteListContainer";
+import PollImage from "../components/Poll/PollImage";
+import VoteListContainer from "../components/VoteList/VoteListContainer";
 import axios from "axios";
 
 const useStyles = makeStyles(theme => ({
