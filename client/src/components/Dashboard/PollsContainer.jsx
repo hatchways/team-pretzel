@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Typography, CircularProgress, GridList } from "@material-ui/core";
-import PollCard from "../presentational/PollCard";
-import PollDialog from "../presentational/PollDialog";
+import PollCard from "../Poll/PollCard";
+import PollDialog from "../Poll/PollDialog";
 import axios from "axios";
 
 const PollsContainer = ({ classes, user }) => {

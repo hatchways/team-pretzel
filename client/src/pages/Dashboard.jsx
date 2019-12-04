@@ -2,13 +2,13 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import { CircularProgress } from "@material-ui/core";
-import AppBarDrawer from "./container/AppBarDrawer";
-import ContentContainer from "./container/ContentContainer";
-import DashboardDefault from "./container/DashboardDefault";
-import Friends from "./container/Friends";
+import NavBar from "../components/Nav/NavBar";
+import ContentContainer from "../components/Dashboard/ContentContainer";
+import DashboardDefault from "../components/Dashboard/DashboardDefault";
+import Friends from "./Friends";
+import VotePage from "./VotePage";
+import FriendsPolls from "./FriendsPolls";
 import socket from "../utils/socket";
-import VotePage from "./container/VotePage";
-import FriendsPolls from "./container/FriendsPolls";
 
 const Dashboard = ({ history }) => {
   const [user, setUser] = useState(null);
@@ -80,7 +80,7 @@ const Dashboard = ({ history }) => {
     <CircularProgress />
   ) : (
     <Router>
-      <AppBarDrawer user={user} handleLogOut={handleLogOut} />
+      <NavBar user={user} handleLogOut={handleLogOut} />
       <ContentContainer friends={friends} setFriends={setFriends}>
         <Route
           exact

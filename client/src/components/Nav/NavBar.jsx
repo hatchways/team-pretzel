@@ -15,10 +15,8 @@ import {
   Typography,
   ClickAwayListener
 } from "@material-ui/core";
-import OnlineBadge from "../presentational/OnlineBadge";
-import ProfileDialog from "../presentational/ProfileDialog";
-import PollDialog from "../presentational/PollDialog";
-
+import OnlineBadge from "../Friends/OnlineBadge";
+import ProfileDialog from "../Dashboard/ProfileDialog";
 import logo from "../../assets/logo.jpg";
 import socket from "../../utils/socket";
 
@@ -64,7 +62,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const AppBarDrawer = ({ user, handleLogOut, match }) => {
+const NavBar = ({ user, handleLogOut, match }) => {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const anchorRef = useRef(null);
@@ -162,4 +160,4 @@ const AppBarDrawer = ({ user, handleLogOut, match }) => {
   );
 };
 
-export default withRouter(AppBarDrawer);
+export default withRouter(NavBar);

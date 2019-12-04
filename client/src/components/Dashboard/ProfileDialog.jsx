@@ -12,9 +12,8 @@ import {
   CardMedia
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-
 import socket from "../../utils/socket";
-import ImageDropzone from "./ImageDropzone";
+import ImageDropzone from "../Common/ImageDropzone";
 
 const useStyles = makeStyles({
   card: {

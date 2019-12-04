@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { MuiThemeProvider, CssBaseline } from "@material-ui/core";
 import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
-import { theme } from "./themes/theme";
-import AuthPage from "./pages/AuthPage";
-import Dashboard from "./pages/Dashboard";
-import { setAuthToken } from "./utils/helpers";
+import { theme } from "../../themes/theme";
+import AuthPage from "../../pages/AuthPage";
+import Dashboard from "../../pages/Dashboard";
+import { setAuthToken } from "../../utils/helpers";
 import jwt_decode from "jwt-decode";
 
 const App = () => {

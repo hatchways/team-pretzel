@@ -4,7 +4,7 @@ import axios from "axios";
 import { Button } from "@material-ui/core";
 import FormFields from "./FormFields";
 import { SignupSchema } from "../../utils/validation";
-import { styles } from "./inlineStyles";
+import { styles } from "../Common/inlineStyles";
 import { JWTtoLocalStorage } from "../../utils/helpers";
 
 const SignupForms = ({ history }) => {

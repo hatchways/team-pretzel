@@ -1,8 +1,8 @@
 import React from "react";
 import { Typography } from "@material-ui/core";
-import SigninForm from "../presentational/SigninForm";
+import SignupForm from "./SignupForm";
 
-const SignIn = ({ history }) => {
+const SignUp = ({ history }) => {
   return (
     <section
       style={{
@@ -12,18 +12,18 @@ const SignIn = ({ history }) => {
         width: "70%"
       }}
     >
-      <div style={{ width: "60%" }}>
+      <div>
         <Typography
           variant="h4"
           align="left"
           style={{ fontWeight: "bold", marginBottom: "2.5rem" }}
         >
-          Sign in
+          Create an account
         </Typography>
-        <SigninForm history={history} />
+        <SignupForm history={history} />
       </div>
     </section>
   );
 };
 
-export default SignIn;
+export default SignUp;

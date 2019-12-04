@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Typography, CircularProgress, GridList } from "@material-ui/core";
-import FriendListDialog from "../presentational/FriendListDialog";
-import FriendListCard from "../presentational/FriendListCard";
+import FriendListDialog from "../FriendList/FriendListDialog";
+import FriendListCard from "../FriendList/FriendListCard";
 import axios from "axios";
 
 const FriendListContainer = ({ classes, user }) => {

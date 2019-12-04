@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { makeStyles } from "@material-ui/core/styles";
 import { CircularProgress, Grid, Typography } from "@material-ui/core";
-import PollCard from "../presentational/PollCard";
+import PollCard from "../components/Poll/PollCard";
 
 const useStyles = makeStyles(theme => ({
   root: {
