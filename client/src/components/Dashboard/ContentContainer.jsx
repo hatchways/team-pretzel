@@ -34,7 +34,8 @@ const ContentContainer = ({ children, friends, setFriends }) => {
       });
       setFriends(updateFriends);
     });
-  }, [friends]);
+  }, [friends, setFriends]);
+
   return (
     <div className={classes.flexContainer}>
       <div className={classes.friendsBar}>

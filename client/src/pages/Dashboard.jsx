@@ -39,7 +39,10 @@ const Dashboard = ({ history }) => {
             Authorization: `Bearer ${token}`
           }
         });
-        if (_isMounted) setUser(res.data.user);
+        if (_isMounted) {
+          setUser(res.data.user);
+          socket.emit("user_online", user);
+        }
       } catch (err) {
         setError(err);
       }
@@ -54,8 +57,6 @@ const Dashboard = ({ history }) => {
     socket.on("profile_updated", updatedUser => {
       setUser(updatedUser);
     });
-
-    socket.emit("user_online", user);
   }, [user]);
 
   if (error) return <div>Error: {error}</div>;
