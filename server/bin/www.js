@@ -18,8 +18,8 @@ import {
   setOnlineStatus,
   setOfflineStatus,
   getUpdatedProfile
-} from "../utils/userHelper";
-import { getVotes } from "../utils/getVotes";
+} from "../utils/userHelpers";
+import { getVotes } from "../utils/imageHelpers";
 
 /**
  * Get port from environment and store in Express.
