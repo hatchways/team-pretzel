@@ -4,40 +4,37 @@ import catchAsync from "../utils/catchAsync";
 
 // Find all friends
 export const getAllFriends = catchAsync(async (req, res, next) => {
-  const friends = await Friends.findOne({ user: req.user.id }).populate(
+  let friends = await Friends.findOne({ user: req.user.id }).populate(
     "friends"
   );
 
-  if (!friends) {
-    res.status(200).json({
-      status: "success",
-      friends: []
-    });
-  }
+  // handle case where new user has no friends
+  if (!friends) friends = [];
 
   res.status(200).json({
     status: "success",
-    friends: friends.friends
+    friends
   });
 });
 
 // Add or remove a friend
 export const updateFriends = catchAsync(async (req, res, next) => {
-  const self = await User.findById(req.user.id);
   let friends = await Friends.findOne({ user: req.user.id }).populate(
     "friends"
   );
 
   if (!friends) {
-    friends = await Friends.create({ user: req.user.id }).populate("friends");
+    friends = await Friends.create({ user: req.user.id });
   }
 
   friends.befriend(req.params.userId);
   await friends.save();
 
+  console.log(friends);
+
   res.status(201).json({
     status: "success",
-    friends: friends.friends
+    friends
   });
 });
 
