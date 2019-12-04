@@ -20,6 +20,7 @@ import {
   getUpdatedProfile
 } from "../utils/userHelpers";
 import { getVotes } from "../utils/imageHelpers";
+import { getUpdatedFriends } from "../utils/friendsHelpers";
 
 /**
  * Get port from environment and store in Express.
@@ -61,6 +62,11 @@ io.on("connection", socket => {
   socket.on("profile_updated", async userId => {
     const updatedUser = await getUpdatedProfile(userId);
     io.sockets.emit("profile_updated", updatedUser);
+  });
+
+  socket.on("friends_updated", async friendsId => {
+    const updatedFriends = await getUpdatedFriends(friendsId);
+    io.sockets.emit("friends_updated", updatedFriends);
   });
 
   socket.on("current_votes", async imageId => {
