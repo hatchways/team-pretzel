@@ -17,8 +17,10 @@ const useStyles = makeStyles(theme => ({
     display: "flex"
   },
   appBar: {
-    zIndex: theme.zIndex.drawer + 1,
-    backgroundColor: "white"
+    [theme.breakpoints.up("sm")]: {
+      zIndex: theme.zIndex.drawer + 1,
+      backgroundColor: "white"
+    }
   },
   logo: {
     height: "4rem",
@@ -28,7 +30,8 @@ const useStyles = makeStyles(theme => ({
   },
   menuButton: {
     marginRight: theme.spacing(2),
-    textDecoration: "none"
+    textDecoration: "none",
+    [theme.breakpoints.up("sm")]: { display: "none" }
   },
   content: {
     flexGrow: 1,
@@ -43,8 +46,10 @@ const useStyles = makeStyles(theme => ({
     marginLeft: "0.5rem"
   },
   drawer: {
-    width: drawerWidth,
-    flexShrink: 0
+    [theme.breakpoints.up("sm")]: {
+      width: drawerWidth,
+      flexShrink: 0
+    }
   },
   drawerPaper: {
     width: drawerWidth
@@ -57,6 +62,13 @@ const Dashboard = ({ history }) => {
   const [user, setUser] = useState(null);
   const [error, setError] = useState(false);
   const [friends, setFriends] = useState([]);
+
+  // Drawer toggle
+  const [mobileOpen, setMobileOpen] = useState(false);
+
+  const handleDrawerToggle = () => {
+    setMobileOpen(!mobileOpen);
+  };
 
   useEffect(() => {
     let _isMounted = true;
@@ -124,8 +136,18 @@ const Dashboard = ({ history }) => {
   ) : (
     <Router>
       <div className={classes.root}>
-        <NavBar classes={classes} user={user} handleLogOut={handleLogOut} />
-        <FriendsDrawer classes={classes} friends={friends} />
+        <NavBar
+          classes={classes}
+          user={user}
+          handleLogOut={handleLogOut}
+          handleDrawerToggle={handleDrawerToggle}
+        />
+        <FriendsDrawer
+          classes={classes}
+          friends={friends}
+          handleDrawerToggle={handleDrawerToggle}
+          mobileOpen={mobileOpen}
+        />
         <main className={classes.content}>
           <Route
             exact

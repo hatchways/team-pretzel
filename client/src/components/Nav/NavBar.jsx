@@ -12,14 +12,16 @@ import {
   MenuItem,
   MenuList,
   Typography,
-  ClickAwayListener
+  ClickAwayListener,
+  IconButton
 } from "@material-ui/core";
+import { Menu } from "@material-ui/icons";
 import OnlineBadge from "../Friends/OnlineBadge";
 import ProfileDialog from "../Dashboard/ProfileDialog";
 import logo from "../../assets/logo.jpg";
 import socket from "../../utils/socket";
 
-const NavBar = ({ classes, user, handleLogOut, match }) => {
+const NavBar = ({ classes, user, handleLogOut, match, handleDrawerToggle }) => {
   const [open, setOpen] = useState(false);
   const anchorRef = useRef(null);
 
@@ -47,6 +49,15 @@ const NavBar = ({ classes, user, handleLogOut, match }) => {
 
   return (
     <AppBar position="fixed" className={classes.appBar}>
+      <IconButton
+        color="inherit"
+        edge="start"
+        aria-label="open drawer"
+        onClick={handleDrawerToggle}
+        className={classes.menuButton}
+      >
+        <Menu />
+      </IconButton>
       <NavLink exact to="/dashboard">
         <img src={logo} alt="logo" className={classes.logo} />
       </NavLink>
