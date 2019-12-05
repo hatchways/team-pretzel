@@ -32,8 +32,6 @@ export const updateFriends = catchAsync(async (req, res, next) => {
   friends.befriend(friend);
   await friends.save();
 
-  console.log("from controller", friends);
-
   res.status(201).json({
     status: "success",
     friends

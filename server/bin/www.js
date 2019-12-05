@@ -65,9 +65,7 @@ io.on("connection", socket => {
   });
 
   socket.on("friends_updated", async friendsId => {
-    console.log(friendsId);
     const updatedFriends = await getUpdatedFriends(friendsId);
-    console.log("from socket www", updatedFriends);
     io.sockets.emit("friends_updated", updatedFriends);
   });
 

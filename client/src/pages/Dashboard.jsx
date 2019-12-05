@@ -56,7 +56,6 @@ const Dashboard = ({ history }) => {
 
   useEffect(() => {
     socket.on("friends_updated", updatedFriends => {
-      console.log("updateFriends", updatedFriends);
       setFriends(updatedFriends.friends);
     });
 
