@@ -55,6 +55,11 @@ const Dashboard = ({ history }) => {
   }, []);
 
   useEffect(() => {
+    socket.on("friends_updated", updatedFriends => {
+      console.log("updateFriends", updatedFriends);
+      setFriends(updatedFriends.friends);
+    });
+
     socket.on("profile_updated", updatedUser => {
       setUser(updatedUser);
     });
@@ -73,12 +78,11 @@ const Dashboard = ({ history }) => {
 
   const handleAddorRemoveFriend = async friendId => {
     const res = await axios.patch(`/api/v1/friends/${friendId}`);
-    console.log("add or remove res: ", res.data.friends.friends);
-
-    // setFriends(res.data.currentFriends.friends);
+    console.log(user);
+    socket.emit("friends_updated", user.friends[0]._id);
   };
 
-  return !user ? (
+  return !user || !friends ? (
     <CircularProgress />
   ) : (
     <Router>
