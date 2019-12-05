@@ -5,7 +5,7 @@ import Friend from "../Friends/Friend";
 
 const useStyles = makeStyles(theme => ({
   // root: { position: "absolute", top: "5rem" },
-  title: { padding: "10%" }
+  title: { textAlign: "center", paddingTop: "10px" }
 }));
 
 const FriendList = ({ friends }) => {
@@ -13,7 +13,7 @@ const FriendList = ({ friends }) => {
 
   return (
     <React.Fragment>
-      <Typography variant="h4" className={classes.title}>
+      <Typography variant="h5" className={classes.title}>
         Friends
       </Typography>
       {friends ? (

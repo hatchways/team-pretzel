@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { BrowserRouter as Router, Route } from "react-router-dom";
-import { CircularProgress } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+import { CircularProgress, makeStyles } from "@material-ui/core";
 import NavBar from "../components/Nav/NavBar";
 import DashboardDefault from "../components/Dashboard/DashboardDefault";
 import Friends from "./Friends";
