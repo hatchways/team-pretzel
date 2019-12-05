@@ -26,7 +26,7 @@ const Dashboard = ({ history }) => {
           }
         });
 
-        if (_isMounted) setFriends(res.data.friends);
+        if (_isMounted) setFriends(res.data.friends.friends);
       } catch (error) {
         setError(error);
       }
@@ -39,6 +39,7 @@ const Dashboard = ({ history }) => {
             Authorization: `Bearer ${token}`
           }
         });
+
         if (_isMounted) {
           setUser(res.data.user);
           socket.emit("user_online", user);
@@ -71,10 +72,10 @@ const Dashboard = ({ history }) => {
   };
 
   const handleAddorRemoveFriend = async friendId => {
-    const res = await axios.put(`/api/v1/friends/${friendId}`);
-    console.log("add or remove res: ", res.data.friends);
+    const res = await axios.patch(`/api/v1/friends/${friendId}`);
+    console.log("add or remove res: ", res.data.friends.friends);
 
-    // setFriends(res.data.friends);
+    // setFriends(res.data.currentFriends.friends);
   };
 
   return !user ? (

@@ -13,10 +13,12 @@ const friendsSchema = new mongoose.Schema({
   }
 });
 
-friendsSchema.methods.befriend = function(userId) {
-  this.friends.includes(userId)
-    ? (this.friends = this.friends.filter(id => id != userId))
-    : this.friends.push(userId);
+friendsSchema.methods.befriend = function(friend) {
+  this.friends.some(currentFriend => currentFriend.id === friend.id)
+    ? (this.friends = this.friends.filter(
+        currentFriend => currentFriend.id != friend.id
+      ))
+    : this.friends.push(friend);
 };
 
 friendsSchema.methods.suggestFriends = function(allUsers) {

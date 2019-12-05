@@ -32,7 +32,7 @@ const FriendsTabPanel = ({
 
   return (
     <List className={classes.root} hidden={value !== index}>
-      {!friends.length ? (
+      {!friends ? (
         <ListItem className={classes.listItem}>
           <Typography style={{ margin: "auto" }}>Get some friends</Typography>
         </ListItem>
@@ -53,7 +53,8 @@ const FriendsTabPanel = ({
                 <ListItemSecondaryAction>
                   <Button
                     onClick={() => {
-                      handleAddorRemoveFriend(friend.id);
+                      console.log(friend._id);
+                      handleAddorRemoveFriend(friend._id);
                     }}
                   >
                     Unfollow

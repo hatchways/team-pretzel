@@ -40,7 +40,7 @@ const ContentContainer = ({ children, friends, setFriends }) => {
     <div className={classes.flexContainer}>
       <div className={classes.friendsBar}>
         <Container>
-          {friends.length < 1 ? (
+          {friends && friends.length < 1 ? (
             <h6>get some friends</h6>
           ) : (
             <FriendList friends={friends} />
