@@ -18,7 +18,6 @@ import {
 import OnlineBadge from "../Friends/OnlineBadge";
 import ProfileDialog from "../Dashboard/ProfileDialog";
 import logo from "../../assets/logo.jpg";
-import socket from "../../utils/socket";
 
 const drawerWidth = 240;
 
@@ -88,10 +87,6 @@ const NavBar = ({ user, handleLogOut, match }) => {
 
     prevOpen.current = open;
   }, [open]);
-
-  const handleDialog = () => {
-    setOpen(!open);
-  };
 
   return (
     <div className={classes.root}>
