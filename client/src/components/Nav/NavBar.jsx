@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { NavLink } from "react-router-dom";
 import { withRouter } from "react-router";
-import { makeStyles } from "@material-ui/core/styles";
 import {
   Button,
   AppBar,
@@ -45,10 +44,6 @@ const NavBar = ({ classes, user, handleLogOut, match }) => {
 
     prevOpen.current = open;
   }, [open]);
-
-  const handleDialog = () => {
-    setOpen(!open);
-  };
 
   return (
     <AppBar position="fixed" className={classes.appBar}>
