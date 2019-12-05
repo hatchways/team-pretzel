@@ -23,10 +23,10 @@ const DashboardDefault = ({ user, match, history }) => {
   const classes = useStyles();
 
   return (
-    <Container>
+    <>
       <PollsContainer classes={classes} user={user} />
       <FriendListContainer classes={classes} user={user} />
-    </Container>
+    </>
   );
 };
 
