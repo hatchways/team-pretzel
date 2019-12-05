@@ -32,7 +32,7 @@ const Dashboard = ({ history }) => {
       }
     };
 
-    const fetchData = async () => {
+    const fetchUser = async () => {
       try {
         const res = await axios.get("/api/v1/users/profile", {
           headers: {
@@ -49,7 +49,7 @@ const Dashboard = ({ history }) => {
       }
     };
 
-    fetchData();
+    fetchUser();
     getFriends();
     return () => (_isMounted = false);
   }, []);
@@ -77,8 +77,7 @@ const Dashboard = ({ history }) => {
   };
 
   const handleAddorRemoveFriend = async friendId => {
-    const res = await axios.patch(`/api/v1/friends/${friendId}`);
-    console.log(user);
+    await axios.patch(`/api/v1/friends/${friendId}`);
     socket.emit("friends_updated", user.friends[0]._id);
   };
 
