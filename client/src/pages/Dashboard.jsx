@@ -1,19 +1,94 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { BrowserRouter as Router, Route } from "react-router-dom";
-import { CircularProgress } from "@material-ui/core";
+import { CircularProgress, makeStyles } from "@material-ui/core";
 import NavBar from "../components/Nav/NavBar";
-import ContentContainer from "../components/Dashboard/ContentContainer";
 import DashboardDefault from "../components/Dashboard/DashboardDefault";
 import Friends from "./Friends";
 import VotePage from "./VotePage";
 import FriendsPolls from "./FriendsPolls";
+import FriendsDrawer from "../components/FriendsDrawer/FriendsDrawer";
 import socket from "../utils/socket";
 
+const drawerWidth = 200;
+
+const useStyles = makeStyles(theme => ({
+  root: {
+    display: "flex",
+    backgroundColor: "#e8e8e8",
+    height: "100vh"
+  },
+  appBar: {
+    [theme.breakpoints.up("sm")]: {
+      zIndex: theme.zIndex.drawer + 1,
+      backgroundColor: "white"
+    },
+    backgroundColor: "white"
+  },
+  logo: {
+    height: "4rem",
+    width: "4rem",
+    [theme.breakpoints.down("xs")]: { display: "none" }
+  },
+  menuButton: {
+    marginRight: theme.spacing(2),
+    textDecoration: "none",
+    [theme.breakpoints.down("xs")]: { display: "none" }
+  },
+  drawerLogo: {
+    height: "4rem",
+    width: "4rem",
+    [theme.breakpoints.up("sm")]: { display: "none" }
+  },
+  drawerMenuButton: {
+    marginRight: theme.spacing(2),
+    textDecoration: "none",
+    [theme.breakpoints.up("sm")]: { display: "none" }
+  },
+  drawerButton: {
+    marginRight: theme.spacing(2),
+    textDecoration: "none",
+    color: "black",
+    [theme.breakpoints.up("sm")]: { display: "none" }
+  },
+  drawerDivider: {
+    marginTop: "2rem",
+    [theme.breakpoints.up("sm")]: { display: "none" }
+  },
+  content: {
+    flexGrow: 1,
+    padding: theme.spacing(3)
+  },
+  toolbar: {
+    ...theme.mixins.toolbar
+  },
+  name: {
+    marginLeft: "0.5rem"
+  },
+  drawer: {
+    [theme.breakpoints.up("sm")]: {
+      width: drawerWidth,
+      flexShrink: 0
+    }
+  },
+  drawerPaper: {
+    width: drawerWidth
+  }
+}));
+
 const Dashboard = ({ history }) => {
+  const classes = useStyles();
+
   const [user, setUser] = useState(null);
   const [error, setError] = useState(false);
   const [friends, setFriends] = useState([]);
+
+  // Drawer toggle
+  const [mobileOpen, setMobileOpen] = useState(false);
+
+  const handleDrawerToggle = () => {
+    setMobileOpen(!mobileOpen);
+  };
 
   useEffect(() => {
     let _isMounted = true;
@@ -84,33 +159,51 @@ const Dashboard = ({ history }) => {
     <CircularProgress />
   ) : (
     <Router>
-      <NavBar user={user} handleLogOut={handleLogOut} />
-      <ContentContainer friends={friends} setFriends={setFriends}>
-        <Route
-          exact
-          path="/dashboard"
-          render={() => <DashboardDefault user={user} />}
+      <div className={classes.root}>
+        <NavBar
+          classes={classes}
+          user={user}
+          handleLogOut={handleLogOut}
+          handleDrawerToggle={handleDrawerToggle}
         />
-        <Route
-          exact
-          path="/friends"
-          render={props => (
-            <Friends
-              {...props}
-              friends={friends}
-              handleAddorRemoveFriend={handleAddorRemoveFriend}
-            />
-          )}
+        <FriendsDrawer
+          classes={classes}
+          friends={friends}
+          handleDrawerToggle={handleDrawerToggle}
+          mobileOpen={mobileOpen}
+          user={user}
         />
+        <main className={classes.content}>
+          <Route
+            exact
+            path="/dashboard"
+            render={() => <DashboardDefault user={user} />}
+          />
+          <Route
+            exact
+            path="/friends"
+            render={props => (
+              <Friends
+                {...props}
+                friends={friends}
+                handleAddorRemoveFriend={handleAddorRemoveFriend}
+              />
+            )}
+          />
 
-        <Route exact path={"/friends-polls"} render={() => <FriendsPolls />} />
+          <Route
+            exact
+            path={"/friends-polls"}
+            render={() => <FriendsPolls />}
+          />
 
-        <Route
-          exact
-          path="/polls/:pollId"
-          render={() => <VotePage user={user} />}
-        />
-      </ContentContainer>
+          <Route
+            exact
+            path="/polls/:pollId"
+            render={() => <VotePage user={user} />}
+          />
+        </main>
+      </div>
     </Router>
   );
 };
