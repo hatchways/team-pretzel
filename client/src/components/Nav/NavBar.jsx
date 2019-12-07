@@ -48,67 +48,69 @@ const NavBar = ({ classes, user, handleLogOut, match, handleDrawerToggle }) => {
 
   return (
     <AppBar position="fixed" className={classes.appBar}>
-      <IconButton
-        color="inherit"
-        edge="start"
-        aria-label="open drawer"
-        onClick={handleDrawerToggle}
-        className={classes.drawerButton}
-      >
-        <Menu />
-      </IconButton>
-
-      <Toolbar className={classes.toolbar}>
-        <ToolbarLinks
-          menuButtonClass={classes.menuButton}
-          logoClass={classes.logo}
-          user={user}
-        />
-        <Button
-          className={classes.name}
-          ref={anchorRef}
-          aria-controls={open ? "menu-list-grow" : undefined}
-          aria-haspopup="true"
-          onClick={handleToggle}
+      <div style={{ display: "flex" }}>
+        <IconButton
+          color="inherit"
+          edge="start"
+          aria-label="open drawer"
+          onClick={handleDrawerToggle}
+          className={classes.drawerButton}
         >
-          <OnlineBadge overlap="circle" variant="dot">
-            <Avatar alt={user.name} src={user.avatar} />
-          </OnlineBadge>
-          <Typography className={classes.name}>{user.name}</Typography>
-        </Button>
+          <Menu />
+        </IconButton>
 
-        <Popper
-          open={open}
-          anchorEl={anchorRef.current}
-          role={undefined}
-          transition
-          disablePortal
-        >
-          {({ TransitionProps, placement }) => (
-            <Grow
-              {...TransitionProps}
-              style={{
-                transformOrigin:
-                  placement === "bottom" ? "center top" : "center bottom"
-              }}
-            >
-              <Paper>
-                <ClickAwayListener onClickAway={handleClose}>
-                  <MenuList id="menu-list-grow">
-                    <MenuItem
-                      onClick={() => {
-                        handleLogOut();
-                      }}
-                    >
-                      Logout
-                    </MenuItem>
-                  </MenuList>
-                </ClickAwayListener>
-              </Paper>
-            </Grow>
-          )}
-        </Popper>
-      </Toolbar>
+        <Toolbar className={classes.toolbar}>
+          <ToolbarLinks
+            menuButtonClass={classes.menuButton}
+            logoClass={classes.logo}
+            user={user}
+          />
+          <Button
+            className={classes.name}
+            ref={anchorRef}
+            aria-controls={open ? "menu-list-grow" : undefined}
+            aria-haspopup="true"
+            onClick={handleToggle}
+          >
+            <OnlineBadge overlap="circle" variant="dot">
+              <Avatar alt={user.name} src={user.avatar} />
+            </OnlineBadge>
+            <Typography className={classes.name}>{user.name}</Typography>
+          </Button>
+
+          <Popper
+            open={open}
+            anchorEl={anchorRef.current}
+            role={undefined}
+            transition
+            disablePortal
+          >
+            {({ TransitionProps, placement }) => (
+              <Grow
+                {...TransitionProps}
+                style={{
+                  transformOrigin:
+                    placement === "bottom" ? "center top" : "center bottom"
+                }}
+              >
+                <Paper>
+                  <ClickAwayListener onClickAway={handleClose}>
+                    <MenuList id="menu-list-grow">
+                      <MenuItem
+                        onClick={() => {
+                          handleLogOut();
+                        }}
+                      >
+                        Logout
+                      </MenuItem>
+                    </MenuList>
+                  </ClickAwayListener>
+                </Paper>
+              </Grow>
+            )}
+          </Popper>
+        </Toolbar>
+      </div>
     </AppBar>
   );
 };
