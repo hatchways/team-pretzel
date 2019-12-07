@@ -20,7 +20,8 @@ import {
 const useStyles = makeStyles(theme => ({
   button: {
     margin: theme.spacing(1),
-    borderRadius: 100
+    borderRadius: 100,
+    backgroundColor: "white"
   },
   title: {
     textAlign: "center"

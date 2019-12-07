@@ -1,18 +1,26 @@
-import React, { useState } from "react";
-import { Drawer, Hidden } from "@material-ui/core";
-import FriendList from "../FriendList/FriendList";
+import React from "react";
+import { Drawer, Hidden, Divider } from "@material-ui/core";
 import { ThemeProvider } from "@material-ui/styles";
+import FriendList from "../FriendList/FriendList";
+import ToolbarLinks from "../Nav/ToolbarLinks";
 
 const FriendsDrawer = ({
   classes,
   friends,
   container,
   handleDrawerToggle,
-  mobileOpen
+  mobileOpen,
+  user
 }) => {
   const drawerContent = (
     <>
       <div className={classes.toolbar} />
+      <ToolbarLinks
+        menuButtonClass={classes.drawerMenuButton}
+        logoClass={classes.drawerLogo}
+        user={user}
+      />
+      <Divider className={classes.drawerDivider} />
       <FriendList friends={friends} />
     </>
   );

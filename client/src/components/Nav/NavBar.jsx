@@ -17,9 +17,8 @@ import {
 } from "@material-ui/core";
 import { Menu } from "@material-ui/icons";
 import OnlineBadge from "../Friends/OnlineBadge";
-import ProfileDialog from "../Dashboard/ProfileDialog";
-import logo from "../../assets/logo.jpg";
 import socket from "../../utils/socket";
+import ToolbarLinks from "./ToolbarLinks";
 
 const NavBar = ({ classes, user, handleLogOut, match, handleDrawerToggle }) => {
   const [open, setOpen] = useState(false);
@@ -54,24 +53,17 @@ const NavBar = ({ classes, user, handleLogOut, match, handleDrawerToggle }) => {
         edge="start"
         aria-label="open drawer"
         onClick={handleDrawerToggle}
-        className={classes.menuButton}
+        className={classes.drawerButton}
       >
         <Menu />
       </IconButton>
-      <NavLink exact to="/dashboard">
-        <img src={logo} alt="logo" className={classes.logo} />
-      </NavLink>
+
       <Toolbar className={classes.toolbar}>
-        <NavLink exact to="/friends" className={classes.menuButton}>
-          <Button>Friends</Button>
-        </NavLink>
-
-        <NavLink exact to="/friends-polls" className={classes.menuButton}>
-          <Button>Friends poll</Button>
-        </NavLink>
-
-        <ProfileDialog user={user} className={classes.menuButton} />
-
+        <ToolbarLinks
+          menuButtonClass={classes.menuButton}
+          logoClass={classes.logo}
+          user={user}
+        />
         <Button
           className={classes.name}
           ref={anchorRef}

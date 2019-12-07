@@ -25,13 +25,10 @@ const useStyles = makeStyles({
   cardMedia: {
     height: 250,
     width: 350
-  },
-  button: {
-    borderRadius: 100
   }
 });
 
-const ProfileDialog = ({ user }) => {
+const ProfileDialog = ({ user, menuButtonClass }) => {
   const [open, setOpen] = useState(false);
   const classes = useStyles();
 
@@ -44,8 +41,9 @@ const ProfileDialog = ({ user }) => {
       <Button
         variant="outlined"
         size="small"
-        className={classes.button}
+        className={menuButtonClass}
         onClick={handleDialog}
+        style={{ borderRadius: 100 }}
       >
         Update Profile
       </Button>

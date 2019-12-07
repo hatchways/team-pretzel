@@ -18,7 +18,8 @@ import ImageDropzone from "../Common/ImageDropzone";
 
 const useStyles = makeStyles({
   button: {
-    borderRadius: 100
+    borderRadius: 100,
+    backgroundColor: "white"
   },
   formContainer: {
     display: "flex",

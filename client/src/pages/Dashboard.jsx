@@ -14,23 +14,45 @@ const drawerWidth = 200;
 
 const useStyles = makeStyles(theme => ({
   root: {
-    display: "flex"
+    display: "flex",
+    backgroundColor: "#e8e8e8"
+    //height: "100%"
   },
   appBar: {
     [theme.breakpoints.up("sm")]: {
       zIndex: theme.zIndex.drawer + 1,
       backgroundColor: "white"
-    }
+    },
+    backgroundColor: "white"
   },
   logo: {
     height: "4rem",
     width: "4rem",
-    marginLeft: "5rem",
-    position: "absolute"
+    [theme.breakpoints.down("xs")]: { display: "none" }
   },
   menuButton: {
     marginRight: theme.spacing(2),
     textDecoration: "none",
+    [theme.breakpoints.down("xs")]: { display: "none" }
+  },
+  drawerLogo: {
+    height: "4rem",
+    width: "4rem",
+    [theme.breakpoints.up("sm")]: { display: "none" }
+  },
+  drawerMenuButton: {
+    marginRight: theme.spacing(2),
+    textDecoration: "none",
+    [theme.breakpoints.up("sm")]: { display: "none" }
+  },
+  drawerButton: {
+    marginRight: theme.spacing(2),
+    textDecoration: "none",
+    color: "black",
+    [theme.breakpoints.up("sm")]: { display: "none" }
+  },
+  drawerDivider: {
+    marginTop: "2rem",
     [theme.breakpoints.up("sm")]: { display: "none" }
   },
   content: {
@@ -38,8 +60,6 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(3)
   },
   toolbar: {
-    marginLeft: "auto",
-    marginRight: "5rem",
     ...theme.mixins.toolbar
   },
   name: {
@@ -147,6 +167,7 @@ const Dashboard = ({ history }) => {
           friends={friends}
           handleDrawerToggle={handleDrawerToggle}
           mobileOpen={mobileOpen}
+          user={user}
         />
         <main className={classes.content}>
           <Route
