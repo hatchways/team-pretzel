@@ -10,13 +10,19 @@ const friendsSchema = new mongoose.Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User"
+  },
+  __v: {
+    type: Number,
+    select: false
   }
 });
 
-friendsSchema.methods.befriend = function(userId) {
-  this.friends.includes(userId)
-    ? (this.friends = this.friends.filter(id => id != userId))
-    : this.friends.push(userId);
+friendsSchema.methods.befriend = function(friend) {
+  this.friends.some(currentFriend => currentFriend.id === friend.id)
+    ? (this.friends = this.friends.filter(
+        currentFriend => currentFriend.id != friend.id
+      ))
+    : this.friends.push(friend);
 };
 
 friendsSchema.methods.suggestFriends = function(allUsers) {

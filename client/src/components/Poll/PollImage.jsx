@@ -1,7 +1,6 @@
 import React from "react";
 import { CardMedia, Card, makeStyles } from "@material-ui/core";
 import { Favorite } from "@material-ui/icons";
-import socket from "../../utils/socket";
 
 const useStyles = makeStyles({
   container: {

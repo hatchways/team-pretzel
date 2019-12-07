@@ -15,8 +15,8 @@ const drawerWidth = 200;
 const useStyles = makeStyles(theme => ({
   root: {
     display: "flex",
-    backgroundColor: "#e8e8e8"
-    //height: "100%"
+    backgroundColor: "#e8e8e8",
+    height: "100vh"
   },
   appBar: {
     [theme.breakpoints.up("sm")]: {
@@ -101,36 +101,42 @@ const Dashboard = ({ history }) => {
           }
         });
 
-        if (_isMounted) setFriends(res.data.friends);
+        if (_isMounted) setFriends(res.data.friends.friends);
       } catch (error) {
         setError(error);
       }
     };
 
-    const fetchData = async () => {
+    const fetchUser = async () => {
       try {
         const res = await axios.get("/api/v1/users/profile", {
           headers: {
             Authorization: `Bearer ${token}`
           }
         });
-        if (_isMounted) setUser(res.data.user);
+
+        if (_isMounted) {
+          setUser(res.data.user);
+          socket.emit("user_online", user);
+        }
       } catch (err) {
         setError(err);
       }
     };
 
-    fetchData();
+    fetchUser();
     getFriends();
     return () => (_isMounted = false);
   }, []);
 
   useEffect(() => {
+    socket.on("friends_updated", updatedFriends => {
+      setFriends(updatedFriends.friends);
+    });
+
     socket.on("profile_updated", updatedUser => {
       setUser(updatedUser);
     });
-
-    socket.emit("user_online", user);
   }, [user]);
 
   if (error) return <div>Error: {error}</div>;
@@ -145,13 +151,11 @@ const Dashboard = ({ history }) => {
   };
 
   const handleAddorRemoveFriend = async friendId => {
-    const res = await axios.put(`/api/v1/friends/${friendId}`);
-    console.log("add or remove res: ", res.data.friends);
-
-    // setFriends(res.data.friends);
+    await axios.patch(`/api/v1/friends/${friendId}`);
+    socket.emit("friends_updated", user.friends[0]._id);
   };
 
-  return !user ? (
+  return !user || !friends ? (
     <CircularProgress />
   ) : (
     <Router>

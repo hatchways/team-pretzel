@@ -18,7 +18,9 @@ const useStyles = makeStyles({
 
 const Friend = ({ friends }) => {
   const classes = useStyles();
-  return (
+  return !friends || friends.length === 0 ? (
+    <p>Loading</p>
+  ) : (
     <>
       {friends.map(friend => (
         <ListItem key={friend.id}>
