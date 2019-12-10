@@ -31,14 +31,11 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const Friends = ({ friends, handleAddorRemoveFriend }) => {
+const Friends = ({ friends, potentialFriends, handleAddorRemoveFriend }) => {
   const classes = useStyles();
 
   // get suggested friends
-  const potentialFriends = useGet(
-    `/api/v1/friends/suggest`,
-    "potentialFriends"
-  );
+  // const potentialFriends = useGet(`/api/v1/friends`, "potentialFriends");
 
   const [value, setValue] = useState(0);
   const handleChangeTab = (event, newValue) => {
@@ -50,7 +47,7 @@ const Friends = ({ friends, handleAddorRemoveFriend }) => {
     setInputValue(event.target.value);
   };
 
-  return !friends && !potentialFriends ? (
+  return !friends || !potentialFriends ? (
     <CircularProgress />
   ) : (
     <div className={classes.root}>

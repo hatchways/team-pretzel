@@ -82,6 +82,7 @@ const Dashboard = ({ history }) => {
   const [user, setUser] = useState(null);
   const [error, setError] = useState(false);
   const [friends, setFriends] = useState([]);
+  const [potentialFriends, setPotentialFriends] = useState([]);
 
   // Drawer toggle
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -101,7 +102,10 @@ const Dashboard = ({ history }) => {
           }
         });
 
-        if (_isMounted) setFriends(res.data.friends.friends);
+        if (_isMounted) {
+          setFriends(res.data.friends.friends);
+          setPotentialFriends(res.data.potentialFriends);
+        }
       } catch (error) {
         setError(error);
       }
@@ -126,12 +130,14 @@ const Dashboard = ({ history }) => {
 
     fetchUser();
     getFriends();
+
     return () => (_isMounted = false);
   }, []);
 
   useEffect(() => {
     socket.on("friends_updated", updatedFriends => {
-      setFriends(updatedFriends.friends);
+      setFriends(updatedFriends.friends.friends);
+      setPotentialFriends(updatedFriends.potentialFriends);
     });
 
     socket.on("profile_updated", updatedUser => {
@@ -139,10 +145,7 @@ const Dashboard = ({ history }) => {
     });
   }, [user]);
 
-  if (error) return <div>Error: {error}</div>;
-  if (error) {
-    console.log("error", error);
-  }
+  if (error) return <div>Error: {error.message}</div>;
 
   const handleLogOut = () => {
     localStorage.removeItem("jwtToken");
@@ -155,7 +158,7 @@ const Dashboard = ({ history }) => {
     socket.emit("friends_updated", user.friends[0]._id);
   };
 
-  return !user || !friends ? (
+  return !user || !friends || !potentialFriends ? (
     <CircularProgress />
   ) : (
     <Router>
@@ -186,6 +189,7 @@ const Dashboard = ({ history }) => {
               <Friends
                 {...props}
                 friends={friends}
+                potentialFriends={potentialFriends}
                 handleAddorRemoveFriend={handleAddorRemoveFriend}
               />
             )}
