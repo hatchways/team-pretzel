@@ -34,9 +34,6 @@ const useStyles = makeStyles(theme => ({
 const Friends = ({ friends, potentialFriends, handleAddorRemoveFriend }) => {
   const classes = useStyles();
 
-  // get suggested friends
-  // const potentialFriends = useGet(`/api/v1/friends`, "potentialFriends");
-
   const [value, setValue] = useState(0);
   const handleChangeTab = (event, newValue) => {
     setValue(newValue);
