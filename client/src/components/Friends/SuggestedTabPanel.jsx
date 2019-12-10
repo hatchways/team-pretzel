@@ -31,7 +31,7 @@ const SuggestedTabPanel = ({
   const classes = useStyles();
   return (
     <List className={classes.root} hidden={value !== index}>
-      {potentialFriends === null ? (
+      {!potentialFriends ? (
         <div>...loading...</div>
       ) : (
         potentialFriends

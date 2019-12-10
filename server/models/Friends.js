@@ -28,9 +28,10 @@ friendsSchema.methods.befriend = function(friend) {
 friendsSchema.methods.suggestFriends = function(allUsers) {
   let potentialFriends = [];
 
-  allUsers.filter(user => {
-    if (!this.friends.includes(user.id)) potentialFriends.push(user);
-  });
+  potentialFriends = allUsers.filter(
+    user => !this.friends.find(friend => friend.id == user.id)
+  );
+
   return potentialFriends;
 };
 
