@@ -1,6 +1,7 @@
 import Friends from "../models/Friends";
 import User from "../models/User";
 import catchAsync from "../utils/catchAsync";
+import { getUpdatedFriends } from "../utils/friendsHelpers";
 
 // Find all friends
 export const getAllFriends = catchAsync(async (req, res, next) => {
@@ -11,9 +12,13 @@ export const getAllFriends = catchAsync(async (req, res, next) => {
   // handle case where new user has no friends
   if (!friends) friends = [];
 
+  // get suggested friends
+  const { potentialFriends } = await getUpdatedFriends(friends._id);
+
   res.status(200).json({
     status: "success",
-    friends
+    friends,
+    potentialFriends
   });
 });
 
@@ -35,21 +40,5 @@ export const updateFriends = catchAsync(async (req, res, next) => {
   res.status(201).json({
     status: "success",
     friends
-  });
-});
-
-// Get suggested list of friends
-export const suggestFriends = catchAsync(async (req, res, next) => {
-  const currentFriends = await Friends.findOne({ user: req.user.id });
-  let allUsers = await User.find();
-  allUsers = allUsers.filter(user => user.id != req.user.id);
-
-  const potentialFriends = currentFriends
-    ? currentFriends.suggestFriends(allUsers)
-    : allUsers;
-
-  res.status(200).json({
-    status: "success",
-    potentialFriends
   });
 });
