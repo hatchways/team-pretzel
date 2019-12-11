@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from "react";
-import { NavLink } from "react-router-dom";
 import { withRouter } from "react-router";
 import {
   Button,
@@ -17,7 +16,6 @@ import {
 } from "@material-ui/core";
 import { Menu } from "@material-ui/icons";
 import OnlineBadge from "../Friends/OnlineBadge";
-import socket from "../../utils/socket";
 import ToolbarLinks from "./ToolbarLinks";
 
 const NavBar = ({ classes, user, handleLogOut, match, handleDrawerToggle }) => {
