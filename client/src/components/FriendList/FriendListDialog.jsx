@@ -93,15 +93,15 @@ const FriendListDialog = ({ addFriendList, friends }) => {
                     <FormHelperText error>{errors.friendsToAdd}</FormHelperText>
                   ) : null}
                   <List>
-                    {friends.map(friend => {
+                    {friends.friends.map(friend => {
                       return (
-                        <ListItem key={friend.id}>
+                        <ListItem key={friend._id}>
                           <ListItemText>{friend.name}</ListItemText>
                           <ListItemSecondaryAction>
                             <Checkbox
                               name="friendsToAdd"
                               onChange={handleChange}
-                              value={friend.id}
+                              value={friend._id}
                             />
                           </ListItemSecondaryAction>
                         </ListItem>
