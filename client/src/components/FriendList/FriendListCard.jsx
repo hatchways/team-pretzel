@@ -38,7 +38,9 @@ const FriendListCard = ({
       ></CardHeader>
       <CardContent>
         <Container>
-          <Friend friends={friends} />
+          {friends.map(friend => (
+            <Friend friend={friend} />
+          ))}
         </Container>
       </CardContent>
     </Card>

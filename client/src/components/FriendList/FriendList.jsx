@@ -17,7 +17,9 @@ const FriendList = ({ friends }) => {
       </Typography>
       {friends ? (
         <List>
-          <Friend friends={friends} />{" "}
+          {friends.map(friend => (
+            <Friend friend={friend} />
+          ))}
         </List>
       ) : null}
     </>
