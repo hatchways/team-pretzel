@@ -11,14 +11,14 @@ import {
   TextField,
   List,
   ListItem,
-  ListItemText,
-  Checkbox,
   ListItemSecondaryAction,
   makeStyles
 } from "@material-ui/core";
+import Friend from "../Friends/Friend";
+import AddRemoveButton from "./AddRemoveButton";
 
 const useStyles = makeStyles(theme => ({
-  button: {
+  dialogButton: {
     margin: theme.spacing(1),
     borderRadius: 100,
     backgroundColor: "white"
@@ -28,6 +28,9 @@ const useStyles = makeStyles(theme => ({
   },
   input: {
     width: "100%"
+  },
+  button: {
+    borderRadius: 100
   }
 }));
 
@@ -47,7 +50,7 @@ const FriendListDialog = ({ addFriendList, friends }) => {
       <Button
         variant="outlined"
         size="small"
-        className={classes.button}
+        className={classes.dialogButton}
         onClick={handleClick}
       >
         Create List
@@ -75,7 +78,7 @@ const FriendListDialog = ({ addFriendList, friends }) => {
             handleClick();
           }}
         >
-          {({ errors, handleSubmit, handleChange, values }) => {
+          {({ handleSubmit, handleChange, values, errors }) => {
             return (
               <DialogContent>
                 <form onSubmit={handleSubmit}>
@@ -96,19 +99,28 @@ const FriendListDialog = ({ addFriendList, friends }) => {
                     {friends.friends.map(friend => {
                       return (
                         <ListItem key={friend._id}>
-                          <ListItemText>{friend.name}</ListItemText>
+                          <Friend friend={friend} />
                           <ListItemSecondaryAction>
-                            <Checkbox
-                              name="friendsToAdd"
-                              onChange={handleChange}
-                              value={friend._id}
+                            <AddRemoveButton
+                              id={friend._id}
+                              friendsToAdd={values.friendsToAdd}
+                              buttonClass={classes.button}
                             />
                           </ListItemSecondaryAction>
                         </ListItem>
                       );
                     })}
                   </List>
-                  <Button type="submit">Create</Button>
+                  <div style={{ display: "flex", justifyContent: "center" }}>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      className={classes.button}
+                      type="submit"
+                    >
+                      Create
+                    </Button>
+                  </div>
                 </form>
               </DialogContent>
             );

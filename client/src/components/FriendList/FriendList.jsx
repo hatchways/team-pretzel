@@ -1,6 +1,6 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { List, Typography } from "@material-ui/core";
+import { List, Typography, ListItem } from "@material-ui/core";
 import Friend from "../Friends/Friend";
 
 const useStyles = makeStyles(theme => ({
@@ -18,7 +18,9 @@ const FriendList = ({ friends }) => {
       {friends ? (
         <List>
           {friends.map(friend => (
-            <Friend friend={friend} />
+            <ListItem key={friend._id}>
+              <Friend friend={friend} />
+            </ListItem>
           ))}
         </List>
       ) : null}
