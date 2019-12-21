@@ -1,6 +1,6 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { ListItem, Avatar, Typography } from "@material-ui/core";
+import { Avatar, Typography } from "@material-ui/core";
 import OnlineBadge from "./OnlineBadge";
 
 const useStyles = makeStyles({
@@ -16,30 +16,24 @@ const useStyles = makeStyles({
   }
 });
 
-const Friend = ({ friends }) => {
+const Friend = ({ friend }) => {
   const classes = useStyles();
-  return !friends || friends.length === 0 ? (
-    <p>Loading</p>
-  ) : (
+  return (
     <>
-      {friends.map(friend => (
-        <ListItem key={friend.id}>
-          {friend.online ? (
-            <OnlineBadge overlap="circle" variant="dot">
-              <Avatar
-                className={classes.avatar}
-                alt={friend.name}
-                src={friend.avatar}
-              />
-            </OnlineBadge>
-          ) : (
-            <Avatar alt={friend.name} src={friend.avatar} />
-          )}
-          <Typography className={classes.name} variant="body2">
-            {friend.name}
-          </Typography>
-        </ListItem>
-      ))}
+      {friend.online ? (
+        <OnlineBadge overlap="circle" variant="dot">
+          <Avatar
+            className={classes.avatar}
+            alt={friend.name}
+            src={friend.avatar}
+          />
+        </OnlineBadge>
+      ) : (
+        <Avatar alt={friend.name} src={friend.avatar} />
+      )}
+      <Typography className={classes.name} variant="body2">
+        {friend.name}
+      </Typography>
     </>
   );
 };

@@ -4,13 +4,11 @@ import {
   Paper,
   Tabs,
   Tab,
-  Typography,
   TextField,
   CircularProgress
 } from "@material-ui/core";
 import FriendsTabPanel from "../components/Friends/FriendsTabPanel";
 import SuggestedTabPanel from "../components/Friends/SuggestedTabPanel";
-import useGet from "../utils/hooks/useGet";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -18,7 +16,8 @@ const useStyles = makeStyles(theme => ({
     minWidth: "80%",
     maxWidth: "80%",
     textAlign: "center",
-    margin: "1rem auto"
+    margin: "1rem auto",
+    paddingTop: theme.spacing(6)
   },
   textField: {
     width: "75%",
@@ -48,7 +47,6 @@ const Friends = ({ friends, potentialFriends, handleAddorRemoveFriend }) => {
     <CircularProgress />
   ) : (
     <div className={classes.root}>
-      <Typography>Friends</Typography>
       <Paper>
         <div>
           <Tabs

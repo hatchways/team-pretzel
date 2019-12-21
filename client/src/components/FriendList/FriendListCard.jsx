@@ -4,7 +4,8 @@ import {
   Card,
   CardContent,
   CardHeader,
-  Container
+  Container,
+  ListItem
 } from "@material-ui/core";
 import Friend from "../Friends/Friend";
 import DeleteDialog from "../Common/DeleteDialog";
@@ -38,7 +39,11 @@ const FriendListCard = ({
       ></CardHeader>
       <CardContent>
         <Container>
-          <Friend friends={friends} />
+          {friends.map(friend => (
+            <ListItem key={friend._id}>
+              <Friend friend={friend} />
+            </ListItem>
+          ))}
         </Container>
       </CardContent>
     </Card>
